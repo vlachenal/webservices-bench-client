@@ -1,0 +1,53 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.4.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+jar {
+    baseName = 'webservices-bench-client'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+allprojects {
+    sourceCompatibility = 1.8
+    eclipse.project {
+        natures 'org.eclipse.buildship.core.gradleprojectnature'
+    }
+}
+
+compileJava {
+  options.compilerArgs += ['-s', projectDir.absolutePath + '/src/thrift.generated/java']
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir "src/thrift.generated/java"
+        }
+    }
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter")
+    compile("org.springframework:spring-web")
+    compile("com.fasterxml.jackson.core:jackson-databind")
+    compile("org.apache.thrift:libthrift:0.10.0")
+    compile("org.apache.commons:commons-pool2:2.4.2")
+    testCompile("junit:junit")
+}
