@@ -31,32 +31,30 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
   private static final String CUST_ENDPOINT = "/rest/customer";
 
   /** Server hostname or IP address */
-  @Value("server.host")
+  @Value("${server.host}")
   private String host;
 
   /** Server port */
-  @Value("server.port")
+  @Value("${server.port}")
   private Integer port;
 
   /** Server port */
-  @Value("server.base.url")
-  private Integer baseUrl;
+  @Value("${server.base.url}")
+  private String baseUrl;
 
   /** The REST template to use */
-  private RestTemplate template;
+  private final RestTemplate template;
   // Attributes -
 
 
-  // Methods +
-  /**
-   * Set REST template
-   *
-   * @param template the REST template to use
-   */
-  public void setRestTemplate(final RestTemplate template) {
+  // Constructors +
+  public RESTfulClient(final RestTemplate template) {
     this.template = template;
   }
+  // Constructors -
 
+
+  // Methods +
   /**
    * {@inheritDoc}
    *
@@ -106,7 +104,7 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
   @Override
   public ClientCall listAll(final int requestSeq) {
     final ClientCall call = new ClientCall();
-    call.setMethod("create");
+    call.setMethod("list");
     call.setRequestSeq(requestSeq);
     call.setClientStart(System.nanoTime());
     final HttpHeaders headers = new HttpHeaders();
@@ -114,6 +112,28 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
     final HttpEntity<?> req = new HttpEntity<Object>(headers);
     final Customer[] customers = template.exchange("http://" + host + ':' + port + baseUrl + CUST_ENDPOINT, HttpMethod.GET, req, Customer[].class).getBody();
     if(customers.length != this.customers.size()) {
+      // TODO plop
+    }
+    call.setClientEnd(System.nanoTime());
+    return call;
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @see com.github.vlachenal.webservice.bench.client.AbstractClientTestSuite#getDetails(java.lang.Object, int)
+   */
+  @Override
+  public ClientCall getDetails(final Customer customer, final int requestSeq) {
+    final ClientCall call = new ClientCall();
+    call.setMethod("get");
+    call.setRequestSeq(requestSeq);
+    call.setClientStart(System.nanoTime());
+    final HttpHeaders headers = new HttpHeaders();
+    headers.add("request_seq", Integer.toString(requestSeq));
+    final HttpEntity<?> req = new HttpEntity<Object>(headers);
+    final Customer cust = template.exchange("http://" + host + ':' + port + baseUrl + CUST_ENDPOINT + '/' + customer.getId(), HttpMethod.GET, req, Customer.class).getBody();
+    if(!cust.getId().equals(customer.getId())) {
       // TODO plop
     }
     call.setClientEnd(System.nanoTime());

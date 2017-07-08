@@ -71,6 +71,16 @@ public abstract class AbstractClientTestSuite<T,C> {
   public abstract C listAll(int requestSeq);
 
   /**
+   * List all customers
+   *
+   * @param requestSeq the request sequence
+   * @param customerthe customer customer
+   *
+   * @return the call statitics
+   */
+  public abstract C getDetails(T customer, int requestSeq);
+
+  /**
    * Run test suite
    */
   public void runTest(final int nbThread) {
@@ -120,6 +130,30 @@ public abstract class AbstractClientTestSuite<T,C> {
       threadPool.shutdown();
     }
     // List all -
+
+    // Get details +
+    {
+      final AtomicInteger seq = new AtomicInteger(0);
+      final BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<Runnable>();
+      for(final T customer : customers) {
+        tasks.add(new Runnable() {
+          @Override
+          public void run() {
+            final C call = getDetails(customer, seq.getAndIncrement());
+            synchronized(calls) {
+              calls.add(call);
+            }
+          }
+        });
+      }
+      final ThreadPoolExecutor threadPool = new ThreadPoolExecutor(nbThread, customers.size(), 10000, TimeUnit.SECONDS, tasks);
+      threadPool.shutdown();
+    }
+    // Get details -
+
+    // TODO consolidate statistics
+
+    deleteAll();
 
   }
   // Methods -
