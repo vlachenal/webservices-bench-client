@@ -6,10 +6,14 @@
  */
 package com.github.vlachenal.webservice.bench.client.rest;
 
+import java.net.URI;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -27,6 +31,9 @@ import com.github.vlachenal.webservice.bench.client.rest.api.bean.Customer;
 public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> {
 
   // Attributes +
+  /** {@link RESTfulClient} logger instance */
+  private static final Logger LOG = LoggerFactory.getLogger(RESTfulClient.class);
+
   /** REST customer endpoint */
   private static final String CUST_ENDPOINT = "/rest/customer";
 
@@ -83,15 +90,22 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
    */
   @Override
   public ClientCall createCustomer(final Customer customer, final int requestSeq) {
+    LOG.info("Create customer {} {}", customer.getFirstName(), customer.getLastName());
     final ClientCall call = new ClientCall();
     call.setMethod("create");
     call.setRequestSeq(requestSeq);
     call.setClientStart(System.nanoTime());
-    final HttpHeaders headers = new HttpHeaders();
-    headers.add("request_seq", Integer.toString(requestSeq));
-    final HttpEntity<Customer> req = new HttpEntity<Customer>(customer, headers);
-    final String uuid = template.postForEntity("http://" + host + ':' + port + baseUrl + CUST_ENDPOINT, req, String.class).getBody();
-    customer.setId(uuid);
+    try {
+      final RequestEntity<Customer> req = RequestEntity.post(new URI("http://" + host + ':' + port + baseUrl + CUST_ENDPOINT))
+          .accept(MediaType.TEXT_PLAIN)
+          .contentType(MediaType.APPLICATION_JSON)
+          .header("request_seq", Integer.toString(requestSeq))
+          .body(customer);
+      final ResponseEntity<String> res = template.exchange(req, String.class);
+      customer.setId(res.getBody());
+    } catch(final Exception e) {
+      // TODO plop
+    }
     call.setClientEnd(System.nanoTime());
     return call;
   }
@@ -107,10 +121,16 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
     call.setMethod("list");
     call.setRequestSeq(requestSeq);
     call.setClientStart(System.nanoTime());
-    final HttpHeaders headers = new HttpHeaders();
-    headers.add("request_seq", Integer.toString(requestSeq));
-    final HttpEntity<?> req = new HttpEntity<Object>(headers);
-    final Customer[] customers = template.exchange("http://" + host + ':' + port + baseUrl + CUST_ENDPOINT, HttpMethod.GET, req, Customer[].class).getBody();
+    Customer[] customers = null;
+    try {
+      final RequestEntity<Void> req = RequestEntity.get(new URI("http://" + host + ':' + port + baseUrl + CUST_ENDPOINT))
+          .accept(MediaType.APPLICATION_JSON)
+          .header("request_seq", Integer.toString(requestSeq)).build();
+      final ResponseEntity<Customer[]> res = template.exchange(req, Customer[].class);
+      customers = res.getBody();
+    } catch(final Exception e) {
+      // TODO plop
+    }
     if(customers.length != this.customers.size()) {
       // TODO plop
     }
@@ -129,10 +149,16 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
     call.setMethod("get");
     call.setRequestSeq(requestSeq);
     call.setClientStart(System.nanoTime());
-    final HttpHeaders headers = new HttpHeaders();
-    headers.add("request_seq", Integer.toString(requestSeq));
-    final HttpEntity<?> req = new HttpEntity<Object>(headers);
-    final Customer cust = template.exchange("http://" + host + ':' + port + baseUrl + CUST_ENDPOINT + '/' + customer.getId(), HttpMethod.GET, req, Customer.class).getBody();
+    Customer cust = null;
+    try {
+      final RequestEntity<Void> req = RequestEntity.get(new URI("http://" + host + ':' + port + baseUrl + CUST_ENDPOINT + '/' + customer.getId()))
+          .accept(MediaType.APPLICATION_JSON)
+          .header("request_seq", Integer.toString(requestSeq)).build();
+      final ResponseEntity<Customer> res = template.exchange(req, Customer.class);
+      cust = res.getBody();
+    } catch(final Exception e) {
+      // TODO plop
+    }
     if(!cust.getId().equals(customer.getId())) {
       // TODO plop
     }

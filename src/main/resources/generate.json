@@ -1,0 +1,25 @@
+[
+  '{{repeat(1000, 1001)}}',
+  {
+    first_name: '{{firstName()}}',
+    last_name: '{{surname()}}',
+    birth_date: '{{date(new Date(1900,01,01),new Date(1999,01,01),"YYYY-MM-dd")}}',
+    email: '{{email()}}',
+    phones: [
+      {
+        type: 'LANDLINE',
+        number: '+1 {{phone()}}'
+      },
+      {
+        type: 'MOBILE',
+        number: '+1 {{phone()}}'
+      }
+    ],
+    address: {
+      lines: ['{{integer(100, 999)}} {{street()}}'],
+      zip_code: '{{integer(100, 10000)}}',
+      city: '{{city()}}',
+      country: '{{country()}}'
+    }
+  }
+]

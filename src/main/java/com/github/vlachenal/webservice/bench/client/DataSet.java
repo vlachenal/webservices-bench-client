@@ -25,11 +25,19 @@ import com.github.vlachenal.webservice.bench.client.rest.api.bean.Customer;
 @Component
 public class DataSet {
 
+  // Attributes +
   @Value("${dataset.filename}")
   private Resource resource;
 
+  /** Customers found in data set */
   private List<Customer> customers;
+  // Attributes -
 
+
+  // Methods +
+  /**
+   * Load data from file
+   */
   public void loadData() {
     final ObjectMapper mapper = new ObjectMapper();
     try {
@@ -39,8 +47,14 @@ public class DataSet {
     }
   }
 
+  /**
+   * Directly return the data as it is already in JSON format
+   *
+   * @return the REST data
+   */
   public List<Customer> getRestData() {
     return customers;
   }
+  // Methods -
 
 }
