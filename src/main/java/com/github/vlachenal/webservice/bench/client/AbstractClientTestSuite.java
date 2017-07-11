@@ -91,8 +91,8 @@ public abstract class AbstractClientTestSuite<T,C> {
    * Run test suite
    */
   public void runTest(final int nbThread) {
-    LOG.info("Initialization");
     // Initialization +
+    LOG.info("Initialization");
     calls = new ArrayList<>();
     data.loadData();
     deleteAll();
@@ -121,6 +121,11 @@ public abstract class AbstractClientTestSuite<T,C> {
       }
       threadPool.resume();
       threadPool.shutdown();
+      try {
+        threadPool.awaitTermination(10, TimeUnit.MINUTES);
+      } catch(final InterruptedException e) {
+        throw new RuntimeException(e.getMessage(), e);
+      }
     }
     // Customer creations -
 
@@ -145,6 +150,11 @@ public abstract class AbstractClientTestSuite<T,C> {
       }
       threadPool.resume();
       threadPool.shutdown();
+      try {
+        threadPool.awaitTermination(10, TimeUnit.MINUTES);
+      } catch(final InterruptedException e) {
+        throw new RuntimeException(e.getMessage(), e);
+      }
     }
     // List all -
 
@@ -169,6 +179,11 @@ public abstract class AbstractClientTestSuite<T,C> {
       }
       threadPool.resume();
       threadPool.shutdown();
+      try {
+        threadPool.awaitTermination(10, TimeUnit.MINUTES);
+      } catch(final InterruptedException e) {
+        throw new RuntimeException(e.getMessage(), e);
+      }
     }
     // Get details -
 
@@ -178,6 +193,7 @@ public abstract class AbstractClientTestSuite<T,C> {
 
   }
   // Methods -
+
 
   // Classes +
   /**

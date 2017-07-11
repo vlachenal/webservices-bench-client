@@ -11,6 +11,7 @@ import java.net.URI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -90,7 +91,6 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
    */
   @Override
   public ClientCall createCustomer(final Customer customer, final int requestSeq) {
-    LOG.info("Create customer {} {}", customer.getFirstName(), customer.getLastName());
     final ClientCall call = new ClientCall();
     call.setMethod("create");
     call.setRequestSeq(requestSeq);
@@ -98,13 +98,19 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
     try {
       final RequestEntity<Customer> req = RequestEntity.post(new URI("http://" + host + ':' + port + baseUrl + CUST_ENDPOINT))
           .accept(MediaType.TEXT_PLAIN)
-          .contentType(MediaType.APPLICATION_JSON)
+          .contentType(MediaType.APPLICATION_JSON_UTF8)
           .header("request_seq", Integer.toString(requestSeq))
           .body(customer);
       final ResponseEntity<String> res = template.exchange(req, String.class);
-      customer.setId(res.getBody());
+      if(res.getStatusCode() != HttpStatus.CREATED) {
+        call.setOk(false);
+        call.setErrMsg("" + res.getStatusCodeValue() + " - " + res.getBody());
+      } else {
+        customer.setId(res.getBody());
+      }
     } catch(final Exception e) {
-      // TODO plop
+      call.setOk(false);
+      call.setErrMsg(e.getMessage());
     }
     call.setClientEnd(System.nanoTime());
     return call;
@@ -124,15 +130,21 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
     Customer[] customers = null;
     try {
       final RequestEntity<Void> req = RequestEntity.get(new URI("http://" + host + ':' + port + baseUrl + CUST_ENDPOINT))
-          .accept(MediaType.APPLICATION_JSON)
+          .accept(MediaType.APPLICATION_JSON_UTF8)
           .header("request_seq", Integer.toString(requestSeq)).build();
       final ResponseEntity<Customer[]> res = template.exchange(req, Customer[].class);
-      customers = res.getBody();
+      if(res.getStatusCode() != HttpStatus.OK) {
+        call.setOk(false);
+        call.setErrMsg("" + res.getStatusCodeValue() + " - " + res.getBody());
+      } else {
+        customers = res.getBody();
+      }
     } catch(final Exception e) {
-      // TODO plop
+      call.setOk(false);
+      call.setErrMsg(e.getMessage());
     }
     if(customers.length != this.customers.size()) {
-      // TODO plop
+      LOG.warn("Customers size should be " + this.customers.size() + " instead of " + customers.length);
     }
     call.setClientEnd(System.nanoTime());
     return call;
@@ -152,15 +164,21 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
     Customer cust = null;
     try {
       final RequestEntity<Void> req = RequestEntity.get(new URI("http://" + host + ':' + port + baseUrl + CUST_ENDPOINT + '/' + customer.getId()))
-          .accept(MediaType.APPLICATION_JSON)
+          .accept(MediaType.APPLICATION_JSON_UTF8)
           .header("request_seq", Integer.toString(requestSeq)).build();
       final ResponseEntity<Customer> res = template.exchange(req, Customer.class);
-      cust = res.getBody();
+      if(res.getStatusCode() != HttpStatus.OK) {
+        call.setOk(false);
+        call.setErrMsg("" + res.getStatusCodeValue() + " - " + res.getBody());
+      } else {
+        cust = res.getBody();
+      }
     } catch(final Exception e) {
-      // TODO plop
+      call.setOk(false);
+      call.setErrMsg(e.getMessage());
     }
     if(!cust.getId().equals(customer.getId())) {
-      // TODO plop
+      LOG.warn("Customer should have " + customer.getId() + " instead of " + cust.getId());
     }
     call.setClientEnd(System.nanoTime());
     return call;

@@ -34,6 +34,14 @@ public class ClientCall {
   /** Client end timestamp */
   @JsonProperty(value="client_end",required=true)
   private Long clientEnd;
+
+  /** Call status */
+  @JsonProperty(value="ok",required=true)
+  private boolean ok = true;
+
+  /** Error message (it should be set when ok = false) */
+  @JsonProperty(value="err_msg",required=false)
+  private String errMsg;
   // Attributes -
 
 
@@ -117,6 +125,42 @@ public class ClientCall {
    */
   public final void setClientEnd(final Long clientEnd) {
     this.clientEnd = clientEnd;
+  }
+
+  /**
+   * Is call OK getter
+   *
+   * @return the status
+   */
+  public final boolean isOk() {
+    return ok;
+  }
+
+  /**
+   * Is call OK setter
+   *
+   * @param ok the status to set
+   */
+  public final void setOk(final boolean ok) {
+    this.ok = ok;
+  }
+
+  /**
+   * Error message getter
+   *
+   * @return the error message
+   */
+  public final String getErrMsg() {
+    return errMsg;
+  }
+
+  /**
+   * Error message setter
+   *
+   * @param errMsg the error message to set
+   */
+  public final void setErrMsg(final String errMsg) {
+    this.errMsg = errMsg;
   }
   // Accessors -
 
