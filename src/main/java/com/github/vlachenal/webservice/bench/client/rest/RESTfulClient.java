@@ -7,6 +7,7 @@
 package com.github.vlachenal.webservice.bench.client.rest;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +17,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriTemplate;
 
 import com.github.vlachenal.webservice.bench.client.AbstractClientTestSuite;
 import com.github.vlachenal.webservice.bench.client.rest.api.bean.ClientCall;
 import com.github.vlachenal.webservice.bench.client.rest.api.bean.Customer;
+import com.github.vlachenal.webservice.bench.client.rest.api.bean.TestSuite;
 
 
 /**
@@ -52,10 +56,21 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
 
   /** The REST template to use */
   private final RestTemplate template;
+
+  /** Service URI */
+  private URI serviceUri;
+
+  /** Customer details URI template */
+  private UriTemplate detailsTemplate;
   // Attributes -
 
 
   // Constructors +
+  /**
+   * {@link RESTfulClient} constructor
+   *
+   * @param template the REST template to use
+   */
   public RESTfulClient(final RestTemplate template) {
     this.template = template;
   }
@@ -63,16 +78,6 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
 
 
   // Methods +
-  /**
-   * {@inheritDoc}
-   *
-   * @see com.github.vlachenal.webservice.bench.client.AbstractClientTestSuite#deleteAll()
-   */
-  @Override
-  public void deleteAll() {
-    template.delete("http://" + host + ':' + port + baseUrl + CUST_ENDPOINT);
-  }
-
   /**
    * Retrieve REST data from dataset
    * {@inheritDoc}
@@ -82,6 +87,22 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
   @Override
   public void initializeTestSuite() {
     customers = data.getRestData();
+    try {
+      serviceUri = new URI("http://" + host + ':' + port + baseUrl + CUST_ENDPOINT);
+    } catch(final URISyntaxException e) {
+      throw new RuntimeException("Unable to compute service URI: " + e.getMessage(), e);
+    }
+    detailsTemplate = new UriTemplate("http://" + host + ':' + port + baseUrl + CUST_ENDPOINT + "/{id}");
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @see com.github.vlachenal.webservice.bench.client.AbstractClientTestSuite#deleteAll()
+   */
+  @Override
+  public void deleteAll() {
+    template.delete(serviceUri);
   }
 
   /**
@@ -94,25 +115,26 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
     final ClientCall call = new ClientCall();
     call.setMethod("create");
     call.setRequestSeq(requestSeq);
+    ResponseEntity<String> res = null;
     call.setClientStart(System.nanoTime());
     try {
-      final RequestEntity<Customer> req = RequestEntity.post(new URI("http://" + host + ':' + port + baseUrl + CUST_ENDPOINT))
+      final RequestEntity<Customer> req = RequestEntity.post(serviceUri)
           .accept(MediaType.TEXT_PLAIN)
           .contentType(MediaType.APPLICATION_JSON_UTF8)
           .header("request_seq", Integer.toString(requestSeq))
           .body(customer);
-      final ResponseEntity<String> res = template.exchange(req, String.class);
-      if(res.getStatusCode() != HttpStatus.CREATED) {
-        call.setOk(false);
-        call.setErrMsg("" + res.getStatusCodeValue() + " - " + res.getBody());
-      } else {
-        customer.setId(res.getBody());
-      }
-    } catch(final Exception e) {
-      call.setOk(false);
+      res = template.exchange(req, String.class);
+    } catch(final RestClientException e) {
       call.setErrMsg(e.getMessage());
+    } finally {
+      call.setClientEnd(System.nanoTime());
     }
-    call.setClientEnd(System.nanoTime());
+    if(res.getStatusCode() != HttpStatus.CREATED) {
+      call.setErrMsg("<" + res.getStatusCodeValue() + "> " + res.getBody());
+    } else {
+      call.setOk(true);
+      customer.setId(res.getBody());
+    }
     return call;
   }
 
@@ -126,27 +148,28 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
     final ClientCall call = new ClientCall();
     call.setMethod("list");
     call.setRequestSeq(requestSeq);
-    call.setClientStart(System.nanoTime());
+    ResponseEntity<Customer[]> res = null;
     Customer[] customers = null;
+    call.setClientStart(System.nanoTime());
     try {
-      final RequestEntity<Void> req = RequestEntity.get(new URI("http://" + host + ':' + port + baseUrl + CUST_ENDPOINT))
+      final RequestEntity<Void> req = RequestEntity.get(serviceUri)
           .accept(MediaType.APPLICATION_JSON_UTF8)
           .header("request_seq", Integer.toString(requestSeq)).build();
-      final ResponseEntity<Customer[]> res = template.exchange(req, Customer[].class);
-      if(res.getStatusCode() != HttpStatus.OK) {
-        call.setOk(false);
-        call.setErrMsg("" + res.getStatusCodeValue() + " - " + res.getBody());
-      } else {
-        customers = res.getBody();
-      }
-    } catch(final Exception e) {
-      call.setOk(false);
+      res = template.exchange(req, Customer[].class);
+    } catch(final RestClientException e) {
       call.setErrMsg(e.getMessage());
+    } finally {
+      call.setClientEnd(System.nanoTime());
+    }
+    if(res.getStatusCode() != HttpStatus.OK) {
+      call.setErrMsg("<" + res.getStatusCodeValue() + "> " + res.getBody());
+    } else {
+      call.setOk(true);
+      customers = res.getBody();
     }
     if(customers.length != this.customers.size()) {
       LOG.warn("Customers size should be " + this.customers.size() + " instead of " + customers.length);
     }
-    call.setClientEnd(System.nanoTime());
     return call;
   }
 
@@ -160,28 +183,55 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
     final ClientCall call = new ClientCall();
     call.setMethod("get");
     call.setRequestSeq(requestSeq);
-    call.setClientStart(System.nanoTime());
+    ResponseEntity<Customer> res = null;
     Customer cust = null;
+    call.setClientStart(System.nanoTime());
     try {
-      final RequestEntity<Void> req = RequestEntity.get(new URI("http://" + host + ':' + port + baseUrl + CUST_ENDPOINT + '/' + customer.getId()))
+      final RequestEntity<Void> req = RequestEntity.get(detailsTemplate.expand(customer.getId()))
           .accept(MediaType.APPLICATION_JSON_UTF8)
           .header("request_seq", Integer.toString(requestSeq)).build();
-      final ResponseEntity<Customer> res = template.exchange(req, Customer.class);
-      if(res.getStatusCode() != HttpStatus.OK) {
-        call.setOk(false);
-        call.setErrMsg("" + res.getStatusCodeValue() + " - " + res.getBody());
-      } else {
-        cust = res.getBody();
-      }
-    } catch(final Exception e) {
-      call.setOk(false);
+      res = template.exchange(req, Customer.class);
+    } catch(final RestClientException e) {
       call.setErrMsg(e.getMessage());
+    } finally {
+      call.setClientEnd(System.nanoTime());
+    }
+    if(res.getStatusCode() != HttpStatus.OK) {
+      call.setErrMsg("<" + res.getStatusCodeValue() + "> " + res.getBody());
+    } else {
+      call.setOk(true);
+      cust = res.getBody();
     }
     if(!cust.getId().equals(customer.getId())) {
       LOG.warn("Customer should have " + customer.getId() + " instead of " + cust.getId());
     }
-    call.setClientEnd(System.nanoTime());
     return call;
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @see com.github.vlachenal.webservice.bench.client.AbstractClientTestSuite#consolidateStats(int)
+   */
+  @Override
+  public void consolidateStats(final int nbThread) {
+    try {
+      final URI uri = new URI("http://" + host + ':' + port + baseUrl + "/rest/stats");
+      final TestSuite suite = new TestSuite();
+      suite.setJvm(System.getProperty("java.version"));
+      suite.setVendor(System.getProperty("java.vendor"));
+      suite.setOsFamily(System.getProperty("os.name"));
+      suite.setOsVersion(System.getProperty("os.version"));
+      suite.setCpu(cpu);
+      suite.setMemory(memory);
+      suite.setNbThread(nbThread);
+      suite.setCalls(calls);
+      suite.setProtocol("rest");
+      template.put(uri, suite);
+      template.delete(uri);
+    } catch(final URISyntaxException e) {
+      LOG.error("Unable to create URI ... " + e.getMessage(), e);
+    }
   }
   // Methods -
 

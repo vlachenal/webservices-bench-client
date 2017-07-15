@@ -19,6 +19,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 
 /**
@@ -39,11 +40,19 @@ public abstract class AbstractClientTestSuite<T,C> {
   @Autowired
   protected DataSet data;
 
+  /** CPU */
+  @Value("${cpu}")
+  protected String cpu;
+
+  /** CPU */
+  @Value("${memory}")
+  protected String memory;
+
   /** Test suite customers */
   protected List<T> customers;
 
   /** Calls */
-  private List<C> calls;
+  protected List<C> calls;
   // Attributes -
 
 
@@ -88,6 +97,13 @@ public abstract class AbstractClientTestSuite<T,C> {
   public abstract C getDetails(T customer, int requestSeq);
 
   /**
+   * Consolidate statistics
+   *
+   * @param nbThread the number of simultaneous calls
+   */
+  public abstract void consolidateStats(int nbThread);
+
+  /**
    * Run test suite
    */
   public void runTest(final int nbThread) {
@@ -95,8 +111,8 @@ public abstract class AbstractClientTestSuite<T,C> {
     LOG.info("Initialization");
     calls = new ArrayList<>();
     data.loadData();
-    deleteAll();
     initializeTestSuite();
+    deleteAll();
     LOG.info("Found {} customers in data set", customers.size());
     // Initialization -
 
@@ -187,7 +203,7 @@ public abstract class AbstractClientTestSuite<T,C> {
     }
     // Get details -
 
-    // TODO consolidate statistics
+    consolidateStats(nbThread);
 
     deleteAll();
 

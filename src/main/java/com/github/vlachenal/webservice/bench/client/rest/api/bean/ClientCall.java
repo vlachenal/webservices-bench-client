@@ -37,7 +37,7 @@ public class ClientCall {
 
   /** Call status */
   @JsonProperty(value="ok",required=true)
-  private boolean ok = true;
+  private boolean ok = false;
 
   /** Error message (it should be set when ok = false) */
   @JsonProperty(value="err_msg",required=false)

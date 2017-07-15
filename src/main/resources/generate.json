@@ -1,3 +1,4 @@
+// Paste it to http://www.json-generator.com/ to generate new data set
 [
   '{{repeat(1000, 1001)}}',
   {
