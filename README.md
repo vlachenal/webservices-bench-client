@@ -15,6 +15,6 @@ To compile project:
 
 ## TODO
 By priority order:
- - Add script to run every tests in one command
+ - ~~Add script to run every tests in one command~~
  - Manage test suite comment
  - Find a way (if it is possible) to specify HTTP client pool underlying Spring-Boot RESTTemplate
