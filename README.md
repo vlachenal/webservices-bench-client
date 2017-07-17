@@ -11,7 +11,7 @@ To compile project:
  - Run 'jar' Gradle task
  - Run 'bootRepackage' Gradle task
  - Go to build/libs directory
- - Run java -jar webservices-bench-client-<version>.jar <protocol> <number of threads>
+ - Run java -jar webservices-bench-client-\<version\>.jar \<protocol\> \<number of threads\>
 
 ## TODO
 By priority order:
