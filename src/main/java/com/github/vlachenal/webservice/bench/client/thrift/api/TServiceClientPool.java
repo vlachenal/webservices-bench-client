@@ -6,62 +6,49 @@
  */
 package com.github.vlachenal.webservice.bench.client.thrift.api;
 
-import java.util.NoSuchElementException;
-
 import org.apache.commons.pool2.PooledObjectFactory;
 import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.thrift.TServiceClient;
 
 
 /**
  * Thrift client pool
  *
- * @param <T> the Thrift service client
+ * @param <S> the Thrift service client
  *
  * @author Vincent Lachenal
  */
-public class TServiceClientPool<T extends TServiceClient> extends GenericObjectPool<T> {
+public class TServiceClientPool<S extends TServiceClient> extends GenericObjectPool<S> {
 
-  public TServiceClientPool(final PooledObjectFactory<T> factory) {
-    super(factory);
+  // Constructors +
+  /**
+   * {@link TServiceClientPool} constructor
+   *
+   * @param factory the factory to use
+   * @param poolConfig the pool configuration
+   */
+  public TServiceClientPool(final PooledObjectFactory<S> factory, final GenericObjectPoolConfig poolConfig) {
+    super(factory, poolConfig);
     setTestOnBorrow(true);
     setTestOnReturn(true);
   }
+  // Constructors -
 
+
+  // Methods +
+  /**
+   * Close coonnections.<br>
+   * {@inheritDoc}
+   *
+   * @see org.apache.commons.pool2.impl.GenericObjectPool#invalidateObject(java.lang.Object)
+   */
   @Override
-  public T borrowObject() throws Exception, NoSuchElementException, IllegalStateException {
-    // TODO Auto-generated method stub
-    return null;
+  public void invalidateObject(final S obj) throws Exception {
+    obj.getInputProtocol().getTransport().close();
+    obj.getOutputProtocol().getTransport().close();
+    super.invalidateObject(obj);
   }
-
-  @Override
-  public void returnObject(final T obj) {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public void invalidateObject(final T obj) throws Exception {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public void addObject() throws Exception, IllegalStateException, UnsupportedOperationException {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public void clear() throws UnsupportedOperationException {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public void close() {
-    // TODO Auto-generated method stub
-
-  }
+  // Methods -
 
 }

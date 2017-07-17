@@ -20,6 +20,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.client.RestTemplate;
 
 import com.github.vlachenal.webservice.bench.client.rest.RESTfulClient;
+import com.github.vlachenal.webservice.bench.client.thrift.api.ThriftClientTestSuite;
 
 
 /**
@@ -80,7 +81,7 @@ public class Application {
    * @throws Exception any error
    */
   @Bean
-  public CommandLineRunner run(final RESTfulClient restClient) throws Exception {
+  public CommandLineRunner run(final RESTfulClient restClient, final ThriftClientTestSuite thriftClient) throws Exception {
     return args -> {
       // Check arguments +
       if(args.length < 2) {
@@ -103,7 +104,7 @@ public class Application {
       if("rest".equals(args[0])) {
         restClient.runTest(nbThread);
       } else if("thrift".equals(args[0])) {
-        // TODO call thrift
+        thriftClient.runTest(nbThread);
       } else {
         LOG.error("Invalid protocol: " + args[0]);
         printHelp();

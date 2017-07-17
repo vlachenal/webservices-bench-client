@@ -218,15 +218,19 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
     try {
       final URI uri = new URI("http://" + host + ':' + port + baseUrl + "/rest/stats");
       final TestSuite suite = new TestSuite();
+      // Gather system informations +
       suite.setJvm(System.getProperty("java.version"));
       suite.setVendor(System.getProperty("java.vendor"));
       suite.setOsFamily(System.getProperty("os.name"));
       suite.setOsVersion(System.getProperty("os.version"));
       suite.setCpu(cpu);
       suite.setMemory(memory);
+      // Gather system informations -
+      // Gather test suite informations +
       suite.setNbThread(nbThread);
       suite.setCalls(calls);
       suite.setProtocol("rest");
+      // Gather test suite informations -
       template.put(uri, suite);
       template.delete(uri);
     } catch(final URISyntaxException e) {

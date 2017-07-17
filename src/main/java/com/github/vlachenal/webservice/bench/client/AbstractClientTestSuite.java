@@ -53,6 +53,9 @@ public abstract class AbstractClientTestSuite<T,C> {
 
   /** Calls */
   protected List<C> calls;
+
+  /** Number of simultaneous calls */
+  protected int nbThread;
   // Attributes -
 
 
@@ -109,6 +112,7 @@ public abstract class AbstractClientTestSuite<T,C> {
   public void runTest(final int nbThread) {
     // Initialization +
     LOG.info("Initialization");
+    this.nbThread = nbThread;
     calls = new ArrayList<>();
     data.loadData();
     initializeTestSuite();
