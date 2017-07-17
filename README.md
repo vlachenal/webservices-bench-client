@@ -14,7 +14,7 @@ To compile project:
      * Go to build/libs directory
      * Run java -jar webservices-bench-client-\<version\>.jar \<protocol\> \<number of threads\>
  * To launch test suites:
-     * java executable will be found acoording to:
+     * java executable will be found according to:
          * JAVA_HOME
          * JDK_HOME
          * java from PATH
