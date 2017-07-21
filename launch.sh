@@ -4,9 +4,11 @@ script_name=$0
 
 printHelp() {
     cat <<EOF
-usage: $script_name [jar_path] [nb_thread]
+usage: $script_name [jar_path] [nb_thread] [compression] [comment]
   jar_path	    the JAR path
   nb_thread	    the maximum number of simultaneous calls: it will execute from 1 to <nb_thread> runs
+  compression       HTTP compression (optional ; for null use null or none)
+  comment           the test suite comment (optional)
 EOF
 }
 
@@ -25,6 +27,8 @@ if [ $nb_thread -eq 1 ]; then
     printHelp
     exit 1
 fi
+compression="$3"
+comment="\"$4\""
 # Parse command line arguments -
 
 # Retrieve Java executable +
@@ -50,9 +54,10 @@ protocols="rest|thrift"
 while IFS='|' read -ra PROTOS; do
     for proto in "${PROTOS[@]}"; do
 	for((i=1;i<$nb_thread;i++)); do
+	    #test_run="${java_bin} -jar ${jar_path} ${proto} $i ${compression} ${comment}"
 	    test_run="${java_bin} -jar ${jar_path} ${proto} $i"
 	    echo "${test_run}"
-	    $test_run
+	    $test_run $3 "$4"
 	done
     done
 done <<< "$protocols"

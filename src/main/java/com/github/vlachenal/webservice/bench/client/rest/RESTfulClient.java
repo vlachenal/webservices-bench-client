@@ -211,10 +211,10 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
   /**
    * {@inheritDoc}
    *
-   * @see com.github.vlachenal.webservice.bench.client.AbstractClientTestSuite#consolidateStats(int)
+   * @see com.github.vlachenal.webservice.bench.client.AbstractClientTestSuite#consolidateStats()
    */
   @Override
-  public void consolidateStats(final int nbThread) {
+  public void consolidateStats() {
     try {
       final URI uri = new URI("http://" + host + ':' + port + baseUrl + "/rest/stats");
       final TestSuite suite = new TestSuite();
@@ -228,8 +228,10 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
       // Gather system informations -
       // Gather test suite informations +
       suite.setNbThread(nbThread);
-      suite.setCalls(calls);
       suite.setProtocol("rest");
+      suite.setCompression(compression);
+      suite.setComment(comment);
+      suite.setCalls(calls);
       // Gather test suite informations -
       template.put(uri, suite);
       template.delete(uri);

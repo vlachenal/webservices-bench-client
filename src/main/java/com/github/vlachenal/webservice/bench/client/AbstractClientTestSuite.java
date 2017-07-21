@@ -56,6 +56,12 @@ public abstract class AbstractClientTestSuite<T,C> {
 
   /** Number of simultaneous calls */
   protected int nbThread;
+
+  /** HTTP compression */
+  protected String compression;
+
+  /** Test suite comment */
+  protected String comment;
   // Attributes -
 
 
@@ -101,17 +107,21 @@ public abstract class AbstractClientTestSuite<T,C> {
 
   /**
    * Consolidate statistics
-   *
-   * @param nbThread the number of simultaneous calls
    */
-  public abstract void consolidateStats(int nbThread);
+  public abstract void consolidateStats();
 
   /**
    * Run test suite
+   *
+   * @param nbThread number of simultaneous calls
+   * @param compression HTTP compression (can be null)
+   * @param comment the test suite comment (can be null)
    */
-  public void runTest(final int nbThread) {
+  public void runTest(final int nbThread, final String compression, final String comment) {
     // Initialization +
     LOG.info("Initialization");
+    this.compression = compression;
+    this.comment = comment;
     this.nbThread = nbThread;
     calls = new ArrayList<>();
     data.loadData();
@@ -207,10 +217,8 @@ public abstract class AbstractClientTestSuite<T,C> {
     }
     // Get details -
 
-    consolidateStats(nbThread);
-
+    consolidateStats();
     deleteAll();
-
   }
   // Methods -
 

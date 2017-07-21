@@ -240,10 +240,10 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
   /**
    * {@inheritDoc}
    *
-   * @see com.github.vlachenal.webservice.bench.client.AbstractClientTestSuite#consolidateStats(int)
+   * @see com.github.vlachenal.webservice.bench.client.AbstractClientTestSuite#consolidateStats()
    */
   @Override
-  public void consolidateStats(final int nbThread) {
+  public void consolidateStats() {
     final TestSuite suite = new TestSuite();
     // Gather system informations +
     suite.setJvm(System.getProperty("java.version"));
@@ -256,6 +256,8 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     // Gather test suite informations +
     suite.setNbThread(nbThread);
     suite.setProtocol("thrift");
+    suite.setCompression(compression);
+    suite.setComment(comment);
     suite.setCalls(calls);
     // Gather test suite informations -
     try {

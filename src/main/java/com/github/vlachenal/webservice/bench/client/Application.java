@@ -69,6 +69,8 @@ public class Application {
   private void printHelp() {
     LOG.info("string: protocol to use ('rest' or 'thrift' for now)");
     LOG.info("int: number of simultanous request to proccess");
+    LOG.info("string (optional): HTTP compression (use null or none for no compression)");
+    LOG.info("string (optional): test suite comment");
   }
 
   /**
@@ -100,11 +102,22 @@ public class Application {
         LOG.error("Number of thread must be superior to 1: " + nbThread);
         throw new Exception("Number of thread must be superior to 1: " + nbThread);
       }
+      String compression = null;
+      if(args.length > 2) {
+        compression = args[2];
+        if("none".equals(compression) || "null".equals(compression)) {
+          compression = null;
+        }
+      }
+      String comment = null;
+      if(args.length > 3) {
+        comment = args[3];
+      }
       // Check arguments -
       if("rest".equals(args[0])) {
-        restClient.runTest(nbThread);
+        restClient.runTest(nbThread, compression, comment);
       } else if("thrift".equals(args[0])) {
-        thriftClient.runTest(nbThread);
+        thriftClient.runTest(nbThread, compression, comment);
       } else {
         LOG.error("Invalid protocol: " + args[0]);
         printHelp();
