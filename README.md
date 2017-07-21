@@ -19,10 +19,11 @@ To compile project:
          * JDK_HOME
          * java from PATH
      * Run launch.sh \<JAR path\> \<number of threads\>
+         * You can add \<compression\> and \<comment\> as arguments
 
 ## TODO
 By priority order:
  - ~~Add script to run every tests in one command~~
- - Manage test suite comment
- - Manage HTTP compression
+ - ~~Manage test suite comment~~
+ - ~~Manage HTTP compression~~
  - Find a way (if it is possible) to specify HTTP client pool underlying Spring-Boot RESTTemplate
