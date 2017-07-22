@@ -18,8 +18,11 @@ To compile project:
          * JAVA_HOME
          * JDK_HOME
          * java from PATH
-     * Run launch.sh \<JAR path\> \<number of threads\>
-         * You can add \<compression\> and \<comment\> as arguments
+     * Run launch.sh -p \<JAR path\> \<options\>
+         * -h or --help to print help and exit
+         * -n or --nb-calls \<calls\> to define maximum number of simultaneous calls (default to 1). It will execute from 1 to \<calls\> test suite
+         * -z or --compression to set HTTP compression
+         * -c or --comment to set test suites comment
 
 ## TODO
 By priority order:
