@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+        jcenter()
         mavenCentral()
     }
     dependencies {
@@ -14,11 +15,6 @@ apply plugin: 'org.springframework.boot'
 
 bootRepackage {
     mainClass = 'com.github.vlachenal.webservice.bench.client.Application'
-}
-
-jar {
-    baseName = 'webservices-bench-client'
-    version =  '0.1.0'
 }
 
 repositories {
@@ -36,15 +32,24 @@ allprojects {
 }
 
 compileJava {
-  options.compilerArgs += ['-s', projectDir.absolutePath + '/src/thrift.generated/java']
+  options.compilerArgs += [
+    '-s', projectDir.absolutePath + '/src/thrift.generated/java',
+    '-s', projectDir.absolutePath + '/src/soap.generated/java'
+  ]
 }
 
 sourceSets {
     main {
         java {
             srcDir "src/thrift.generated/java"
+            srcDir "src/soap.generated/java"
         }
     }
+}
+
+jar {
+    baseName = 'webservices-bench-client'
+    version =  '0.1.0'
 }
 
 dependencies {
@@ -53,6 +58,7 @@ dependencies {
     compile("com.fasterxml.jackson.core:jackson-databind")
     compile("org.apache.thrift:libthrift:0.10.0")
     compile("org.apache.commons:commons-pool2:2.4.2")
+    compile("org.springframework.ws:spring-ws-core")
     testCompile("junit:junit")
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

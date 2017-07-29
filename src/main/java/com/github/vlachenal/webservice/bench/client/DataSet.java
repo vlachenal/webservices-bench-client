@@ -8,7 +8,11 @@ package com.github.vlachenal.webservice.bench.client;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.List;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -86,6 +90,42 @@ public class DataSet {
         phon.setNumber(phone.getNumber());
         phon.setType(PhoneType.valueOf(phone.getType().toString()));
         cust.addToPhones(phon);
+      }
+      customers.add(cust);
+    }
+    return customers;
+  }
+
+  /**
+   * Convert the JSON data into Thrift data
+   *
+   * @return the Thrift data
+   *
+   * @throws DatatypeConfigurationException date format error
+   */
+  public List<com.github.vlachenal.webservice.bench.client.soap.api.Customer> getSoapData() throws DatatypeConfigurationException {
+    final ArrayList<com.github.vlachenal.webservice.bench.client.soap.api.Customer> customers = new ArrayList<>();
+    for(final Customer customer : this.customers) {
+      final com.github.vlachenal.webservice.bench.client.soap.api.Customer cust = new com.github.vlachenal.webservice.bench.client.soap.api.Customer();
+      cust.setFirstName(customer.getFirstName());
+      cust.setLastName(customer.getLastName());
+      final GregorianCalendar cal = new GregorianCalendar();
+      cal.setTime(customer.getBirthDate());
+      cust.setBirthDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(cal));
+      cust.setEmail(customer.getEmail());
+      final com.github.vlachenal.webservice.bench.client.soap.api.Address addr = new com.github.vlachenal.webservice.bench.client.soap.api.Address();
+      for(final String line : customer.getAddress().getLines()) {
+        addr.getLines().add(line);
+      }
+      addr.setZipCode(customer.getAddress().getZipCode());
+      addr.setCity(customer.getAddress().getCity());
+      addr.setCountry(customer.getAddress().getCity());
+      cust.setAddress(addr);
+      for(final Phone phone : customer.getPhones()) {
+        final com.github.vlachenal.webservice.bench.client.soap.api.Phone phon = new com.github.vlachenal.webservice.bench.client.soap.api.Phone();
+        phon.setNumber(phone.getNumber());
+        phon.setPhoneType(com.github.vlachenal.webservice.bench.client.soap.api.PhoneType.valueOf(phone.getType().toString()));
+        cust.getPhones().add(phon);
       }
       customers.add(cust);
     }

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://github.com/vlachenal/webservices-bench" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://github.com/vlachenal/webservices-bench" targetNamespace="http://github.com/vlachenal/webservices-bench">
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://github.com/vlachenal/webservices-bench">
+
+  <xs:element name="purgeRequest">
+  </xs:element>
+
+  <xs:element name="purgeResponse">
+  </xs:element>
+
+  <xs:element name="consolidateRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="test" type="tns:test-suite"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="consolidateResponse">
+  </xs:element>
+
+  <xs:complexType name="test-suite">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id" type="xs:string"/>
+      <xs:element name="nb-thread" type="xs:int"/>
+      <xs:element minOccurs="0" name="compression" type="xs:string"/>
+      <xs:element name="cpu" type="xs:string"/>
+      <xs:element name="memory" type="xs:string"/>
+      <xs:element name="jvm" type="xs:string"/>
+      <xs:element name="vendor" type="xs:string"/>
+      <xs:element name="os-family" type="xs:string"/>
+      <xs:element name="os-version" type="xs:string"/>
+      <xs:element name="protocol" type="xs:string"/>
+      <xs:element name="comment" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="1" name="calls" type="tns:client-call"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="client-call">
+    <xs:sequence>
+      <xs:element name="request-seq" type="xs:int"/>
+      <xs:element name="protocol" type="xs:string"/>
+      <xs:element name="method" type="xs:string"/>
+      <xs:element name="client-start" type="xs:int"/>
+      <xs:element name="client-end" type="xs:int"/>
+      <xs:element name="ok" type="xs:boolean"/>
+      <xs:element name="err-msg" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="purgeRequest">
+    <wsdl:part element="tns:purgeRequest" name="purgeRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="consolidateResponse">
+    <wsdl:part element="tns:consolidateResponse" name="consolidateResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="purgeResponse">
+    <wsdl:part element="tns:purgeResponse" name="purgeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="consolidateRequest">
+    <wsdl:part element="tns:consolidateRequest" name="consolidateRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="StatisticsPort">
+    <wsdl:operation name="purge">
+      <wsdl:input message="tns:purgeRequest" name="purgeRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:purgeResponse" name="purgeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="consolidate">
+      <wsdl:input message="tns:consolidateRequest" name="consolidateRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:consolidateResponse" name="consolidateResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="StatisticsPortSoap11" type="tns:StatisticsPort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="purge">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="purgeRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="purgeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="consolidate">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="consolidateRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="consolidateResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="StatisticsPortService">
+    <wsdl:port binding="tns:StatisticsPortSoap11" name="StatisticsPortSoap11">
+      <soap:address location="http://localhost:8080/soap/stats"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

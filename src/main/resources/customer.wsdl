@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://github.com/vlachenal/webservices-bench" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://github.com/vlachenal/webservices-bench" targetNamespace="http://github.com/vlachenal/webservices-bench">
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://github.com/vlachenal/webservices-bench">
+
+  <xs:element name="listCustomersRequest">
+  </xs:element>
+
+  <xs:element name="listCustomersResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" minOccurs="0" name="customer" type="tns:customer"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="getDetailsRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="id" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="getDetailsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="customer" type="tns:customer"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="createRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="customer" type="tns:customer"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="createResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="id" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="deleteAllRequest">
+  </xs:element>
+
+  <xs:element name="deleteAllResponse">
+  </xs:element>
+
+  <xs:complexType name="customer">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id" type="xs:string"/>
+      <xs:element name="first-name" type="xs:string"/>
+      <xs:element name="last-name" type="xs:string"/>
+      <xs:element name="birth-date" type="xs:date"/>
+      <xs:element minOccurs="0" name="email" type="xs:string"/>
+      <xs:element minOccurs="0" name="address" type="tns:address"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="phones" type="tns:phone"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="address">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="1" name="lines" type="xs:string"/>
+      <xs:element name="zip-code" type="xs:string"/>
+      <xs:element name="city" type="xs:string"/>
+      <xs:element name="country" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="phone">
+    <xs:sequence>
+      <xs:element name="number" type="xs:string"/>
+      <xs:element name="phone-type" type="tns:phone-type"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="phone-type">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="LANDLINE"/>
+      <xs:enumeration value="MOBILE"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="listCustomersRequest">
+    <wsdl:part element="tns:listCustomersRequest" name="listCustomersRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDetailsRequest">
+    <wsdl:part element="tns:getDetailsRequest" name="getDetailsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteAllResponse">
+    <wsdl:part element="tns:deleteAllResponse" name="deleteAllResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteAllRequest">
+    <wsdl:part element="tns:deleteAllRequest" name="deleteAllRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createResponse">
+    <wsdl:part element="tns:createResponse" name="createResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="listCustomersResponse">
+    <wsdl:part element="tns:listCustomersResponse" name="listCustomersResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createRequest">
+    <wsdl:part element="tns:createRequest" name="createRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDetailsResponse">
+    <wsdl:part element="tns:getDetailsResponse" name="getDetailsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CustomerPort">
+    <wsdl:operation name="listCustomers">
+      <wsdl:input message="tns:listCustomersRequest" name="listCustomersRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:listCustomersResponse" name="listCustomersResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDetails">
+      <wsdl:input message="tns:getDetailsRequest" name="getDetailsRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:getDetailsResponse" name="getDetailsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteAll">
+      <wsdl:input message="tns:deleteAllRequest" name="deleteAllRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:deleteAllResponse" name="deleteAllResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="create">
+      <wsdl:input message="tns:createRequest" name="createRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:createResponse" name="createResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CustomerPortSoap11" type="tns:CustomerPort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="listCustomers">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="listCustomersRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="listCustomersResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDetails">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getDetailsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDetailsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteAll">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="deleteAllRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteAllResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="create">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="createRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CustomerPortService">
+    <wsdl:port binding="tns:CustomerPortSoap11" name="CustomerPortSoap11">
+      <soap:address location="http://localhost:8080/soap/customer"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

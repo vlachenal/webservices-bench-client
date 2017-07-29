@@ -102,7 +102,7 @@ if [[ "${java_bin}" = "" ]]; then
 fi
 # Retrieve Java executable -
 
-protocols="rest|thrift"
+protocols="rest|thrift|soap"
 while IFS='|' read -ra PROTOS; do
     for proto in "${PROTOS[@]}"; do
 	for((i=1;i<$nb_thread;i++)); do
