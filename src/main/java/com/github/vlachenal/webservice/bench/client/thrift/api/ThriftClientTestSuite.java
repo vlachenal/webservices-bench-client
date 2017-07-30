@@ -10,9 +10,7 @@ import java.util.List;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.thrift.protocol.TCompactProtocol;
-import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.THttpClient;
-import org.apache.thrift.transport.TTransport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,9 +18,13 @@ import org.springframework.stereotype.Component;
 
 import com.github.vlachenal.webservice.bench.client.AbstractClientTestSuite;
 import com.github.vlachenal.webservice.bench.thrift.api.ClientCall;
+import com.github.vlachenal.webservice.bench.thrift.api.CreateRequest;
 import com.github.vlachenal.webservice.bench.thrift.api.Customer;
 import com.github.vlachenal.webservice.bench.thrift.api.CustomerException;
 import com.github.vlachenal.webservice.bench.thrift.api.CustomerService;
+import com.github.vlachenal.webservice.bench.thrift.api.GetRequest;
+import com.github.vlachenal.webservice.bench.thrift.api.Header;
+import com.github.vlachenal.webservice.bench.thrift.api.ListAllRequest;
 import com.github.vlachenal.webservice.bench.thrift.api.StatsService;
 import com.github.vlachenal.webservice.bench.thrift.api.TestSuite;
 
@@ -40,7 +42,7 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
   private static final Logger LOG = LoggerFactory.getLogger(ThriftClientTestSuite.class);
 
   /** Thrift customer endpoint */
-  private static final String CUST_ENDPOINT = "/thrift/customer/";
+  private static final String CUST_ENDPOINT = "/thrift/customer";
 
   /** Customer service client pool */
   private TServiceClientPool<CustomerService.Client> customerClientPool;
@@ -60,17 +62,6 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
 
 
   // Methods +
-  /**
-   * Set request sequence in HTTP header
-   *
-   * @param client the client to use
-   * @param requestSeq the request sequence to set
-   */
-  private void setRequestSequence(final CustomerService.Client client, final int requestSeq) {
-    final THttpClient http = (THttpClient)client.getOutputProtocol().getTransport();
-    http.setCustomHeader("request_seq", Integer.toString(requestSeq));
-  }
-
   /**
    * Realease client
    *
@@ -135,7 +126,13 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
    */
   @Override
   public ClientCall createCustomer(final Customer customer, final int requestSeq) {
+    final CreateRequest req = new CreateRequest();
+    req.setCustomer(customer);
+    final Header header = new Header();
+    header.setRequestSeq(requestSeq);
+    req.setHeader(header);
     final ClientCall call = new ClientCall();
+    call.setProtocol("thrift");
     call.setMethod("create");
     call.setRequestSeq(requestSeq);
     call.setOk(false);
@@ -145,8 +142,7 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     call.setClientStart(System.nanoTime());
     try {
       client = customerClientPool.borrowObject();
-      setRequestSequence(client, requestSeq);
-      id = client.create(customer);
+      id = client.create(req);
       call.setOk(true);
     } catch(final CustomerException e) {
       call.setErrMsg(e.getMessage());
@@ -168,8 +164,13 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
    */
   @Override
   public ClientCall listAll(final int requestSeq) {
+    final ListAllRequest req = new ListAllRequest();
+    final Header header = new Header();
+    header.setRequestSeq(requestSeq);
+    req.setHeader(header);
     final ClientCall call = new ClientCall();
     call.setMethod("list");
+    call.setProtocol("thrift");
     call.setRequestSeq(requestSeq);
     call.setOk(false);
     boolean ok = true;
@@ -178,8 +179,7 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     call.setClientStart(System.nanoTime());
     try {
       client = customerClientPool.borrowObject();
-      setRequestSequence(client, requestSeq);
-      customers = client.listCustomers();
+      customers = client.listCustomers(req);
       call.setOk(true);
     } catch(final CustomerException e) {
       call.setErrMsg(e.getMessage());
@@ -206,7 +206,13 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
    */
   @Override
   public ClientCall getDetails(final Customer customer, final int requestSeq) {
+    final GetRequest req = new GetRequest();
+    final Header header = new Header();
+    header.setRequestSeq(requestSeq);
+    req.setHeader(header);
+    req.setId(customer.getId());
     final ClientCall call = new ClientCall();
+    call.setProtocol("thrift");
     call.setMethod("get");
     call.setRequestSeq(requestSeq);
     call.setOk(false);
@@ -216,8 +222,7 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     call.setClientStart(System.nanoTime());
     try {
       client = customerClientPool.borrowObject();
-      setRequestSequence(client, requestSeq);
-      cust = client.get(customer.getId());
+      cust = client.get(req);
       call.setOk(true);
     } catch(final CustomerException e) {
       call.setErrMsg(e.getMessage());
@@ -260,18 +265,23 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     suite.setComment(comment);
     suite.setCalls(calls);
     // Gather test suite informations -
+    final String url = "http://" + host + ':' + port + baseUrl + "/thrift/statistics";
+    final TServiceClientPooledFactory<StatsService.Client> clientFactory = new TServiceClientPooledFactory<>(new StatsService.Client.Factory(), new TCompactProtocol.Factory(), new THttpClient.Factory(url));
+    final GenericObjectPoolConfig config = new GenericObjectPoolConfig();
+    config.setMaxTotal(1);
+    config.setMaxIdle(1);
+    final TServiceClientPool<StatsService.Client> pool = new TServiceClientPool<>(clientFactory, config);
+    StatsService.Client client = null;
     try {
-      final StatsService.Client.Factory clientFactory = new StatsService.Client.Factory();
-      final TCompactProtocol.Factory protocolFactory = new TCompactProtocol.Factory();
-      final THttpClient.Factory transportFactory = new THttpClient.Factory("http://" + host + ':' + port + baseUrl + "/thrift/statistics/");
-      final TTransport transport = transportFactory.getTransport(null);
-      transport.open();
-      final TProtocol protocol = protocolFactory.getProtocol(transport);
-      final StatsService.Client client = clientFactory.getClient(protocol);
+      client = pool.borrowObject();
       client.consolidate(suite);
       client.purge();
     } catch(final Exception e) {
       LOG.error("Unable to consolidate statistics: " + e.getMessage(), e);
+    } finally {
+      if(client != null) {
+        pool.returnObject(client);
+      }
     }
   }
   // Methods -

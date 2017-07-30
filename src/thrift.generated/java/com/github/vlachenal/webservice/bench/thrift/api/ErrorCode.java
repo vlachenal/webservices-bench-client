@@ -11,10 +11,25 @@ import java.util.Map;
 import java.util.HashMap;
 import org.apache.thrift.TEnum;
 
+/**
+ * Error code
+ */
 public enum ErrorCode implements org.apache.thrift.TEnum {
+  /**
+   * Missing or invalid paramter
+   */
   PARAMETER(1),
+  /**
+   * Not found
+   */
   NOT_FOUND(2),
+  /**
+   * Customer already exists
+   */
   ALREADY_EXISTS(3),
+  /**
+   * Unexpected error
+   */
   SERVER(99);
 
   private final int value;

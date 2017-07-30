@@ -11,8 +11,17 @@ import java.util.Map;
 import java.util.HashMap;
 import org.apache.thrift.TEnum;
 
+/**
+ * Phone type
+ */
 public enum PhoneType implements org.apache.thrift.TEnum {
+  /**
+   * Landline phone
+   */
   LANDLINE(1),
+  /**
+   * Mobile phone
+   */
   MOBILE(2);
 
   private final int value;
