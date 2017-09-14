@@ -18,6 +18,7 @@ jar_path=""
 nb_thread=1
 compression=""
 comment=""
+mapper=""
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
@@ -103,12 +104,17 @@ fi
 # Retrieve Java executable -
 
 protocols="rest|thrift|soap"
+mappers="manual|dozer|mapstruct"
 while IFS='|' read -ra PROTOS; do
     for proto in "${PROTOS[@]}"; do
-	for((i=1;i<$nb_thread;i++)); do
-	    echo "Run test suite for ${proto} with $i simultaneous calls"
-	    $java_bin -jar $jar_path $proto $i $compression "${comment}"
-	done
+	while IFS='|' read -ra MAPPERS; do
+	    for mapper in "${MAPPERS[@]}"; do
+		for((i=1;i<$nb_thread;i++)); do
+		    echo "Run test suite for ${proto} with $i simultaneous calls"
+		    $java_bin -jar $jar_path $proto $i $compression "${comment}" $mapper
+		done
+	    done
+	done <<< "$mappers"
     done
 done <<< "$protocols"
 

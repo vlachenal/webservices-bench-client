@@ -62,6 +62,9 @@ public abstract class AbstractClientTestSuite<T,C> {
 
   /** Test suite comment */
   protected String comment;
+
+  /** Test suite mapper */
+  protected String mapper;
   // Attributes -
 
 
@@ -89,7 +92,7 @@ public abstract class AbstractClientTestSuite<T,C> {
   /**
    * List all customers
    *
-   * @param requestSeq the request sequance
+   * @param requestSeq the request sequence
    *
    * @return the call statitics
    */
@@ -114,15 +117,17 @@ public abstract class AbstractClientTestSuite<T,C> {
    * Run test suite
    *
    * @param nbThread number of simultaneous calls
+   * @param mapper the mapper to use
    * @param compression HTTP compression (can be null)
    * @param comment the test suite comment (can be null)
    */
-  public void runTest(final int nbThread, final String compression, final String comment) {
+  public void runTest(final int nbThread, final String mapper, final String compression, final String comment) {
     // Initialization +
     LOG.info("Initialization");
     this.compression = compression;
     this.comment = comment;
     this.nbThread = nbThread;
+    this.mapper = mapper;
     calls = new ArrayList<>();
     data.loadData();
     initializeTestSuite();

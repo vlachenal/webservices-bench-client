@@ -72,6 +72,7 @@ public class Application {
     LOG.info("int: number of simultanous request to proccess");
     LOG.info("string (optional): HTTP compression (use null or none for no compression)");
     LOG.info("string (optional): test suite comment");
+    LOG.info("string (optional): Mapper (manual, dozer or mapstruct)");
   }
 
   /**
@@ -116,13 +117,17 @@ public class Application {
       if(args.length > 3) {
         comment = args[3];
       }
+      String mapper = "manual";
+      if(args.length > 4) {
+        mapper = args[4];
+      }
       // Check arguments -
       if("rest".equals(args[0])) {
-        restClient.runTest(nbThread, compression, comment);
+        restClient.runTest(nbThread, mapper, compression, comment);
       } else if("thrift".equals(args[0])) {
-        thriftClient.runTest(nbThread, compression, comment);
+        thriftClient.runTest(nbThread, mapper, compression, comment);
       } else if("soap".equals(args[0])) {
-        soapClient.runTest(nbThread, compression, comment);
+        soapClient.runTest(nbThread, mapper, compression, comment);
       } else {
         LOG.error("Invalid protocol: " + args[0]);
         printHelp();

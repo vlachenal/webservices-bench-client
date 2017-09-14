@@ -79,7 +79,7 @@ public class SOAPClientTestSuite extends AbstractClientTestSuite<Customer, Clien
     call.setProtocol("soap");
     call.setClientStart(System.nanoTime());
     try {
-      final String id = custClient.create(customer, requestSeq);
+      final String id = custClient.create(customer, requestSeq, mapper);
       call.setOk(true);
       customer.setId(id);
     } catch(final Exception e) {
@@ -105,7 +105,7 @@ public class SOAPClientTestSuite extends AbstractClientTestSuite<Customer, Clien
     call.setClientStart(System.nanoTime());
     List<Customer> customers = null;
     try {
-      customers = custClient.listCustomers(requestSeq);
+      customers = custClient.listCustomers(requestSeq, mapper);
       call.setOk(true);
     } catch(final Exception e) {
       call.setErrMsg(e.getMessage());
@@ -135,7 +135,7 @@ public class SOAPClientTestSuite extends AbstractClientTestSuite<Customer, Clien
     call.setClientStart(System.nanoTime());
     Customer cust = null;
     try {
-      cust = custClient.getDetails(customer.getId(), requestSeq);
+      cust = custClient.getDetails(customer.getId(), requestSeq, mapper);
       call.setOk(true);
     } catch(final Exception e) {
       call.setErrMsg(e.getMessage());
@@ -170,6 +170,20 @@ public class SOAPClientTestSuite extends AbstractClientTestSuite<Customer, Clien
     suite.setCompression(compression);
     suite.setComment(comment);
     suite.getCalls().addAll(calls);
+    if(mapper != null) {
+      switch(mapper) {
+        case "dozer":
+          suite.setMapper(Mapper.DOZER);
+          break;
+        case "mapstruct":
+          suite.setMapper(Mapper.MAPSTRUCT);
+          break;
+        default:
+          suite.setMapper(Mapper.MANUAL);
+      }
+    } else {
+      suite.setMapper(Mapper.MANUAL);
+    }
     // Gather test suite informations -
     statClient.consolidate(suite);
     statClient.purge();

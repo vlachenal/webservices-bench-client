@@ -24,6 +24,7 @@ import org.springframework.web.util.UriTemplate;
 import com.github.vlachenal.webservice.bench.client.AbstractClientTestSuite;
 import com.github.vlachenal.webservice.bench.client.rest.api.bean.ClientCall;
 import com.github.vlachenal.webservice.bench.client.rest.api.bean.Customer;
+import com.github.vlachenal.webservice.bench.client.rest.api.bean.Mapper;
 import com.github.vlachenal.webservice.bench.client.rest.api.bean.TestSuite;
 
 
@@ -122,6 +123,7 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
           .accept(MediaType.TEXT_PLAIN)
           .contentType(MediaType.APPLICATION_JSON_UTF8)
           .header("request_seq", Integer.toString(requestSeq))
+          .header("mapper", mapper.toUpperCase())
           .body(customer);
       res = template.exchange(req, String.class);
     } catch(final RestClientException e) {
@@ -154,7 +156,9 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
     try {
       final RequestEntity<Void> req = RequestEntity.get(serviceUri)
           .accept(MediaType.APPLICATION_JSON_UTF8)
-          .header("request_seq", Integer.toString(requestSeq)).build();
+          .header("request_seq", Integer.toString(requestSeq))
+          .header("mapper", mapper.toUpperCase())
+          .build();
       res = template.exchange(req, Customer[].class);
     } catch(final RestClientException e) {
       call.setErrMsg(e.getMessage());
@@ -189,7 +193,9 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
     try {
       final RequestEntity<Void> req = RequestEntity.get(detailsTemplate.expand(customer.getId()))
           .accept(MediaType.APPLICATION_JSON_UTF8)
-          .header("request_seq", Integer.toString(requestSeq)).build();
+          .header("request_seq", Integer.toString(requestSeq))
+          .header("mapper", mapper.toUpperCase())
+          .build();
       res = template.exchange(req, Customer.class);
     } catch(final RestClientException e) {
       call.setErrMsg(e.getMessage());
@@ -232,6 +238,20 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
       suite.setCompression(compression);
       suite.setComment(comment);
       suite.setCalls(calls);
+      if(mapper != null) {
+        switch(mapper) {
+          case "dozer":
+            suite.setMapper(Mapper.DOZER);
+            break;
+          case "mapstruct":
+            suite.setMapper(Mapper.MAPSTRUCT);
+            break;
+          default:
+            suite.setMapper(Mapper.MANUAL);
+        }
+      } else {
+        suite.setMapper(Mapper.MANUAL);
+      }
       // Gather test suite informations -
       template.put(uri, suite);
       template.delete(uri);

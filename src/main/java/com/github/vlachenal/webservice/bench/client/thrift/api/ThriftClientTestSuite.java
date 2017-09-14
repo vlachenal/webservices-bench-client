@@ -25,6 +25,7 @@ import com.github.vlachenal.webservice.bench.thrift.api.CustomerService;
 import com.github.vlachenal.webservice.bench.thrift.api.GetRequest;
 import com.github.vlachenal.webservice.bench.thrift.api.Header;
 import com.github.vlachenal.webservice.bench.thrift.api.ListAllRequest;
+import com.github.vlachenal.webservice.bench.thrift.api.Mapper;
 import com.github.vlachenal.webservice.bench.thrift.api.StatsService;
 import com.github.vlachenal.webservice.bench.thrift.api.TestSuite;
 
@@ -130,6 +131,7 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     req.setCustomer(customer);
     final Header header = new Header();
     header.setRequestSeq(requestSeq);
+    header.setMapper(Mapper.valueOf(mapper.toUpperCase()));
     req.setHeader(header);
     final ClientCall call = new ClientCall();
     call.setProtocol("thrift");
@@ -167,6 +169,7 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     final ListAllRequest req = new ListAllRequest();
     final Header header = new Header();
     header.setRequestSeq(requestSeq);
+    header.setMapper(Mapper.valueOf(mapper.toUpperCase()));
     req.setHeader(header);
     final ClientCall call = new ClientCall();
     call.setMethod("list");
@@ -209,6 +212,7 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     final GetRequest req = new GetRequest();
     final Header header = new Header();
     header.setRequestSeq(requestSeq);
+    header.setMapper(Mapper.valueOf(mapper.toUpperCase()));
     req.setHeader(header);
     req.setId(customer.getId());
     final ClientCall call = new ClientCall();
@@ -264,6 +268,20 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     suite.setCompression(compression);
     suite.setComment(comment);
     suite.setCalls(calls);
+    if(mapper != null) {
+      switch(mapper) {
+        case "dozer":
+          suite.setMapper(Mapper.DOZER);
+          break;
+        case "mapstruct":
+          suite.setMapper(Mapper.MAPSTRUCT);
+          break;
+        default:
+          suite.setMapper(Mapper.MANUAL);
+      }
+    } else {
+      suite.setMapper(Mapper.MANUAL);
+    }
     // Gather test suite informations -
     final String url = "http://" + host + ':' + port + baseUrl + "/thrift/statistics";
     final TServiceClientPooledFactory<StatsService.Client> clientFactory = new TServiceClientPooledFactory<>(new StatsService.Client.Factory(), new TCompactProtocol.Factory(), new THttpClient.Factory(url));

@@ -32,23 +32,28 @@ public class CustomerClient extends WebServiceGatewaySupport {
    * Create new customer
    *
    * @param customer the customer to create
+   * @param requestSeq the request sequence
+   * @param mapper the mapper to use
    *
    * @return the new customer identifier
    */
-  public String create(final Customer customer, final int requestSeq) {
+  public String create(final Customer customer, final int requestSeq, final String mapper) {
     final CreateRequest req = new CreateRequest();
     req.setCustomer(customer);
-    final CreateResponse res = (CreateResponse)getWebServiceTemplate().marshalSendAndReceive(req, new WSRequestSequenceCB(requestSeq));
+    final CreateResponse res = (CreateResponse)getWebServiceTemplate().marshalSendAndReceive(req, new WSRequestSequenceCB(requestSeq, mapper));
     return res.getId();
   }
 
   /**
    * List all customers
    *
+   * @param requestSeq the request sequence
+   * @param mapper the mapper to use
+   *
    * @return the customers
    */
-  public List<Customer> listCustomers(final int requestSeq) {
-    final ListCustomersResponse res = (ListCustomersResponse)getWebServiceTemplate().marshalSendAndReceive(new ListCustomersRequest(), new WSRequestSequenceCB(requestSeq));
+  public List<Customer> listCustomers(final int requestSeq, final String mapper) {
+    final ListCustomersResponse res = (ListCustomersResponse)getWebServiceTemplate().marshalSendAndReceive(new ListCustomersRequest(), new WSRequestSequenceCB(requestSeq, mapper));
     return res.getCustomer();
   }
 
@@ -56,13 +61,15 @@ public class CustomerClient extends WebServiceGatewaySupport {
    * Get customer details
    *
    * @param id the customer identifier
+   * @param requestSeq the request sequence
+   * @param mapper the mapper to use
    *
    * @return the customer
    */
-  public Customer getDetails(final String id, final int requestSeq) {
+  public Customer getDetails(final String id, final int requestSeq, final String mapper) {
     final GetDetailsRequest req = new GetDetailsRequest();
     req.setId(id);
-    final GetDetailsResponse res = (GetDetailsResponse)getWebServiceTemplate().marshalSendAndReceive(req, new WSRequestSequenceCB(requestSeq));
+    final GetDetailsResponse res = (GetDetailsResponse)getWebServiceTemplate().marshalSendAndReceive(req, new WSRequestSequenceCB(requestSeq, mapper));
     return res.getCustomer();
   }
 
@@ -86,6 +93,9 @@ public class CustomerClient extends WebServiceGatewaySupport {
     // Attributes +
     /** Request sequence */
     private final int requestSeq;
+
+    /** Mapper */
+    private final String mapper;
     // Attributes -
 
     // Constructors +
@@ -93,9 +103,11 @@ public class CustomerClient extends WebServiceGatewaySupport {
      * {@link WSRequestSequenceCB} constructor
      *
      * @param requestSeq the request sequence
+     * @param mapper the mapper to use
      */
-    public WSRequestSequenceCB(final int requestSeq) {
+    public WSRequestSequenceCB(final int requestSeq, final String mapper) {
       this.requestSeq = requestSeq;
+      this.mapper = mapper;
     }
     // Constructors -
 
@@ -111,6 +123,7 @@ public class CustomerClient extends WebServiceGatewaySupport {
       final SoapMessage soapMessage = (SoapMessage)message;
       final RequestHeader reqHeader = new RequestHeader();
       reqHeader.setRequestSeq(requestSeq);
+      reqHeader.setMapper(Mapper.fromValue(mapper.toUpperCase()));
       try {
         final JAXBContext context = JAXBContext.newInstance(RequestHeader.class);
         final Marshaller marshall = context.createMarshaller();

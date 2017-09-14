@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.7-b41 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2017.07.29 à 02:53:41 PM CEST 
+// Généré le : 2017.09.12 à 11:14:30 AM CEST 
 //
 
 
@@ -38,6 +38,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="protocol" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="comment" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="calls" type="{http://github.com/vlachenal/webservices-bench}client-call" maxOccurs="unbounded"/>
+ *         &lt;element name="mapper" type="{http://github.com/vlachenal/webservices-bench}mapper" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -59,7 +60,8 @@ import javax.xml.bind.annotation.XmlType;
     "osVersion",
     "protocol",
     "comment",
-    "calls"
+    "calls",
+    "mapper"
 })
 public class TestSuite {
 
@@ -85,6 +87,7 @@ public class TestSuite {
     protected String comment;
     @XmlElement(required = true)
     protected List<ClientCall> calls;
+    protected Mapper mapper;
 
     /**
      * Obtient la valeur de la propriété id.
@@ -369,6 +372,30 @@ public class TestSuite {
             calls = new ArrayList<ClientCall>();
         }
         return this.calls;
+    }
+
+    /**
+     * Obtient la valeur de la propriété mapper.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Mapper }
+     *     
+     */
+    public Mapper getMapper() {
+        return mapper;
+    }
+
+    /**
+     * Définit la valeur de la propriété mapper.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Mapper }
+     *     
+     */
+    public void setMapper(Mapper value) {
+        this.mapper = value;
     }
 
 }

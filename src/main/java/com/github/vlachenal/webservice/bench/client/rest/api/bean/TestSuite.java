@@ -66,6 +66,9 @@ public class TestSuite {
   /** Client call statistics */
   @JsonProperty(value="calls",required=true)
   private List<ClientCall> calls;
+
+  @JsonProperty(value="mapper")
+  private Mapper mapper;
   // Attributes -
 
 
@@ -284,6 +287,24 @@ public class TestSuite {
    */
   public final void setCalls(final List<ClientCall> calls) {
     this.calls = calls;
+  }
+
+  /**
+   * Mapper getter
+   *
+   * @return the mapper
+   */
+  public final Mapper getMapper() {
+    return mapper;
+  }
+
+  /**
+   * Mapper setter
+   *
+   * @param mapper the mapper to set
+   */
+  public final void setMapper(final Mapper mapper) {
+    this.mapper = mapper;
   }
   // Accessors -
 
