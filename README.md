@@ -1,7 +1,7 @@
 # webservices-bench-client
  Project to test and compare different webservices - the client side
  
- Special thanks for [JSON generator](https://www.json-generator.com/) for generating test data.
+ Special thanks for [JSON generator](https://www.json-generator.com/) for generating test data (see generate.json file for generate new data).
 
 ## Synopsis
 This is the client side of the [webservices-bench project](https://github.com/vlachenal/webservices-bench)
