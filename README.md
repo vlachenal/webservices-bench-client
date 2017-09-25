@@ -1,7 +1,9 @@
 # webservices-bench-client
  Project to test and compare different webservices - the client side
+ 
+ Special thanks for [JSON generator](https://www.json-generator.com/) for generating test data.
 
-## Synposis
+## Synopsis
 This is the client side of the [webservices-bench project](https://github.com/vlachenal/webservices-bench)
 
 I tried to make calls in the same way for the different APIs (REST and Thrift for now). If you have optimization, please contact me or make a pull request.
