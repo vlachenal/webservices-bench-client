@@ -77,7 +77,7 @@ public class TServiceClientPooledFactory<T extends TServiceClient> extends BaseP
    */
   @Override
   public PooledObject<T> wrap(final T obj) {
-    return new DefaultPooledObject<T>(obj);
+    return new DefaultPooledObject<>(obj);
   }
 
   /**
