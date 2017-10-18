@@ -44,15 +44,15 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
   private static final String CUST_ENDPOINT = "/rest/customer";
 
   /** Server hostname or IP address */
-  @Value("${server.host}")
+  @Value("${webservicebench.server.host}")
   private String host;
 
   /** Server port */
-  @Value("${server.port}")
+  @Value("${webservicebench.server.port}")
   private Integer port;
 
   /** Server port */
-  @Value("${server.base.url}")
+  @Value("${webservicebench.server.base.url}")
   private String baseUrl;
 
   /** The REST template to use */
@@ -162,6 +162,7 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
       res = template.exchange(req, Customer[].class);
     } catch(final RestClientException e) {
       call.setErrMsg(e.getMessage());
+      throw new RuntimeException(e);
     } finally {
       call.setClientEnd(System.nanoTime());
     }

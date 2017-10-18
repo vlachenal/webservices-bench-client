@@ -16,12 +16,14 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.client.RestTemplate;
 
 import com.github.vlachenal.webservice.bench.client.rest.RESTfulClient;
 import com.github.vlachenal.webservice.bench.client.soap.api.SOAPClientTestSuite;
 import com.github.vlachenal.webservice.bench.client.thrift.api.ThriftClientTestSuite;
+import com.github.vlachenal.webservice.bench.client.utils.ApplicationProfiles;
 
 
 /**
@@ -34,10 +36,11 @@ import com.github.vlachenal.webservice.bench.client.thrift.api.ThriftClientTestS
 @ComponentScan
 @SpringBootApplication
 @PropertySource({"classpath:application.properties","classpath:hardware.properties"})
+@Profile(ApplicationProfiles.NOT_TEST)
 public class Application {
 
   // Attributes +
-  /** {@link Application logger instance */
+  /** {@link Application} logger instance */
   private static final Logger LOG = LoggerFactory.getLogger(Application.class);
   // Attributes -
 

@@ -228,6 +228,171 @@ public abstract class AbstractClientTestSuite<T,C> {
   // Methods -
 
 
+  // Accessors +
+  /**
+   * Data set getter
+   *
+   * @return the data
+   */
+  public final DataSet getData() {
+    return data;
+  }
+
+  /**
+   * Data set setter
+   *
+   * @param data the data to set
+   */
+  public final void setData(final DataSet data) {
+    this.data = data;
+  }
+
+  /**
+   * CPU information getter
+   *
+   * @return the cpu
+   */
+  public final String getCpu() {
+    return cpu;
+  }
+
+  /**
+   * CPU information setter
+   *
+   * @param cpu the cpu to set
+   */
+  public final void setCpu(final String cpu) {
+    this.cpu = cpu;
+  }
+
+  /**
+   * RAM informations getter
+   *
+   * @return the memory
+   */
+  public final String getMemory() {
+    return memory;
+  }
+
+  /**
+   * RAM informations setter
+   *
+   * @param memory the memory to set
+   */
+  public final void setMemory(final String memory) {
+    this.memory = memory;
+  }
+
+  /**
+   * Customers getter
+   *
+   * @return the customers
+   */
+  public final List<T> getCustomers() {
+    return customers;
+  }
+
+  /**
+   * Customers setter
+   *
+   * @param customers the customers to set
+   */
+  public final void setCustomers(final List<T> customers) {
+    this.customers = customers;
+  }
+
+  /**
+   * Calls getter
+   *
+   * @return the calls
+   */
+  public final List<C> getCalls() {
+    return calls;
+  }
+
+  /**
+   * Calls setter
+   *
+   * @param calls the calls to set
+   */
+  public final void setCalls(final List<C> calls) {
+    this.calls = calls;
+  }
+
+  /**
+   * Number of simultaneous calls getter
+   *
+   * @return the number of simultaneous calls
+   */
+  public final int getNbThread() {
+    return nbThread;
+  }
+
+  /**
+   * Number of simultaneous calls setter
+   *
+   * @param nbThread the number of simultaneous calls to set
+   */
+  public final void setNbThread(final int nbThread) {
+    this.nbThread = nbThread;
+  }
+
+  /**
+   * HTTP compression getter
+   *
+   * @return the compression
+   */
+  public final String getCompression() {
+    return compression;
+  }
+
+  /**
+   * HTTP compression setter
+   *
+   * @param compression the compression to set
+   */
+  public final void setCompression(final String compression) {
+    this.compression = compression;
+  }
+
+  /**
+   * Test suite comment getter
+   *
+   * @return the comment
+   */
+  public final String getComment() {
+    return comment;
+  }
+
+  /**
+   * Test suite comment setter
+   *
+   * @param comment the comment to set
+   */
+  public final void setComment(final String comment) {
+    this.comment = comment;
+  }
+
+  /**
+   * Mapper getter
+   *
+   * @return the mapper
+   */
+  public final String getMapper() {
+    return mapper;
+  }
+
+  /**
+   * Mapper setter
+   *
+   * @param mapper the mapper to set
+   */
+  public final void setMapper(final String mapper) {
+    this.mapper = mapper;
+  }
+  // Accessors -
+
+
   // Classes +
   /**
    * Pausable thread pool executor from Oracle javadoc

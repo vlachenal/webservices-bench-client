@@ -49,15 +49,15 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
   private TServiceClientPool<CustomerService.Client> customerClientPool;
 
   /** Server hostname or IP address */
-  @Value("${server.host}")
+  @Value("${webservicebench.server.host}")
   private String host;
 
   /** Server port */
-  @Value("${server.port}")
+  @Value("${webservicebench.server.port}")
   private Integer port;
 
   /** Server port */
-  @Value("${server.base.url}")
+  @Value("${webservicebench.server.base.url}")
   private String baseUrl;
   // Attributes -
 

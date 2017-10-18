@@ -133,4 +133,25 @@ public class DataSet {
   }
   // Methods -
 
+
+  // Accessors +
+  /**
+   * Customer list getter
+   *
+   * @return the customers
+   */
+  public final List<Customer> getCustomers() {
+    return customers;
+  }
+
+  /**
+   * Customer list setter
+   *
+   * @param customers the customers to set
+   */
+  public final void setCustomers(final List<Customer> customers) {
+    this.customers = customers;
+  }
+  // Accessors -
+
 }
