@@ -4,7 +4,7 @@
  * terms of the Do What The Fuck You Want To Public License, Version 2,
  * as published by Sam Hocevar. See the COPYING file for more details.
  */
-package com.github.vlachenal.webservice.bench.client.rest;
+package com.github.vlachenal.webservice.bench.client.thrift;
 
 import static org.junit.Assert.fail;
 
@@ -22,7 +22,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.github.vlachenal.webservice.bench.client.ApplicationTest;
 import com.github.vlachenal.webservice.bench.client.DataSet;
+import com.github.vlachenal.webservice.bench.client.thrift.api.ThriftClientTestSuite;
 import com.github.vlachenal.webservice.bench.client.utils.ApplicationProfiles;
+import com.github.vlachenal.webservice.bench.thrift.api.Customer;
 
 
 /**
@@ -33,15 +35,15 @@ import com.github.vlachenal.webservice.bench.client.utils.ApplicationProfiles;
 @SpringBootTest(classes=ApplicationTest.class)
 @RunWith(SpringRunner.class)
 @ActiveProfiles(ApplicationProfiles.TEST)
-public class RESTfulClientTest {
+public class ThriftClientTest {
 
   // Attributes +
-  /** {@link RESTfulClientTest logger instance */
-  private static final Logger LOG = LoggerFactory.getLogger(RESTfulClientTest.class);
+  /** {@link ThriftClientTest logger instance */
+  private static final Logger LOG = LoggerFactory.getLogger(ThriftClientTest.class);
 
   /** RESTfull client */
   @Autowired
-  private RESTfulClient client;
+  private ThriftClientTestSuite client;
   // Attributes -
 
 
@@ -53,6 +55,7 @@ public class RESTfulClientTest {
   public void before() {
     client.setMapper("manual");
     client.setCustomers(new ArrayList<>());
+    client.setNbThread(1);
     final DataSet data = new DataSet();
     data.setCustomers(new ArrayList<>());
     client.setData(data);
@@ -63,7 +66,7 @@ public class RESTfulClientTest {
 
   // Tests +
   /**
-   * Test method for {@link com.github.vlachenal.webservice.bench.client.rest.RESTfulClient#deleteAll()}.
+   * Test method for {@link com.github.vlachenal.webservice.bench.client.rest.api.RESTfulClient#deleteAll()}.
    */
   @Test
   public void testDeleteAll() {
@@ -71,7 +74,7 @@ public class RESTfulClientTest {
   }
 
   /**
-   * Test method for {@link com.github.vlachenal.webservice.bench.client.rest.RESTfulClient#initializeTestSuite()}.
+   * Test method for {@link com.github.vlachenal.webservice.bench.client.rest.api.RESTfulClient#initializeTestSuite()}.
    */
   @Test
   public void testInitializeTestSuite() {
@@ -79,7 +82,7 @@ public class RESTfulClientTest {
   }
 
   /**
-   * Test method for {@link com.github.vlachenal.webservice.bench.client.rest.RESTfulClient#consolidateStats()}.
+   * Test method for {@link com.github.vlachenal.webservice.bench.client.rest.api.RESTfulClient#consolidateStats()}.
    */
   @Test
   public void testConsolidateStats() {
@@ -87,7 +90,7 @@ public class RESTfulClientTest {
   }
 
   /**
-   * Test method for {@link com.github.vlachenal.webservice.bench.client.rest.RESTfulClient#createCustomer(com.github.vlachenal.webservice.bench.client.rest.api.bean.Customer, int)}.
+   * Test method for {@link com.github.vlachenal.webservice.bench.client.rest.api.RESTfulClient#createCustomer(com.github.vlachenal.webservice.bench.client.rest.api.bean.Customer, int)}.
    */
   @Test
   public void testCreateCustomerCustomer() {
@@ -95,7 +98,7 @@ public class RESTfulClientTest {
   }
 
   /**
-   * Test method for {@link com.github.vlachenal.webservice.bench.client.rest.RESTfulClient#listAll(int)}.
+   * Test method for {@link com.github.vlachenal.webservice.bench.client.rest.api.RESTfulClient#listAll(int)}.
    */
   @Test
   public void testListAll() {
@@ -105,11 +108,15 @@ public class RESTfulClientTest {
   }
 
   /**
-   * Test method for {@link com.github.vlachenal.webservice.bench.client.rest.RESTfulClient#getDetails(com.github.vlachenal.webservice.bench.client.rest.api.bean.Customer, int)}.
+   * Test method for {@link com.github.vlachenal.webservice.bench.client.rest.api.RESTfulClient#getDetails(com.github.vlachenal.webservice.bench.client.rest.api.bean.Customer, int)}.
    */
   @Test
   public void testGetDetailsCustomer() {
-    fail("Not yet implemented");
+    LOG.debug("Enter in testGetDetailsCustomer");
+    final Customer cust = new Customer();
+    cust.setId("toto");
+    client.getDetails(cust, -1);
+    LOG.debug("Exit testGetDetailsCustomer");
   }
   // Tests -
 

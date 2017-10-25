@@ -7,8 +7,10 @@
 package com.github.vlachenal.webservice.bench.client.thrift.api;
 
 import java.util.List;
+import java.util.function.BiFunction;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TCompactProtocol;
 import org.apache.thrift.transport.THttpClient;
 import org.slf4j.Logger;
@@ -224,7 +226,16 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     CustomerService.Client client = null;
     Customer cust = null;
     call.setClientStart(System.nanoTime());
+    //    cust = new CustomerFunction<GetRequest, Customer>().andThen((res) -> {
+    //      call.setClientEnd(System.nanoTime());
+    //      if(res == null) {
+    //        call.setOk(false);
+    //        call.setErrMsg("Response is null for customer " + customer.getId());
+    //      }
+    //      return res;
+    //    }).apply(CustomerService.Client::get, req);
     try {
+      //      cust = new CustomerFunction<GetRequest, Customer>().apply(CustomerService.Client::get, req);
       client = customerClientPool.borrowObject();
       cust = client.get(req);
       call.setOk(true);
@@ -303,5 +314,34 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     }
   }
   // Methods -
+
+
+  // Classes +
+  public class CustomerFunction<U,R> implements BiFunction<CustomerCall<U,R>,U,R> {
+
+    @Override
+    public R apply(final CustomerCall<U,R> t, final U u) {
+      R r = null;
+      CustomerService.Client client = null;
+      boolean isOK = false;
+      try {
+        client = customerClientPool.borrowObject();
+        r = t.call(client, u);
+        isOK = true;
+      } catch(final Exception e) {
+        LOG.error(e.getMessage(), e);
+      } finally {
+        releaseClient(client, isOK);
+      }
+      return r;
+    }
+
+  }
+
+  @FunctionalInterface
+  public interface CustomerCall<T,R> {
+    R call(CustomerService.Client client, T t) throws CustomerException, TException;
+  }
+  // Classes -
 
 }

@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.client.RestTemplate;
 
-import com.github.vlachenal.webservice.bench.client.rest.RESTfulClient;
+import com.github.vlachenal.webservice.bench.client.rest.api.RESTfulClient;
 import com.github.vlachenal.webservice.bench.client.soap.api.SOAPClientTestSuite;
 import com.github.vlachenal.webservice.bench.client.thrift.api.ThriftClientTestSuite;
 import com.github.vlachenal.webservice.bench.client.utils.ApplicationProfiles;
