@@ -23,7 +23,7 @@ public final class ProtobufType {
   public static final MediaType PROTOBUF = new MediaType("application", "x-protobuf");
 
   /** Protocol buffer media type defintion */
-  public static final MediaType PROTOBUF_UTF8 = new MediaType("application", "x-protobuf", Charset.defaultCharset());
+  public static final MediaType PROTOBUF_UTF8 = new MediaType("application", "x-protobuf", Charset.forName("UTF-8"));
 
   /** Protocol buffer media type string */
   public static final String PROTOBUF_VALUE = "application/x-protobuf";
