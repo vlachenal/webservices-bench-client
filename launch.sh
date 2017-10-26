@@ -103,7 +103,7 @@ if [[ "${java_bin}" = "" ]]; then
 fi
 # Retrieve Java executable -
 
-protocols="rest|thrift|soap"
+protocols="rest|thrift|soap|protobuf"
 mappers="manual|dozer|mapstruct"
 while IFS='|' read -ra PROTOS; do
     for proto in "${PROTOS[@]}"; do

@@ -22,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.github.vlachenal.webservice.bench.client.protobuf.CustomerMessageConverter;
 import com.github.vlachenal.webservice.bench.client.protobuf.ListAllResponseMessageConverter;
+import com.github.vlachenal.webservice.bench.client.protobuf.api.ProtobufRESTClient;
 import com.github.vlachenal.webservice.bench.client.rest.api.RESTfulClient;
 import com.github.vlachenal.webservice.bench.client.soap.api.SOAPClientTestSuite;
 import com.github.vlachenal.webservice.bench.client.thrift.api.ThriftClientTestSuite;
@@ -97,7 +98,8 @@ public class Application {
   @Bean
   public CommandLineRunner run(final RESTfulClient restClient,
                                final ThriftClientTestSuite thriftClient,
-                               final SOAPClientTestSuite soapClient) throws Exception {
+                               final SOAPClientTestSuite soapClient,
+                               final ProtobufRESTClient protobufClient) throws Exception {
     return args -> {
       // Check arguments +
       if(args.length < 2) {
@@ -138,6 +140,8 @@ public class Application {
         thriftClient.runTest(nbThread, mapper, compression, comment);
       } else if("soap".equals(args[0])) {
         soapClient.runTest(nbThread, mapper, compression, comment);
+      } else if("protobuf".equals(args[0])) {
+        protobufClient.runTest(nbThread, mapper, compression, comment);
       } else {
         LOG.error("Invalid protocol: " + args[0]);
         printHelp();
