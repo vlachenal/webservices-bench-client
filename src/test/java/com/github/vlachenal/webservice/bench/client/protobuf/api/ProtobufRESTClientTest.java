@@ -4,11 +4,16 @@
  * terms of the Do What The Fuck You Want To Public License, Version 2,
  * as published by Sam Hocevar. See the COPYING file for more details.
  */
-package com.github.vlachenal.webservice.bench.client.thrift;
+package com.github.vlachenal.webservice.bench.client.protobuf.api;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,28 +27,31 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.github.vlachenal.webservice.bench.client.ApplicationTest;
 import com.github.vlachenal.webservice.bench.client.DataSet;
-import com.github.vlachenal.webservice.bench.client.thrift.api.ThriftClientTestSuite;
 import com.github.vlachenal.webservice.bench.client.utils.ApplicationProfiles;
-import com.github.vlachenal.webservice.bench.thrift.api.Customer;
+import com.github.vlachenal.webservice.bench.protobuf.api.Customer;
+import com.github.vlachenal.webservice.bench.protobuf.api.Customer.Address;
+import com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone;
+import com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType;
+import com.github.vlachenal.webservice.bench.protobuf.api.TestSuite.ClientCall;
 
 
 /**
- * RESTfull client unit test
+ * Protobuf client unit test
  *
  * @author Vincent Lachenal
  */
 @SpringBootTest(classes=ApplicationTest.class)
 @RunWith(SpringRunner.class)
 @ActiveProfiles(ApplicationProfiles.TEST)
-public class ThriftClientTest {
+public class ProtobufRESTClientTest {
 
   // Attributes +
-  /** {@link ThriftClientTest logger instance */
-  private static final Logger LOG = LoggerFactory.getLogger(ThriftClientTest.class);
+  /** {@link ProtobufRESTClientTest logger instance */
+  private static final Logger LOG = LoggerFactory.getLogger(ProtobufRESTClientTest.class);
 
-  /** RESTfull client */
+  /** Protobuf client */
   @Autowired
-  private ThriftClientTestSuite client;
+  private ProtobufRESTClient client;
   // Attributes -
 
 
@@ -94,7 +102,27 @@ public class ThriftClientTest {
    */
   @Test
   public void testCreateCustomerCustomer() {
-    fail("Not yet implemented");
+    final Customer.Builder cust = Customer.newBuilder();
+    cust.setFirstName("Chuck");
+    cust.setLastName("Norris");
+    cust.setEmail("chuck.norris@yopmail.com");
+    final LocalDate date = LocalDate.parse("1940-03-10", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    cust.setBirthDate(date.toEpochDay());
+    final Address.Builder addr = Address.newBuilder();
+    addr.addLines("1 rue des Nuages");
+    addr.setCity("Libourne");
+    addr.setZipCode("33500");
+    cust.setAddress(addr.build());
+    final Phone.Builder phone = Phone.newBuilder();
+    phone.setType(PhoneType.MOBILE);
+    phone.setNumber("+33836656565");
+    cust.addPhones(phone.build());
+    final ClientCall call = client.createCustomer(cust, -1);
+    assertNotNull("Call result is null", call);
+    assertTrue("Call is KO: " + call.getErrMsg(), call.getOk());
+    final Customer res = cust.build();
+    assertNotNull("Customer UUID is not set", res.hasField(Customer.getDescriptor().findFieldByNumber(Customer.ID_FIELD_NUMBER)));
+    LOG.info("New customer UUID is {}", res.getId());
   }
 
   /**
@@ -113,9 +141,11 @@ public class ThriftClientTest {
   @Test
   public void testGetDetailsCustomer() {
     LOG.debug("Enter in testGetDetailsCustomer");
-    final Customer cust = new Customer();
-    cust.setId("toto");
-    client.getDetails(cust, -1);
+    final Customer.Builder cust = Customer.newBuilder();
+    cust.setId(UUID.randomUUID().toString());
+    final ClientCall call = client.getDetails(cust, -1);
+    assertNotNull("Call result is null", call);
+    assertTrue("Call is KO: " + call.getErrMsg(), call.getOk());
     LOG.debug("Exit testGetDetailsCustomer");
   }
   // Tests -

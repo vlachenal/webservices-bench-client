@@ -20,6 +20,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.client.RestTemplate;
 
+import com.github.vlachenal.webservice.bench.client.protobuf.CustomerMessageConverter;
+import com.github.vlachenal.webservice.bench.client.protobuf.ListAllResponseMessageConverter;
 import com.github.vlachenal.webservice.bench.client.rest.api.RESTfulClient;
 import com.github.vlachenal.webservice.bench.client.soap.api.SOAPClientTestSuite;
 import com.github.vlachenal.webservice.bench.client.thrift.api.ThriftClientTestSuite;
@@ -59,11 +61,16 @@ public class Application {
    * Build REST template
    *
    * @param builder the template builder
+   * @param pbCustMsgConverter Protocol Buffer customer message converter
+   * @param listAllMsgConverter Protocol Buffer list all message converter
    *
    * @return the REST template
    */
   @Bean
-  public RestTemplate restTemplate(final RestTemplateBuilder builder) {
+  public RestTemplate restTemplate(final RestTemplateBuilder builder,
+                                   final CustomerMessageConverter pbCustMsgConverter,
+                                   final ListAllResponseMessageConverter listAllMsgConverter) {
+    builder.additionalMessageConverters(pbCustMsgConverter, listAllMsgConverter);
     return builder.build();
   }
 

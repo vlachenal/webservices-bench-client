@@ -97,9 +97,9 @@ public class DataSet {
   }
 
   /**
-   * Convert the JSON data into Thrift data
+   * Convert the JSON data into SOAP data
    *
-   * @return the Thrift data
+   * @return the SOAP data
    *
    * @throws DatatypeConfigurationException date format error
    */
@@ -126,6 +126,36 @@ public class DataSet {
         phon.setNumber(phone.getNumber());
         phon.setPhoneType(com.github.vlachenal.webservice.bench.client.soap.api.PhoneType.valueOf(phone.getType().toString()));
         cust.getPhones().add(phon);
+      }
+      customers.add(cust);
+    }
+    return customers;
+  }
+
+  /**
+   * Convert the JSON data into Protobuf data
+   *
+   * @return the Protobuf data
+   */
+  public List<com.github.vlachenal.webservice.bench.protobuf.api.Customer.Builder> getProtobufData() {
+    final ArrayList<com.github.vlachenal.webservice.bench.protobuf.api.Customer.Builder> customers = new ArrayList<>();
+    for(final Customer customer : this.customers) {
+      final com.github.vlachenal.webservice.bench.protobuf.api.Customer.Builder cust = com.github.vlachenal.webservice.bench.protobuf.api.Customer.newBuilder();
+      cust.setFirstName(customer.getFirstName());
+      cust.setLastName(customer.getLastName());
+      cust.setBirthDate(customer.getBirthDate().getTime());
+      cust.setEmail(customer.getEmail());
+      final com.github.vlachenal.webservice.bench.protobuf.api.Customer.Address.Builder addr = com.github.vlachenal.webservice.bench.protobuf.api.Customer.Address.newBuilder();
+      addr.addAllLines(customer.getAddress().getLines());
+      addr.setZipCode(customer.getAddress().getZipCode());
+      addr.setCity(customer.getAddress().getCity());
+      addr.setCountry(customer.getAddress().getCity());
+      cust.setAddress(addr);
+      for(final Phone phone : customer.getPhones()) {
+        final com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.Builder phon = com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.newBuilder();
+        phon.setNumber(phone.getNumber());
+        phon.setType(com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.valueOf(phone.getType().toString()));
+        cust.addPhones(phon);
       }
       customers.add(cust);
     }

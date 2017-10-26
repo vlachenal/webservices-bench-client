@@ -4,7 +4,7 @@
  * terms of the Do What The Fuck You Want To Public License, Version 2,
  * as published by Sam Hocevar. See the COPYING file for more details.
  */
-package com.github.vlachenal.webservice.bench.client.rest.api;
+package com.github.vlachenal.webservice.bench.client.protobuf.api;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -22,10 +22,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriTemplate;
 
 import com.github.vlachenal.webservice.bench.client.AbstractClientTestSuite;
-import com.github.vlachenal.webservice.bench.client.rest.api.bean.ClientCall;
-import com.github.vlachenal.webservice.bench.client.rest.api.bean.Customer;
-import com.github.vlachenal.webservice.bench.client.rest.api.bean.Mapper;
-import com.github.vlachenal.webservice.bench.client.rest.api.bean.TestSuite;
+import com.github.vlachenal.webservice.bench.client.protobuf.ProtobufType;
+import com.github.vlachenal.webservice.bench.protobuf.api.Customer;
+import com.github.vlachenal.webservice.bench.protobuf.api.Mapper;
+import com.github.vlachenal.webservice.bench.protobuf.api.TestSuite;
+import com.github.vlachenal.webservice.bench.protobuf.api.TestSuite.ClientCall;
 
 
 /**
@@ -34,14 +35,14 @@ import com.github.vlachenal.webservice.bench.client.rest.api.bean.TestSuite;
  * @author Vincent Lachenal
  */
 @Component
-public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> {
+public class ProtobufRESTClient extends AbstractClientTestSuite<Customer.Builder,ClientCall> {
 
   // Attributes +
-  /** {@link RESTfulClient} logger instance */
-  private static final Logger LOG = LoggerFactory.getLogger(RESTfulClient.class);
+  /** {@link ProtobufRESTClient} logger instance */
+  private static final Logger LOG = LoggerFactory.getLogger(ProtobufRESTClient.class);
 
   /** REST customer endpoint */
-  private static final String CUST_ENDPOINT = "/rest/customer";
+  private static final String CUST_ENDPOINT = "/protobuf/customer";
 
   /** Server hostname or IP address */
   @Value("${webservicebench.server.host}")
@@ -68,11 +69,11 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
 
   // Constructors +
   /**
-   * {@link RESTfulClient} constructor
+   * {@link ProtobufRESTClient} constructor
    *
    * @param template the REST template to use
    */
-  public RESTfulClient(final RestTemplate template) {
+  public ProtobufRESTClient(final RestTemplate template) {
     this.template = template;
   }
   // Constructors -
@@ -87,7 +88,7 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
    */
   @Override
   public void initializeTestSuite() {
-    customers = data.getRestData();
+    customers = data.getProtobufData();
     try {
       serviceUri = new URI("http://" + host + ':' + port + baseUrl + CUST_ENDPOINT);
     } catch(final URISyntaxException e) {
@@ -112,8 +113,8 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
    * @see com.github.vlachenal.webservice.bench.client.AbstractClientTestSuite#createCustomer(java.lang.Object, int)
    */
   @Override
-  public ClientCall createCustomer(final Customer customer, final int requestSeq) {
-    final ClientCall call = new ClientCall();
+  public ClientCall createCustomer(final Customer.Builder customer, final int requestSeq) {
+    final ClientCall.Builder call = ClientCall.newBuilder();
     call.setMethod("create");
     call.setRequestSeq(requestSeq);
     ResponseEntity<String> res = null;
@@ -121,10 +122,10 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
     try {
       final RequestEntity<Customer> req = RequestEntity.post(serviceUri)
           .accept(MediaType.TEXT_PLAIN)
-          .contentType(MediaType.APPLICATION_JSON_UTF8)
+          .contentType(ProtobufType.PROTOBUF_UTF8)
           .header("request_seq", Integer.toString(requestSeq))
           .header("mapper", mapper.toUpperCase())
-          .body(customer);
+          .body(customer.build());
       res = template.exchange(req, String.class);
     } catch(final RestClientException e) {
       call.setOk(false);
@@ -141,7 +142,7 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
         customer.setId(res.getBody());
       }
     }
-    return call;
+    return call.build();
   }
 
   /**
@@ -151,7 +152,7 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
    */
   @Override
   public ClientCall listAll(final int requestSeq) {
-    final ClientCall call = new ClientCall();
+    final ClientCall.Builder call = ClientCall.newBuilder();
     call.setMethod("list");
     call.setRequestSeq(requestSeq);
     ResponseEntity<Customer[]> res = null;
@@ -159,7 +160,7 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
     call.setClientStart(System.nanoTime());
     try {
       final RequestEntity<Void> req = RequestEntity.get(serviceUri)
-          .accept(MediaType.APPLICATION_JSON_UTF8)
+          .accept(ProtobufType.PROTOBUF_UTF8)
           .header("request_seq", Integer.toString(requestSeq))
           .header("mapper", mapper.toUpperCase())
           .build();
@@ -182,7 +183,7 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
         }
       }
     }
-    return call;
+    return call.build();
   }
 
   /**
@@ -191,8 +192,8 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
    * @see com.github.vlachenal.webservice.bench.client.AbstractClientTestSuite#getDetails(java.lang.Object, int)
    */
   @Override
-  public ClientCall getDetails(final Customer customer, final int requestSeq) {
-    final ClientCall call = new ClientCall();
+  public ClientCall getDetails(final Customer.Builder customer, final int requestSeq) {
+    final ClientCall.Builder call = ClientCall.newBuilder();
     call.setMethod("get");
     call.setRequestSeq(requestSeq);
     ResponseEntity<Customer> res = null;
@@ -200,7 +201,7 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
     call.setClientStart(System.nanoTime());
     try {
       final RequestEntity<Void> req = RequestEntity.get(detailsTemplate.expand(customer.getId()))
-          .accept(MediaType.APPLICATION_JSON_UTF8)
+          .accept(ProtobufType.PROTOBUF_UTF8)
           .header("request_seq", Integer.toString(requestSeq))
           .header("mapper", mapper.toUpperCase())
           .build();
@@ -223,7 +224,7 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
         }
       }
     }
-    return call;
+    return call.build();
   }
 
   /**
@@ -235,37 +236,38 @@ public class RESTfulClient extends AbstractClientTestSuite<Customer,ClientCall> 
   public void consolidateStats() {
     try {
       final URI uri = new URI("http://" + host + ':' + port + baseUrl + "/rest/stats");
-      final TestSuite suite = new TestSuite();
+      final TestSuite.Builder builder = TestSuite.newBuilder();
       // Gather system informations +
-      suite.setJvm(System.getProperty("java.version"));
-      suite.setVendor(System.getProperty("java.vendor"));
-      suite.setOsFamily(System.getProperty("os.name"));
-      suite.setOsVersion(System.getProperty("os.version"));
-      suite.setCpu(cpu);
-      suite.setMemory(memory);
+      builder.setJvm(System.getProperty("java.version"));
+      builder.setVendor(System.getProperty("java.vendor"));
+      builder.setOsFamily(System.getProperty("os.name"));
+      builder.setOsVersion(System.getProperty("os.version"));
+      builder.setCpu(cpu);
+      builder.setMemory(memory);
       // Gather system informations -
       // Gather test suite informations +
-      suite.setNbThread(nbThread);
-      suite.setProtocol("rest");
-      suite.setCompression(compression);
-      suite.setComment(comment);
-      suite.setCalls(calls);
+      builder.setNbThread(nbThread);
+      builder.setProtocol("protobuf");
+      builder.setCompression(compression);
+      builder.setComment(comment);
+      builder.addAllCalls(calls);
       if(mapper != null) {
         switch(mapper) {
           case "dozer":
-            suite.setMapper(Mapper.DOZER);
+            builder.setMapper(Mapper.DOZER);
             break;
           case "mapstruct":
-            suite.setMapper(Mapper.MAPSTRUCT);
+            builder.setMapper(Mapper.MAPSTRUCT);
             break;
           default:
-            suite.setMapper(Mapper.MANUAL);
+            builder.setMapper(Mapper.MANUAL);
         }
       } else {
-        suite.setMapper(Mapper.MANUAL);
+        builder.setMapper(Mapper.MANUAL);
       }
       // Gather test suite informations -
-      template.put(uri, suite);
+      template.exchange(RequestEntity.put(uri).contentType(ProtobufType.PROTOBUF_UTF8).body(builder.build()),
+                        Void.class);
       template.delete(uri);
     } catch(final URISyntaxException e) {
       LOG.error("Unable to create URI ... " + e.getMessage(), e);
