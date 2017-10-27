@@ -248,8 +248,12 @@ public class ProtobufRESTClient extends AbstractClientTestSuite<Customer.Builder
       // Gather test suite informations +
       builder.setNbThread(nbThread);
       builder.setProtocol("protobuf");
-      builder.setCompression(compression);
-      builder.setComment(comment);
+      if(compression != null) {
+        builder.setCompression(compression);
+      }
+      if(comment != null) {
+        builder.setComment(comment);
+      }
       builder.addAllCalls(calls);
       if(mapper != null) {
         switch(mapper) {

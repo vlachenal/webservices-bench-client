@@ -1,0 +1,50 @@
+[
+    {
+        "first_name": "Rosie",
+        "last_name": "Vinson",
+        "birth_date": "1951-12-05",
+        "email": "rosievinson@emtrak.com",
+        "phones": [
+            {
+                "type": "LANDLINE",
+                "number": "+1 (981) 543-3477"
+            },
+            {
+                "type": "MOBILE",
+                "number": "+1 (965) 407-3838"
+            }
+        ],
+        "address": {
+            "lines": [
+                "870 Temple Court"
+            ],
+            "zip_code": 3739,
+            "city": "Crucible",
+            "country": "Ethiopia"
+        }
+    },
+    {
+        "first_name": "Richard",
+        "last_name": "Gonzalez",
+        "birth_date": "1961-09-26",
+        "email": "richardgonzalez@emtrak.com",
+        "phones": [
+            {
+                "type": "LANDLINE",
+                "number": "+1 (935) 470-3946"
+            },
+            {
+                "type": "MOBILE",
+                "number": "+1 (942) 505-3583"
+            }
+        ],
+        "address": {
+            "lines": [
+                "388 Sedgwick Place"
+            ],
+            "zip_code": 1429,
+            "city": "Dola",
+            "country": "American Samoa"
+        }
+    }
+]

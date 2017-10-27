@@ -140,22 +140,30 @@ public class DataSet {
   public List<com.github.vlachenal.webservice.bench.protobuf.api.Customer.Builder> getProtobufData() {
     final ArrayList<com.github.vlachenal.webservice.bench.protobuf.api.Customer.Builder> customers = new ArrayList<>();
     for(final Customer customer : this.customers) {
-      final com.github.vlachenal.webservice.bench.protobuf.api.Customer.Builder cust = com.github.vlachenal.webservice.bench.protobuf.api.Customer.newBuilder();
-      cust.setFirstName(customer.getFirstName());
-      cust.setLastName(customer.getLastName());
-      cust.setBirthDate(customer.getBirthDate().getTime());
-      cust.setEmail(customer.getEmail());
-      final com.github.vlachenal.webservice.bench.protobuf.api.Customer.Address.Builder addr = com.github.vlachenal.webservice.bench.protobuf.api.Customer.Address.newBuilder();
-      addr.addAllLines(customer.getAddress().getLines());
-      addr.setZipCode(customer.getAddress().getZipCode());
-      addr.setCity(customer.getAddress().getCity());
-      addr.setCountry(customer.getAddress().getCity());
-      cust.setAddress(addr);
+      final com.github.vlachenal.webservice.bench.protobuf.api.Customer.Builder cust = com.github.vlachenal.webservice.bench.protobuf.api.Customer.newBuilder()
+          .setFirstName(customer.getFirstName())
+          .setLastName(customer.getLastName())
+          .setBirthDate(customer.getBirthDate().getTime())
+          .setEmail(customer.getEmail());
+      cust.getAddressBuilder()
+      .addAllLines(customer.getAddress().getLines())
+      .setZipCode(customer.getAddress().getZipCode())
+      .setCity(customer.getAddress().getCity())
+      .setCountry(customer.getAddress().getCity());
+      int idx = 0;
       for(final Phone phone : customer.getPhones()) {
-        final com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.Builder phon = com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.newBuilder();
-        phon.setNumber(phone.getNumber());
-        phon.setType(com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.valueOf(phone.getType().toString()));
-        cust.addPhones(phon);
+        final com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.Builder phon = cust.addPhonesBuilder(idx++)
+            .setNumber(phone.getNumber());
+        switch(phone.getType()) {
+          case LANDLINE:
+            phon.setType(com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.LANDLINE);
+            break;
+          case MOBILE:
+            phon.setType(com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.MOBILE);
+            break;
+          default:
+            phon.setType(com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.UNKNOWN);
+        }
       }
       customers.add(cust);
     }

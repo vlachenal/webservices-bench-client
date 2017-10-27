@@ -79,7 +79,7 @@ public class Application {
    * Print help
    */
   private void printHelp() {
-    LOG.info("string: protocol to use ('rest' or 'thrift' for now)");
+    LOG.info("string: protocol to use ('rest','thrift','soap' or 'protobuf' for now)");
     LOG.info("int: number of simultanous request to proccess");
     LOG.info("string (optional): HTTP compression (use null or none for no compression)");
     LOG.info("string (optional): test suite comment");

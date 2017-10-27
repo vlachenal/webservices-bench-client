@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
-import com.github.vlachenal.webservice.bench.protobuf.api.Customer;
 import com.github.vlachenal.webservice.bench.protobuf.api.ListAllResponse;
 import com.google.protobuf.util.JsonFormat;
 
@@ -32,7 +31,7 @@ public class ListAllResponseMessageConverter extends ProtobufMessageConverter<Li
    */
   @Override
   protected boolean checkClass(final Class<?> clazz) {
-    return clazz.isAssignableFrom(Customer.class);
+    return clazz.isAssignableFrom(ListAllResponse.class);
   }
 
   /**
@@ -63,8 +62,8 @@ public class ListAllResponseMessageConverter extends ProtobufMessageConverter<Li
    * @see com.github.vlachenal.webservice.bench.protobuf.ProtobufMessageConverter#writeJSON(com.google.protobuf.GeneratedMessageV3, java.io.OutputStream)
    */
   @Override
-  protected void writeJSON(final ListAllResponse customer, final OutputStream out) throws IOException {
-    JsonFormat.printer().appendTo(customer, new OutputStreamWriter(out));
+  protected void writeJSON(final ListAllResponse response, final OutputStream out) throws IOException {
+    JsonFormat.printer().appendTo(response, new OutputStreamWriter(out));
   }
   // Methods -
 

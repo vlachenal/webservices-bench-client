@@ -15,6 +15,7 @@ public  final class Customer extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:webservicebench.Customer)
     CustomerOrBuilder {
+private static final long serialVersionUID = 0L;
   // Use Customer.newBuilder() to construct.
   private Customer(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
@@ -31,7 +32,7 @@ public  final class Customer extends
   @java.lang.Override
   public final com.google.protobuf.UnknownFieldSet
   getUnknownFields() {
-    return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    return this.unknownFields;
   }
   private Customer(
       com.google.protobuf.CodedInputStream input,
@@ -39,6 +40,8 @@ public  final class Customer extends
       throws com.google.protobuf.InvalidProtocolBufferException {
     this();
     int mutable_bitField0_ = 0;
+    com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+        com.google.protobuf.UnknownFieldSet.newBuilder();
     try {
       boolean done = false;
       while (!done) {
@@ -48,7 +51,8 @@ public  final class Customer extends
             done = true;
             break;
           default: {
-            if (!input.skipField(tag)) {
+            if (!parseUnknownFieldProto3(
+                input, unknownFields, extensionRegistry, tag)) {
               done = true;
             }
             break;
@@ -115,6 +119,7 @@ public  final class Customer extends
       if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
         phones_ = java.util.Collections.unmodifiableList(phones_);
       }
+      this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
   }
@@ -235,6 +240,7 @@ public  final class Customer extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:webservicebench.Customer.Address)
       AddressOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use Address.newBuilder() to construct.
     private Address(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -249,7 +255,7 @@ public  final class Customer extends
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+      return this.unknownFields;
     }
     private Address(
         com.google.protobuf.CodedInputStream input,
@@ -257,6 +263,8 @@ public  final class Customer extends
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -266,7 +274,8 @@ public  final class Customer extends
               done = true;
               break;
             default: {
-              if (!input.skipField(tag)) {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
               break;
@@ -309,6 +318,7 @@ public  final class Customer extends
         if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
           lines_ = lines_.getUnmodifiableView();
         }
+        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -520,6 +530,7 @@ public  final class Customer extends
       if (!getCountryBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, country_);
       }
+      unknownFields.writeTo(output);
     }
 
     public int getSerializedSize() {
@@ -544,11 +555,11 @@ public  final class Customer extends
       if (!getCountryBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, country_);
       }
+      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -568,6 +579,7 @@ public  final class Customer extends
           .equals(other.getCity());
       result = result && getCountry()
           .equals(other.getCountry());
+      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -772,7 +784,7 @@ public  final class Customer extends
       }
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
+          java.lang.Object value) {
         return (Builder) super.setField(field, value);
       }
       public Builder clearField(
@@ -785,12 +797,12 @@ public  final class Customer extends
       }
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
+          int index, java.lang.Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
+          java.lang.Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -826,6 +838,7 @@ public  final class Customer extends
           country_ = other.country_;
           onChanged();
         }
+        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
@@ -1251,12 +1264,12 @@ public  final class Customer extends
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return this;
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return this;
+        return super.mergeUnknownFields(unknownFields);
       }
 
 
@@ -1304,27 +1317,10 @@ public  final class Customer extends
 
     /**
      * <pre>
-     ** Phone type 
-     * </pre>
-     *
-     * <code>.webservicebench.Customer.Phone.PhoneType type = 1;</code>
-     */
-    int getTypeValue();
-    /**
-     * <pre>
-     ** Phone type 
-     * </pre>
-     *
-     * <code>.webservicebench.Customer.Phone.PhoneType type = 1;</code>
-     */
-    com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType getType();
-
-    /**
-     * <pre>
      ** Phone number 
      * </pre>
      *
-     * <code>string number = 2;</code>
+     * <code>string number = 1;</code>
      */
     java.lang.String getNumber();
     /**
@@ -1332,10 +1328,27 @@ public  final class Customer extends
      ** Phone number 
      * </pre>
      *
-     * <code>string number = 2;</code>
+     * <code>string number = 1;</code>
      */
     com.google.protobuf.ByteString
         getNumberBytes();
+
+    /**
+     * <pre>
+     ** Phone type 
+     * </pre>
+     *
+     * <code>.webservicebench.Customer.Phone.PhoneType type = 2;</code>
+     */
+    int getTypeValue();
+    /**
+     * <pre>
+     ** Phone type 
+     * </pre>
+     *
+     * <code>.webservicebench.Customer.Phone.PhoneType type = 2;</code>
+     */
+    com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType getType();
   }
   /**
    * <pre>
@@ -1349,19 +1362,20 @@ public  final class Customer extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:webservicebench.Customer.Phone)
       PhoneOrBuilder {
+  private static final long serialVersionUID = 0L;
     // Use Phone.newBuilder() to construct.
     private Phone(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private Phone() {
-      type_ = 0;
       number_ = "";
+      type_ = 0;
     }
 
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+      return this.unknownFields;
     }
     private Phone(
         com.google.protobuf.CodedInputStream input,
@@ -1369,6 +1383,8 @@ public  final class Customer extends
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -1378,21 +1394,22 @@ public  final class Customer extends
               done = true;
               break;
             default: {
-              if (!input.skipField(tag)) {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
-            case 8: {
-              int rawValue = input.readEnum();
-
-              type_ = rawValue;
-              break;
-            }
-            case 18: {
+            case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
               number_ = s;
+              break;
+            }
+            case 16: {
+              int rawValue = input.readEnum();
+
+              type_ = rawValue;
               break;
             }
           }
@@ -1403,6 +1420,7 @@ public  final class Customer extends
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -1430,39 +1448,55 @@ public  final class Customer extends
         implements com.google.protobuf.ProtocolMessageEnum {
       /**
        * <pre>
+       ** TEST 
+       * </pre>
+       *
+       * <code>UNKNOWN = 0;</code>
+       */
+      UNKNOWN(0),
+      /**
+       * <pre>
        ** Landline phone 
        * </pre>
        *
-       * <code>LANDLINE = 0;</code>
+       * <code>LANDLINE = 1;</code>
        */
-      LANDLINE(0),
+      LANDLINE(1),
       /**
        * <pre>
        ** Mobile phone 
        * </pre>
        *
-       * <code>MOBILE = 1;</code>
+       * <code>MOBILE = 2;</code>
        */
-      MOBILE(1),
+      MOBILE(2),
       UNRECOGNIZED(-1),
       ;
 
       /**
        * <pre>
+       ** TEST 
+       * </pre>
+       *
+       * <code>UNKNOWN = 0;</code>
+       */
+      public static final int UNKNOWN_VALUE = 0;
+      /**
+       * <pre>
        ** Landline phone 
        * </pre>
        *
-       * <code>LANDLINE = 0;</code>
+       * <code>LANDLINE = 1;</code>
        */
-      public static final int LANDLINE_VALUE = 0;
+      public static final int LANDLINE_VALUE = 1;
       /**
        * <pre>
        ** Mobile phone 
        * </pre>
        *
-       * <code>MOBILE = 1;</code>
+       * <code>MOBILE = 2;</code>
        */
-      public static final int MOBILE_VALUE = 1;
+      public static final int MOBILE_VALUE = 2;
 
 
       public final int getNumber() {
@@ -1483,8 +1517,9 @@ public  final class Customer extends
 
       public static PhoneType forNumber(int value) {
         switch (value) {
-          case 0: return LANDLINE;
-          case 1: return MOBILE;
+          case 0: return UNKNOWN;
+          case 1: return LANDLINE;
+          case 2: return MOBILE;
           default: return null;
         }
       }
@@ -1537,38 +1572,14 @@ public  final class Customer extends
       // @@protoc_insertion_point(enum_scope:webservicebench.Customer.Phone.PhoneType)
     }
 
-    public static final int TYPE_FIELD_NUMBER = 1;
-    private int type_;
-    /**
-     * <pre>
-     ** Phone type 
-     * </pre>
-     *
-     * <code>.webservicebench.Customer.Phone.PhoneType type = 1;</code>
-     */
-    public int getTypeValue() {
-      return type_;
-    }
-    /**
-     * <pre>
-     ** Phone type 
-     * </pre>
-     *
-     * <code>.webservicebench.Customer.Phone.PhoneType type = 1;</code>
-     */
-    public com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType getType() {
-      com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType result = com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.valueOf(type_);
-      return result == null ? com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.UNRECOGNIZED : result;
-    }
-
-    public static final int NUMBER_FIELD_NUMBER = 2;
+    public static final int NUMBER_FIELD_NUMBER = 1;
     private volatile java.lang.Object number_;
     /**
      * <pre>
      ** Phone number 
      * </pre>
      *
-     * <code>string number = 2;</code>
+     * <code>string number = 1;</code>
      */
     public java.lang.String getNumber() {
       java.lang.Object ref = number_;
@@ -1587,7 +1598,7 @@ public  final class Customer extends
      ** Phone number 
      * </pre>
      *
-     * <code>string number = 2;</code>
+     * <code>string number = 1;</code>
      */
     public com.google.protobuf.ByteString
         getNumberBytes() {
@@ -1603,6 +1614,30 @@ public  final class Customer extends
       }
     }
 
+    public static final int TYPE_FIELD_NUMBER = 2;
+    private int type_;
+    /**
+     * <pre>
+     ** Phone type 
+     * </pre>
+     *
+     * <code>.webservicebench.Customer.Phone.PhoneType type = 2;</code>
+     */
+    public int getTypeValue() {
+      return type_;
+    }
+    /**
+     * <pre>
+     ** Phone type 
+     * </pre>
+     *
+     * <code>.webservicebench.Customer.Phone.PhoneType type = 2;</code>
+     */
+    public com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType getType() {
+      com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType result = com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.valueOf(type_);
+      return result == null ? com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1615,12 +1650,13 @@ public  final class Customer extends
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (type_ != com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.LANDLINE.getNumber()) {
-        output.writeEnum(1, type_);
-      }
       if (!getNumberBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, number_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, number_);
       }
+      if (type_ != com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.UNKNOWN.getNumber()) {
+        output.writeEnum(2, type_);
+      }
+      unknownFields.writeTo(output);
     }
 
     public int getSerializedSize() {
@@ -1628,18 +1664,18 @@ public  final class Customer extends
       if (size != -1) return size;
 
       size = 0;
-      if (type_ != com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.LANDLINE.getNumber()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, type_);
-      }
       if (!getNumberBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, number_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, number_);
       }
+      if (type_ != com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.UNKNOWN.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, type_);
+      }
+      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
-    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -1651,9 +1687,10 @@ public  final class Customer extends
       com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone other = (com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone) obj;
 
       boolean result = true;
-      result = result && type_ == other.type_;
       result = result && getNumber()
           .equals(other.getNumber());
+      result = result && type_ == other.type_;
+      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -1664,10 +1701,10 @@ public  final class Customer extends
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + TYPE_FIELD_NUMBER;
-      hash = (53 * hash) + type_;
       hash = (37 * hash) + NUMBER_FIELD_NUMBER;
       hash = (53 * hash) + getNumber().hashCode();
+      hash = (37 * hash) + TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + type_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1802,9 +1839,9 @@ public  final class Customer extends
       }
       public Builder clear() {
         super.clear();
-        type_ = 0;
-
         number_ = "";
+
+        type_ = 0;
 
         return this;
       }
@@ -1828,8 +1865,8 @@ public  final class Customer extends
 
       public com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone buildPartial() {
         com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone result = new com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone(this);
-        result.type_ = type_;
         result.number_ = number_;
+        result.type_ = type_;
         onBuilt();
         return result;
       }
@@ -1839,7 +1876,7 @@ public  final class Customer extends
       }
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
+          java.lang.Object value) {
         return (Builder) super.setField(field, value);
       }
       public Builder clearField(
@@ -1852,12 +1889,12 @@ public  final class Customer extends
       }
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
+          int index, java.lang.Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
+          java.lang.Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -1871,13 +1908,14 @@ public  final class Customer extends
 
       public Builder mergeFrom(com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone other) {
         if (other == com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.getDefaultInstance()) return this;
-        if (other.type_ != 0) {
-          setTypeValue(other.getTypeValue());
-        }
         if (!other.getNumber().isEmpty()) {
           number_ = other.number_;
           onChanged();
         }
+        if (other.type_ != 0) {
+          setTypeValue(other.getTypeValue());
+        }
+        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
@@ -1904,77 +1942,13 @@ public  final class Customer extends
         return this;
       }
 
-      private int type_ = 0;
-      /**
-       * <pre>
-       ** Phone type 
-       * </pre>
-       *
-       * <code>.webservicebench.Customer.Phone.PhoneType type = 1;</code>
-       */
-      public int getTypeValue() {
-        return type_;
-      }
-      /**
-       * <pre>
-       ** Phone type 
-       * </pre>
-       *
-       * <code>.webservicebench.Customer.Phone.PhoneType type = 1;</code>
-       */
-      public Builder setTypeValue(int value) {
-        type_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       ** Phone type 
-       * </pre>
-       *
-       * <code>.webservicebench.Customer.Phone.PhoneType type = 1;</code>
-       */
-      public com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType getType() {
-        com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType result = com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.valueOf(type_);
-        return result == null ? com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.UNRECOGNIZED : result;
-      }
-      /**
-       * <pre>
-       ** Phone type 
-       * </pre>
-       *
-       * <code>.webservicebench.Customer.Phone.PhoneType type = 1;</code>
-       */
-      public Builder setType(com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        
-        type_ = value.getNumber();
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       ** Phone type 
-       * </pre>
-       *
-       * <code>.webservicebench.Customer.Phone.PhoneType type = 1;</code>
-       */
-      public Builder clearType() {
-        
-        type_ = 0;
-        onChanged();
-        return this;
-      }
-
       private java.lang.Object number_ = "";
       /**
        * <pre>
        ** Phone number 
        * </pre>
        *
-       * <code>string number = 2;</code>
+       * <code>string number = 1;</code>
        */
       public java.lang.String getNumber() {
         java.lang.Object ref = number_;
@@ -1993,7 +1967,7 @@ public  final class Customer extends
        ** Phone number 
        * </pre>
        *
-       * <code>string number = 2;</code>
+       * <code>string number = 1;</code>
        */
       public com.google.protobuf.ByteString
           getNumberBytes() {
@@ -2013,7 +1987,7 @@ public  final class Customer extends
        ** Phone number 
        * </pre>
        *
-       * <code>string number = 2;</code>
+       * <code>string number = 1;</code>
        */
       public Builder setNumber(
           java.lang.String value) {
@@ -2030,7 +2004,7 @@ public  final class Customer extends
        ** Phone number 
        * </pre>
        *
-       * <code>string number = 2;</code>
+       * <code>string number = 1;</code>
        */
       public Builder clearNumber() {
         
@@ -2043,7 +2017,7 @@ public  final class Customer extends
        ** Phone number 
        * </pre>
        *
-       * <code>string number = 2;</code>
+       * <code>string number = 1;</code>
        */
       public Builder setNumberBytes(
           com.google.protobuf.ByteString value) {
@@ -2056,14 +2030,78 @@ public  final class Customer extends
         onChanged();
         return this;
       }
+
+      private int type_ = 0;
+      /**
+       * <pre>
+       ** Phone type 
+       * </pre>
+       *
+       * <code>.webservicebench.Customer.Phone.PhoneType type = 2;</code>
+       */
+      public int getTypeValue() {
+        return type_;
+      }
+      /**
+       * <pre>
+       ** Phone type 
+       * </pre>
+       *
+       * <code>.webservicebench.Customer.Phone.PhoneType type = 2;</code>
+       */
+      public Builder setTypeValue(int value) {
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       ** Phone type 
+       * </pre>
+       *
+       * <code>.webservicebench.Customer.Phone.PhoneType type = 2;</code>
+       */
+      public com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType getType() {
+        com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType result = com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.valueOf(type_);
+        return result == null ? com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.UNRECOGNIZED : result;
+      }
+      /**
+       * <pre>
+       ** Phone type 
+       * </pre>
+       *
+       * <code>.webservicebench.Customer.Phone.PhoneType type = 2;</code>
+       */
+      public Builder setType(com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        type_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       ** Phone type 
+       * </pre>
+       *
+       * <code>.webservicebench.Customer.Phone.PhoneType type = 2;</code>
+       */
+      public Builder clearType() {
+        
+        type_ = 0;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return this;
+        return super.setUnknownFieldsProto3(unknownFields);
       }
 
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return this;
+        return super.mergeUnknownFields(unknownFields);
       }
 
 
@@ -2408,6 +2446,7 @@ public  final class Customer extends
     for (int i = 0; i < phones_.size(); i++) {
       output.writeMessage(7, phones_.get(i));
     }
+    unknownFields.writeTo(output);
   }
 
   public int getSerializedSize() {
@@ -2439,11 +2478,11 @@ public  final class Customer extends
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(7, phones_.get(i));
     }
+    size += unknownFields.getSerializedSize();
     memoizedSize = size;
     return size;
   }
 
-  private static final long serialVersionUID = 0L;
   @java.lang.Override
   public boolean equals(final java.lang.Object obj) {
     if (obj == this) {
@@ -2472,6 +2511,7 @@ public  final class Customer extends
     }
     result = result && getPhonesList()
         .equals(other.getPhonesList());
+    result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
 
@@ -2711,7 +2751,7 @@ public  final class Customer extends
     }
     public Builder setField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
-        Object value) {
+        java.lang.Object value) {
       return (Builder) super.setField(field, value);
     }
     public Builder clearField(
@@ -2724,12 +2764,12 @@ public  final class Customer extends
     }
     public Builder setRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
-        int index, Object value) {
+        int index, java.lang.Object value) {
       return (Builder) super.setRepeatedField(field, index, value);
     }
     public Builder addRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
-        Object value) {
+        java.lang.Object value) {
       return (Builder) super.addRepeatedField(field, value);
     }
     public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -2791,6 +2831,7 @@ public  final class Customer extends
           }
         }
       }
+      this.mergeUnknownFields(other.unknownFields);
       onChanged();
       return this;
     }
@@ -3678,12 +3719,12 @@ public  final class Customer extends
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return this;
+      return super.setUnknownFieldsProto3(unknownFields);
     }
 
     public final Builder mergeUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return this;
+      return super.mergeUnknownFields(unknownFields);
     }
 
 

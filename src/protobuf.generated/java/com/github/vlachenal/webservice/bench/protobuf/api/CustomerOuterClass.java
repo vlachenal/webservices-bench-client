@@ -53,32 +53,33 @@ public final class CustomerOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\016customer.proto\022\017webservicebench\"\205\003\n\010Cu" +
+      "\n\016customer.proto\022\017webservicebench\"\223\003\n\010Cu" +
       "stomer\022\n\n\002id\030\001 \001(\t\022\021\n\tfirstName\030\002 \001(\t\022\020\n" +
       "\010lastName\030\003 \001(\t\022\021\n\tbirthDate\030\004 \001(\003\022\r\n\005em" +
       "ail\030\005 \001(\t\0222\n\007address\030\006 \001(\0132!.webserviceb" +
       "ench.Customer.Address\022/\n\006phones\030\007 \003(\0132\037." +
       "webservicebench.Customer.Phone\032H\n\007Addres" +
       "s\022\r\n\005lines\030\001 \003(\t\022\017\n\007zipCode\030\002 \001(\t\022\014\n\004cit" +
-      "y\030\003 \001(\t\022\017\n\007country\030\004 \001(\t\032w\n\005Phone\0227\n\004typ" +
-      "e\030\001 \001(\0162).webservicebench.Customer.Phone" +
-      ".PhoneType\022\016\n\006number\030\002 \001(\t\"%\n\tPhoneType\022",
-      "\014\n\010LANDLINE\020\000\022\n\n\006MOBILE\020\001\"?\n\017ListAllResp" +
-      "onse\022,\n\tcustomers\030\001 \003(\0132\031.webservicebenc" +
-      "h.Customer\"\250\003\n\tTestSuite\022\n\n\002id\030\001 \001(\t\022\020\n\010" +
-      "nbThread\030\002 \001(\005\022\023\n\013compression\030\003 \001(\t\022\013\n\003c" +
-      "pu\030\004 \001(\t\022\016\n\006memory\030\005 \001(\t\022\013\n\003jvm\030\006 \001(\t\022\016\n" +
-      "\006vendor\030\007 \001(\t\022\020\n\010osFamily\030\010 \001(\t\022\021\n\tosVer" +
-      "sion\030\t \001(\t\022\020\n\010protocol\030\n \001(\t\022\017\n\007comment\030" +
-      "\013 \001(\t\0224\n\005calls\030\014 \003(\0132%.webservicebench.T" +
-      "estSuite.ClientCall\022\'\n\006mapper\030\r \001(\0162\027.we" +
-      "bservicebench.Mapper\032\206\001\n\nClientCall\022\022\n\nr",
-      "equestSeq\030\001 \001(\005\022\020\n\010protocol\030\002 \001(\t\022\016\n\006met" +
-      "hod\030\003 \001(\t\022\023\n\013clientStart\030\004 \001(\003\022\021\n\tclient" +
-      "End\030\005 \001(\003\022\n\n\002ok\030\006 \001(\010\022\016\n\006errMsg\030\007 \001(\t*.\n" +
-      "\006Mapper\022\n\n\006MANUAL\020\000\022\t\n\005DOZER\020\001\022\r\n\tMAPSTR" +
-      "UCT\020\002B6\n2com.github.vlachenal.webservice" +
-      ".bench.protobuf.apiP\001b\006proto3"
+      "y\030\003 \001(\t\022\017\n\007country\030\004 \001(\t\032\204\001\n\005Phone\022\016\n\006nu" +
+      "mber\030\001 \001(\t\0227\n\004type\030\002 \001(\0162).webserviceben" +
+      "ch.Customer.Phone.PhoneType\"2\n\tPhoneType",
+      "\022\013\n\007UNKNOWN\020\000\022\014\n\010LANDLINE\020\001\022\n\n\006MOBILE\020\002\"" +
+      "?\n\017ListAllResponse\022,\n\tcustomers\030\001 \003(\0132\031." +
+      "webservicebench.Customer\"\250\003\n\tTestSuite\022\n" +
+      "\n\002id\030\001 \001(\t\022\020\n\010nbThread\030\002 \001(\005\022\023\n\013compress" +
+      "ion\030\003 \001(\t\022\013\n\003cpu\030\004 \001(\t\022\016\n\006memory\030\005 \001(\t\022\013" +
+      "\n\003jvm\030\006 \001(\t\022\016\n\006vendor\030\007 \001(\t\022\020\n\010osFamily\030" +
+      "\010 \001(\t\022\021\n\tosVersion\030\t \001(\t\022\020\n\010protocol\030\n \001" +
+      "(\t\022\017\n\007comment\030\013 \001(\t\0224\n\005calls\030\014 \003(\0132%.web" +
+      "servicebench.TestSuite.ClientCall\022\'\n\006map" +
+      "per\030\r \001(\0162\027.webservicebench.Mapper\032\206\001\n\nC",
+      "lientCall\022\022\n\nrequestSeq\030\001 \001(\005\022\020\n\010protoco" +
+      "l\030\002 \001(\t\022\016\n\006method\030\003 \001(\t\022\023\n\013clientStart\030\004" +
+      " \001(\003\022\021\n\tclientEnd\030\005 \001(\003\022\n\n\002ok\030\006 \001(\010\022\016\n\006e" +
+      "rrMsg\030\007 \001(\t*.\n\006Mapper\022\n\n\006MANUAL\020\000\022\t\n\005DOZ" +
+      "ER\020\001\022\r\n\tMAPSTRUCT\020\002B6\n2com.github.vlache" +
+      "nal.webservice.bench.protobuf.apiP\001b\006pro" +
+      "to3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -109,7 +110,7 @@ public final class CustomerOuterClass {
     internal_static_webservicebench_Customer_Phone_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_webservicebench_Customer_Phone_descriptor,
-        new java.lang.String[] { "Type", "Number", });
+        new java.lang.String[] { "Number", "Type", });
     internal_static_webservicebench_ListAllResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_webservicebench_ListAllResponse_fieldAccessorTable = new
