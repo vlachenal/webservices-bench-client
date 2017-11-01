@@ -8,6 +8,7 @@ package com.github.vlachenal.webservice.bench.client.protobuf.api;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ import org.springframework.web.util.UriTemplate;
 import com.github.vlachenal.webservice.bench.client.AbstractClientTestSuite;
 import com.github.vlachenal.webservice.bench.client.protobuf.ProtobufType;
 import com.github.vlachenal.webservice.bench.protobuf.api.Customer;
+import com.github.vlachenal.webservice.bench.protobuf.api.ListAllResponse;
 import com.github.vlachenal.webservice.bench.protobuf.api.Mapper;
 import com.github.vlachenal.webservice.bench.protobuf.api.TestSuite;
 import com.github.vlachenal.webservice.bench.protobuf.api.TestSuite.ClientCall;
@@ -117,6 +119,7 @@ public class ProtobufRESTClient extends AbstractClientTestSuite<Customer.Builder
     final ClientCall.Builder call = ClientCall.newBuilder();
     call.setMethod("create");
     call.setRequestSeq(requestSeq);
+    call.setProtocol("protobuf");
     ResponseEntity<String> res = null;
     call.setClientStart(System.nanoTime());
     try {
@@ -155,8 +158,9 @@ public class ProtobufRESTClient extends AbstractClientTestSuite<Customer.Builder
     final ClientCall.Builder call = ClientCall.newBuilder();
     call.setMethod("list");
     call.setRequestSeq(requestSeq);
-    ResponseEntity<Customer[]> res = null;
-    Customer[] customers = null;
+    call.setProtocol("protobuf");
+    ResponseEntity<ListAllResponse> res = null;
+    List<Customer> customers = null;
     call.setClientStart(System.nanoTime());
     try {
       final RequestEntity<Void> req = RequestEntity.get(serviceUri)
@@ -164,7 +168,7 @@ public class ProtobufRESTClient extends AbstractClientTestSuite<Customer.Builder
           .header("request_seq", Integer.toString(requestSeq))
           .header("mapper", mapper.toUpperCase())
           .build();
-      res = template.exchange(req, Customer[].class);
+      res = template.exchange(req, ListAllResponse.class);
     } catch(final RestClientException e) {
       call.setOk(false);
       call.setErrMsg(e.getMessage());
@@ -177,9 +181,9 @@ public class ProtobufRESTClient extends AbstractClientTestSuite<Customer.Builder
         call.setErrMsg("<" + res.getStatusCodeValue() + "> " + res.getBody());
       } else {
         call.setOk(true);
-        customers = res.getBody();
-        if(customers.length != this.customers.size()) {
-          LOG.warn("Customers size should be " + this.customers.size() + " instead of " + customers.length);
+        customers = res.getBody().getCustomersList();
+        if(customers == null || customers.size() != this.customers.size()) {
+          LOG.warn("Customers size should be " + this.customers.size() + " instead of " + customers.size());
         }
       }
     }
@@ -196,6 +200,7 @@ public class ProtobufRESTClient extends AbstractClientTestSuite<Customer.Builder
     final ClientCall.Builder call = ClientCall.newBuilder();
     call.setMethod("get");
     call.setRequestSeq(requestSeq);
+    call.setProtocol("protobuf");
     ResponseEntity<Customer> res = null;
     Customer cust = null;
     call.setClientStart(System.nanoTime());
@@ -235,7 +240,7 @@ public class ProtobufRESTClient extends AbstractClientTestSuite<Customer.Builder
   @Override
   public void consolidateStats() {
     try {
-      final URI uri = new URI("http://" + host + ':' + port + baseUrl + "/rest/stats");
+      final URI uri = new URI("http://" + host + ':' + port + baseUrl + "/protobuf/stats");
       final TestSuite.Builder builder = TestSuite.newBuilder();
       // Gather system informations +
       builder.setJvm(System.getProperty("java.version"));

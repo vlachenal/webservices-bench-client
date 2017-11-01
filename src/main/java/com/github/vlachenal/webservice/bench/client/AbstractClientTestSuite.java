@@ -138,7 +138,7 @@ public abstract class AbstractClientTestSuite<T,C> {
     // Customer creations +
     {
       LOG.info("Customers creation");
-      final AtomicInteger seq = new AtomicInteger(0);
+      final AtomicInteger seq = new AtomicInteger(1);
       final BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
       final PausableThreadPoolExecutor threadPool = new PausableThreadPoolExecutor(nbThread, customers.size(), 10000, TimeUnit.SECONDS, tasks);
       threadPool.prestartAllCoreThreads();
@@ -167,7 +167,7 @@ public abstract class AbstractClientTestSuite<T,C> {
     // List all +
     {
       LOG.info("List all");
-      final AtomicInteger seq = new AtomicInteger(0);
+      final AtomicInteger seq = new AtomicInteger(1);
       final BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
       final PausableThreadPoolExecutor threadPool = new PausableThreadPoolExecutor(nbThread, customers.size(), 10000, TimeUnit.SECONDS, tasks);
       threadPool.prestartAllCoreThreads();
@@ -196,7 +196,7 @@ public abstract class AbstractClientTestSuite<T,C> {
     // Get details +
     {
       LOG.info("Get details");
-      final AtomicInteger seq = new AtomicInteger(0);
+      final AtomicInteger seq = new AtomicInteger(1);
       final BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
       final PausableThreadPoolExecutor threadPool = new PausableThreadPoolExecutor(nbThread, customers.size(), 10000, TimeUnit.SECONDS, tasks);
       threadPool.prestartAllCoreThreads();

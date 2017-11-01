@@ -32,6 +32,16 @@ public class ProtobufMessageConverterConfig {
   public ListAllResponseMessageConverter protobufListAllResponseConverter() {
     return new ListAllResponseMessageConverter();
   }
+
+  /**
+   * Protocol buffer test suite message converter
+   *
+   * @return the message converter
+   */
+  @Bean
+  public TestSuiteMessageConverter protobufTestSuiteConverter() {
+    return new TestSuiteMessageConverter();
+  }
   // Methods -
 
 }

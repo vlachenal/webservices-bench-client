@@ -130,6 +130,7 @@ public abstract class ProtobufMessageConverter<T extends GeneratedMessageV3> imp
    */
   @Override
   public void write(final T message, final MediaType contentType, final HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
+    outputMessage.getHeaders().setContentType(contentType);
     if(MediaType.APPLICATION_JSON_UTF8.equals(contentType)) {
       writeJSON(message, outputMessage.getBody());
     } else if(ProtobufType.PROTOBUF.includes(contentType)) {
