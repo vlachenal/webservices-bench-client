@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 
 import com.github.vlachenal.webservice.bench.protobuf.api.TestSuite;
 import com.google.protobuf.util.JsonFormat;
@@ -63,7 +62,7 @@ public class TestSuiteMessageConverter extends ProtobufMessageConverter<TestSuit
    */
   @Override
   protected void writeJSON(final TestSuite tests, final OutputStream out) throws IOException {
-    JsonFormat.printer().appendTo(tests, new OutputStreamWriter(out));
+    out.write(JsonFormat.printer().print(tests).getBytes());
   }
   // Methods -
 

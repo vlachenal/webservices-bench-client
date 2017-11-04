@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 
 import com.github.vlachenal.webservice.bench.protobuf.api.ListAllResponse;
 import com.google.protobuf.util.JsonFormat;
@@ -63,7 +62,7 @@ public class ListAllResponseMessageConverter extends ProtobufMessageConverter<Li
    */
   @Override
   protected void writeJSON(final ListAllResponse response, final OutputStream out) throws IOException {
-    JsonFormat.printer().appendTo(response, new OutputStreamWriter(out));
+    out.write(JsonFormat.printer().print(response).getBytes());
   }
   // Methods -
 

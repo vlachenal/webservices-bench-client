@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 
 import com.github.vlachenal.webservice.bench.protobuf.api.Customer;
 import com.google.protobuf.util.JsonFormat;
@@ -63,7 +62,7 @@ public class CustomerMessageConverter extends ProtobufMessageConverter<Customer>
    */
   @Override
   protected void writeJSON(final Customer customer, final OutputStream out) throws IOException {
-    JsonFormat.printer().appendTo(customer, new OutputStreamWriter(out));
+    out.write(JsonFormat.printer().print(customer).getBytes());
   }
   // Methods -
 
