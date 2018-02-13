@@ -44,7 +44,7 @@ public abstract class AbstractClientTestSuite<T,C> {
   @Value("${cpu}")
   protected String cpu;
 
-  /** CPU */
+  /** Memory */
   @Value("${memory}")
   protected String memory;
 
@@ -99,7 +99,7 @@ public abstract class AbstractClientTestSuite<T,C> {
   public abstract C listAll(int requestSeq);
 
   /**
-   * List all customers
+   * Get customer details
    *
    * @param requestSeq the request sequence
    * @param customerthe customer customer

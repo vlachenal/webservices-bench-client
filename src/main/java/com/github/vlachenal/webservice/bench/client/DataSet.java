@@ -92,6 +92,13 @@ public class DataSet {
         cust.addToPhones(phon);
       }
       customers.add(cust);
+      /*try(final FileOutputStream fos = new FileOutputStream(System.getProperty("user.home") + "/dataset.json", true)) {
+        final TSerializer serializer = new TSerializer(new TJSONProtocol.Factory());
+        fos.write(serializer.serialize(cust));
+        fos.write('\n');
+      } catch(final Exception e) {
+        System.err.println("Unable to write Thrift structure: " + e.getMessage());
+      }*/
     }
     return customers;
   }

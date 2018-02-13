@@ -235,7 +235,7 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     //      return res;
     //    }).apply(CustomerService.Client::get, req);
     try {
-      //      cust = new CustomerFunction<GetRequest, Customer>().apply(CustomerService.Client::get, req);
+      //cust = new CustomerFunction<GetRequest, Customer>().apply(CustomerService.Client::get, req);
       client = customerClientPool.borrowObject();
       cust = client.get(req);
       call.setOk(true);
@@ -317,8 +317,21 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
 
 
   // Classes +
+  /**
+   * Customer service function
+   *
+   * @param <U> the request type
+   * @param <R> the response type
+   *
+   * @author Vincent Lachenal
+   */
   public class CustomerFunction<U,R> implements BiFunction<CustomerCall<U,R>,U,R> {
 
+    /**
+     * {@inheritDoc}
+     *
+     * @see java.util.function.BiFunction#apply(java.lang.Object, java.lang.Object)
+     */
     @Override
     public R apply(final CustomerCall<U,R> t, final U u) {
       R r = null;
@@ -327,6 +340,9 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
       try {
         client = customerClientPool.borrowObject();
         r = t.call(client, u);
+        isOK = true;
+      } catch(final CustomerException e) {
+        LOG.error(e.getMessage(), e);
         isOK = true;
       } catch(final Exception e) {
         LOG.error(e.getMessage(), e);
@@ -338,6 +354,14 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
 
   }
 
+  /**
+   * Customer call
+   *
+   * @param <T> the request type
+   * @param <R> the response type
+   *
+   * @author Vincent Lachenal
+   */
   @FunctionalInterface
   public interface CustomerCall<T,R> {
     R call(CustomerService.Client client, T t) throws CustomerException, TException;

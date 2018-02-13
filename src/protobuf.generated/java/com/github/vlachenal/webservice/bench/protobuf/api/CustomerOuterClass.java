@@ -62,7 +62,7 @@ public final class CustomerOuterClass {
       "s\022\r\n\005lines\030\001 \003(\t\022\017\n\007zipCode\030\002 \001(\t\022\014\n\004cit" +
       "y\030\003 \001(\t\022\017\n\007country\030\004 \001(\t\032\204\001\n\005Phone\022\016\n\006nu" +
       "mber\030\001 \001(\t\0227\n\004type\030\002 \001(\0162).webserviceben" +
-      "ch.Customer.Phone.PhoneType\"2\n\tPhoneType",
+      "ch.Customer.Phone.PhoneType\"2\n\tPhoneType" +
       "\022\013\n\007UNKNOWN\020\000\022\014\n\010LANDLINE\020\001\022\n\n\006MOBILE\020\002\"" +
       "?\n\017ListAllResponse\022,\n\tcustomers\030\001 \003(\0132\031." +
       "webservicebench.Customer\"\250\003\n\tTestSuite\022\n" +
@@ -72,7 +72,7 @@ public final class CustomerOuterClass {
       "\010 \001(\t\022\021\n\tosVersion\030\t \001(\t\022\020\n\010protocol\030\n \001" +
       "(\t\022\017\n\007comment\030\013 \001(\t\0224\n\005calls\030\014 \003(\0132%.web" +
       "servicebench.TestSuite.ClientCall\022\'\n\006map" +
-      "per\030\r \001(\0162\027.webservicebench.Mapper\032\206\001\n\nC",
+      "per\030\r \001(\0162\027.webservicebench.Mapper\032\206\001\n\nC" +
       "lientCall\022\022\n\nrequestSeq\030\001 \001(\005\022\020\n\010protoco" +
       "l\030\002 \001(\t\022\016\n\006method\030\003 \001(\t\022\023\n\013clientStart\030\004" +
       " \001(\003\022\021\n\tclientEnd\030\005 \001(\003\022\n\n\002ok\030\006 \001(\010\022\016\n\006e" +
