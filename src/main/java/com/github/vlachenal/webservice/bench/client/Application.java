@@ -90,6 +90,9 @@ public class Application {
    * Run client
    *
    * @param restTemplate the REST template to use
+   * @param thriftClient the Thrift test suite to use
+   * @param soapClient the SOAP test suite to use
+   * @param protobufClient the Protocol Buffer test suite to use
    *
    * @return the command line runner
    *
