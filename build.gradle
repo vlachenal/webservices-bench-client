@@ -1,10 +1,13 @@
 buildscript {
+    ext {
+        springBootVersion = '2.0.0.RELEASE'
+    }
     repositories {
         jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.10.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
 
@@ -12,20 +15,21 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
-bootRepackage {
+/*bootJar {
     mainClass = 'com.github.vlachenal.webservice.bench.client.Application'
-}
+}*/
 
 repositories {
     mavenCentral()
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 9
+targetCompatibility = 9
 
 allprojects {
-    sourceCompatibility = 1.8
+    sourceCompatibility = 9
     eclipse.project {
         natures 'org.eclipse.buildship.core.gradleprojectnature'
     }
@@ -64,6 +68,8 @@ dependencies {
     // Protocol buffer
     compile 'com.google.protobuf:protobuf-java:3.5.1'
     compile 'com.google.protobuf:protobuf-java-util:3.5.1'
+    // JAXB
+    compile "javax.xml.bind:jaxb-api:2.3.0"
     testCompile("junit:junit")
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

@@ -299,18 +299,13 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     final GenericObjectPoolConfig config = new GenericObjectPoolConfig();
     config.setMaxTotal(1);
     config.setMaxIdle(1);
-    final TServiceClientPool<StatsService.Client> pool = new TServiceClientPool<>(clientFactory, config);
-    StatsService.Client client = null;
-    try {
-      client = pool.borrowObject();
+    try(TServiceClientPool<StatsService.Client> pool = new TServiceClientPool<>(clientFactory, config)) {
+      final StatsService.Client client = pool.borrowObject();
       client.consolidate(suite);
       client.purge();
+      pool.returnObject(client);
     } catch(final Exception e) {
       LOG.error("Unable to consolidate statistics: " + e.getMessage(), e);
-    } finally {
-      if(client != null) {
-        pool.returnObject(client);
-      }
     }
   }
   // Methods -
