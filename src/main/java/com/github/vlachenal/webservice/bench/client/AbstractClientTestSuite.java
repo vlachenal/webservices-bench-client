@@ -33,7 +33,7 @@ import org.springframework.beans.factory.annotation.Value;
 public abstract class AbstractClientTestSuite<T,C> {
 
   // Attributes +
-  /** {@link AbstractClientTestSuite logger instance */
+  /** {@link AbstractClientTestSuite} logger instance */
   private static final Logger LOG = LoggerFactory.getLogger(AbstractClientTestSuite.class);
 
   /** Data set */

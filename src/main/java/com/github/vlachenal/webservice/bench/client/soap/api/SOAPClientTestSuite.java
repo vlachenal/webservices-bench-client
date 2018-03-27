@@ -27,7 +27,7 @@ import com.github.vlachenal.webservice.bench.client.AbstractClientTestSuite;
 public class SOAPClientTestSuite extends AbstractClientTestSuite<Customer, ClientCall> {
 
   // Attributes +
-  /** {@link SOAPClientTestSuite logger instance */
+  /** {@link SOAPClientTestSuite} logger instance */
   private static final Logger LOG = LoggerFactory.getLogger(SOAPClientTestSuite.class);
 
   /** SOAP customer client */

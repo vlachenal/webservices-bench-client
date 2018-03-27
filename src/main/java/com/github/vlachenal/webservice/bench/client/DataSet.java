@@ -83,7 +83,7 @@ public class DataSet {
       }
       addr.setZipCode(customer.getAddress().getZipCode());
       addr.setCity(customer.getAddress().getCity());
-      addr.setCountry(customer.getAddress().getCity());
+      addr.setCountry(customer.getAddress().getCountry());
       cust.setAddress(addr);
       for(final Phone phone : customer.getPhones()) {
         final com.github.vlachenal.webservice.bench.thrift.api.Phone phon = new com.github.vlachenal.webservice.bench.thrift.api.Phone();
@@ -126,7 +126,7 @@ public class DataSet {
       }
       addr.setZipCode(customer.getAddress().getZipCode());
       addr.setCity(customer.getAddress().getCity());
-      addr.setCountry(customer.getAddress().getCity());
+      addr.setCountry(customer.getAddress().getCountry());
       cust.setAddress(addr);
       for(final Phone phone : customer.getPhones()) {
         final com.github.vlachenal.webservice.bench.client.soap.api.Phone phon = new com.github.vlachenal.webservice.bench.client.soap.api.Phone();
@@ -156,7 +156,7 @@ public class DataSet {
       .addAllLines(customer.getAddress().getLines())
       .setZipCode(customer.getAddress().getZipCode())
       .setCity(customer.getAddress().getCity())
-      .setCountry(customer.getAddress().getCity());
+      .setCountry(customer.getAddress().getCountry());
       int idx = 0;
       for(final Phone phone : customer.getPhones()) {
         final com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.Builder phon = cust.addPhonesBuilder(idx++)

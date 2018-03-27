@@ -41,7 +41,7 @@ import com.github.vlachenal.webservice.bench.thrift.api.TestSuite;
 public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, ClientCall> {
 
   // Attributes +
-  /** {@link ThriftClientTestSuite logger instance */
+  /** {@link ThriftClientTestSuite} logger instance */
   private static final Logger LOG = LoggerFactory.getLogger(ThriftClientTestSuite.class);
 
   /** Thrift customer endpoint */
