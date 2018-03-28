@@ -37,7 +37,7 @@ import com.github.vlachenal.webservice.bench.thrift.api.Customer;
 public class ThriftClientTest {
 
   // Attributes +
-  /** {@link ThriftClientTest logger instance */
+  /** {@link ThriftClientTest} logger instance */
   private static final Logger LOG = LoggerFactory.getLogger(ThriftClientTest.class);
 
   /** Thrift client */

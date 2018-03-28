@@ -47,7 +47,7 @@ import com.github.vlachenal.webservice.bench.protobuf.api.TestSuite.ClientCall;
 public class ProtobufRESTClientTest {
 
   // Attributes +
-  /** {@link ProtobufRESTClientTest logger instance */
+  /** {@link ProtobufRESTClientTest} logger instance */
   private static final Logger LOG = LoggerFactory.getLogger(ProtobufRESTClientTest.class);
 
   /** Protobuf client */

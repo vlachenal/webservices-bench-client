@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.github.vlachenal.webservice.bench.client.ApplicationTest;
 import com.github.vlachenal.webservice.bench.client.DataSet;
-import com.github.vlachenal.webservice.bench.client.rest.api.RESTfulClient;
 import com.github.vlachenal.webservice.bench.client.utils.ApplicationProfiles;
 
 
@@ -37,7 +36,7 @@ import com.github.vlachenal.webservice.bench.client.utils.ApplicationProfiles;
 public class RESTfulClientTest {
 
   // Attributes +
-  /** {@link RESTfulClientTest logger instance */
+  /** {@link RESTfulClientTest} logger instance */
   private static final Logger LOG = LoggerFactory.getLogger(RESTfulClientTest.class);
 
   /** RESTfull client */
