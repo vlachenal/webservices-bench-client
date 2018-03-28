@@ -19,8 +19,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.vlachenal.webservice.bench.client.rest.api.bean.Customer;
-import com.github.vlachenal.webservice.bench.client.rest.api.bean.Phone;
+import com.github.vlachenal.webservice.bench.client.rest.api.dto.Customer;
+import com.github.vlachenal.webservice.bench.client.rest.api.dto.Phone;
 import com.github.vlachenal.webservice.bench.thrift.api.Address;
 import com.github.vlachenal.webservice.bench.thrift.api.PhoneType;
 

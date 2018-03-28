@@ -22,10 +22,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriTemplate;
 
 import com.github.vlachenal.webservice.bench.client.AbstractClientTestSuite;
-import com.github.vlachenal.webservice.bench.client.rest.api.bean.ClientCall;
-import com.github.vlachenal.webservice.bench.client.rest.api.bean.Customer;
-import com.github.vlachenal.webservice.bench.client.rest.api.bean.Mapper;
-import com.github.vlachenal.webservice.bench.client.rest.api.bean.TestSuite;
+import com.github.vlachenal.webservice.bench.client.rest.api.dto.ClientCall;
+import com.github.vlachenal.webservice.bench.client.rest.api.dto.Customer;
+import com.github.vlachenal.webservice.bench.client.rest.api.dto.Mapper;
+import com.github.vlachenal.webservice.bench.client.rest.api.dto.TestSuite;
 
 
 /**
