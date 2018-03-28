@@ -10,7 +10,7 @@ I tried to make calls in the same way for the different APIs (REST and Thrift fo
 
 ## Usage
 To compile project:
- * Run 'bootRepackage' Gradle task
+ * Run 'bootJar' Gradle task
  * To launch one run:
      * Go to build/libs directory
      * Run java -jar webservices-bench-client-\<version\>.jar \<protocol\> \<number of threads\>
