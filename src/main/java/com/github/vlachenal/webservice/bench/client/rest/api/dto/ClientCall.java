@@ -9,7 +9,7 @@ package com.github.vlachenal.webservice.bench.client.rest.api.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Client call bean
+ * Client call
  *
  * @author Vincent Lachenal
  */

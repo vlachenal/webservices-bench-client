@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 /**
- * Customer bean
+ * Customer
  *
  * @author Vincent Lachenal
  */

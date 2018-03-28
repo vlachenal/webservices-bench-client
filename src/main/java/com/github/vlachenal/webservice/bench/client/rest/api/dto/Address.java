@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 /**
- * Address bean
+ * Address
  *
  * @author Vincent Lachenal
  */

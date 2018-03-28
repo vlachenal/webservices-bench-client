@@ -7,7 +7,7 @@
 package com.github.vlachenal.webservice.bench.client.rest.api.dto;
 
 /**
- * Phone number bean
+ * Phone number
  *
  * @author Vincent Lachenal
  */
