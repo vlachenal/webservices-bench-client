@@ -137,7 +137,7 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     final ClientCall call = new ClientCall();
     call.setMethod("create");
     call.setRequestSeq(requestSeq);
-    final String id = call(req, CustomerService.Client::create, call);
+    final String id = execute(req, CustomerService.Client::create, call);
     customer.setId(id);
     return call;
   }
@@ -157,7 +157,7 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     final ClientCall call = new ClientCall();
     call.setMethod("list");
     call.setRequestSeq(requestSeq);
-    final List<Customer> customers = call(req, CustomerService.Client::listCustomers, call);
+    final List<Customer> customers = execute(req, CustomerService.Client::listCustomers, call);
     if(customers == null) {
       call.setOk(false);
       call.setErrMsg("Response is null");
@@ -183,7 +183,7 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     final ClientCall call = new ClientCall();
     call.setMethod("get");
     call.setRequestSeq(requestSeq);
-    final Customer cust = call(req, CustomerService.Client::get, call);
+    final Customer cust = execute(req, CustomerService.Client::get, call);
     if(cust == null) {
       call.setOk(false);
       call.setErrMsg("Response is null for customer " + customer.getId());
@@ -254,7 +254,7 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
    *
    * @return the response
    */
-  public <I,O> O call(final I input, final CustomerCall<I,O> service, final ClientCall call) {
+  public <I,O> O execute(final I input, final CustomerCall<I,O> service, final ClientCall call) {
     O res = null;
     CustomerService.Client client = null;
     boolean isOK = true;
@@ -290,6 +290,17 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
    */
   @FunctionalInterface
   public interface CustomerCall<I,O> {
+    /**
+     * Call Thrift customer service
+     *
+     * @param client the client instance on which apply the method
+     * @param input the request
+     *
+     * @return the response
+     *
+     * @throws CustomerException applicative and technical error (see ErrorCode)
+     * @throws TException client or uncatched server error
+     */
     O call(CustomerService.Client client, I input) throws CustomerException, TException;
   }
   // Functions -
