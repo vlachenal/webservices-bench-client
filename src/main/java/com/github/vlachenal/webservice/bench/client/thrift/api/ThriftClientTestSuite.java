@@ -135,11 +135,8 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     header.setMapper(Mapper.valueOf(mapper.toUpperCase()));
     req.setHeader(header);
     final ClientCall call = new ClientCall();
-    call.setProtocol("thrift");
     call.setMethod("create");
     call.setRequestSeq(requestSeq);
-    call.setOk(false);
-    call.setClientStart(System.nanoTime());
     final String id = call(req, CustomerService.Client::create, call);
     customer.setId(id);
     return call;
@@ -159,10 +156,7 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     req.setHeader(header);
     final ClientCall call = new ClientCall();
     call.setMethod("list");
-    call.setProtocol("thrift");
     call.setRequestSeq(requestSeq);
-    call.setOk(false);
-    call.setClientStart(System.nanoTime());
     final List<Customer> customers = call(req, CustomerService.Client::listCustomers, call);
     if(customers == null) {
       call.setOk(false);
@@ -187,11 +181,8 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     req.setHeader(header);
     req.setId(customer.getId());
     final ClientCall call = new ClientCall();
-    call.setProtocol("thrift");
     call.setMethod("get");
     call.setRequestSeq(requestSeq);
-    call.setOk(false);
-    call.setClientStart(System.nanoTime());
     final Customer cust = call(req, CustomerService.Client::get, call);
     if(cust == null) {
       call.setOk(false);
@@ -267,6 +258,9 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     O res = null;
     CustomerService.Client client = null;
     boolean isOK = true;
+    call.setProtocol("thrift");
+    call.setOk(false);
+    call.setClientStart(System.nanoTime());
     try {
       client = customerClientPool.borrowObject();
       res = service.call(client, input);
