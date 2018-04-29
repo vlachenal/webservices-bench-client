@@ -6,6 +6,8 @@
  */
 package com.github.vlachenal.webservice.bench.client.thrift.api;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.github.vlachenal.webservice.bench.client.ApplicationTest;
 import com.github.vlachenal.webservice.bench.client.DataSet;
 import com.github.vlachenal.webservice.bench.client.utils.ApplicationProfiles;
+import com.github.vlachenal.webservice.bench.thrift.api.ClientCall;
 import com.github.vlachenal.webservice.bench.thrift.api.Customer;
 
 
@@ -102,7 +105,10 @@ public class ThriftClientTest {
   @Test
   public void testListAll() {
     LOG.debug("Enter in testListAll");
-    client.listAll(-1);
+    final ClientCall call = client.listAll(-1);
+    assertNotNull(call);
+    LOG.info("Call is {} ; error = {}", call.isOk(), call.getErrMsg());
+    assertTrue(call.isOk());
     LOG.debug("Exit testListAll");
   }
 

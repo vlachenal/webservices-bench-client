@@ -7,7 +7,6 @@
 package com.github.vlachenal.webservice.bench.client.thrift.api;
 
 import java.util.List;
-import java.util.function.BiFunction;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.thrift.TException;
@@ -140,23 +139,8 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     call.setMethod("create");
     call.setRequestSeq(requestSeq);
     call.setOk(false);
-    boolean ok = true;
-    CustomerService.Client client = null;
-    String id = null;
     call.setClientStart(System.nanoTime());
-    try {
-      client = customerClientPool.borrowObject();
-      id = client.create(req);
-      call.setOk(true);
-    } catch(final CustomerException e) {
-      call.setErrMsg(e.getMessage());
-    } catch(final Exception e) {
-      call.setErrMsg(e.getMessage());
-      ok = false;
-    } finally {
-      releaseClient(client, ok);
-      call.setClientEnd(System.nanoTime());
-    }
+    final String id = call(req, CustomerService.Client::create, call);
     customer.setId(id);
     return call;
   }
@@ -178,23 +162,8 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     call.setProtocol("thrift");
     call.setRequestSeq(requestSeq);
     call.setOk(false);
-    boolean ok = true;
-    CustomerService.Client client = null;
-    List<Customer> customers = null;
     call.setClientStart(System.nanoTime());
-    try {
-      client = customerClientPool.borrowObject();
-      customers = client.listCustomers(req);
-      call.setOk(true);
-    } catch(final CustomerException e) {
-      call.setErrMsg(e.getMessage());
-    } catch(final Exception e) {
-      call.setErrMsg(e.getMessage());
-      ok = false;
-    } finally {
-      releaseClient(client, ok);
-      call.setClientEnd(System.nanoTime());
-    }
+    final List<Customer> customers = call(req, CustomerService.Client::listCustomers, call);
     if(customers == null) {
       call.setOk(false);
       call.setErrMsg("Response is null");
@@ -222,32 +191,8 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     call.setMethod("get");
     call.setRequestSeq(requestSeq);
     call.setOk(false);
-    boolean ok = true;
-    CustomerService.Client client = null;
-    Customer cust = null;
     call.setClientStart(System.nanoTime());
-    //    cust = new CustomerFunction<GetRequest, Customer>().andThen((res) -> {
-    //      call.setClientEnd(System.nanoTime());
-    //      if(res == null) {
-    //        call.setOk(false);
-    //        call.setErrMsg("Response is null for customer " + customer.getId());
-    //      }
-    //      return res;
-    //    }).apply(CustomerService.Client::get, req);
-    try {
-      //cust = new CustomerFunction<GetRequest, Customer>().apply(CustomerService.Client::get, req);
-      client = customerClientPool.borrowObject();
-      cust = client.get(req);
-      call.setOk(true);
-    } catch(final CustomerException e) {
-      call.setErrMsg(e.getMessage());
-    } catch(final Exception e) {
-      call.setErrMsg(e.getMessage());
-      ok = false;
-    } finally {
-      releaseClient(client, ok);
-      call.setClientEnd(System.nanoTime());
-    }
+    final Customer cust = call(req, CustomerService.Client::get, call);
     if(cust == null) {
       call.setOk(false);
       call.setErrMsg("Response is null for customer " + customer.getId());
@@ -308,59 +253,51 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
       LOG.error("Unable to consolidate statistics: " + e.getMessage(), e);
     }
   }
+
+  /**
+   * Call Thrift customer service
+   *
+   * @param input the input
+   * @param service the service function
+   * @param call the client call
+   *
+   * @return the response
+   */
+  public <I,O> O call(final I input, final CustomerCall<I,O> service, final ClientCall call) {
+    O res = null;
+    CustomerService.Client client = null;
+    boolean isOK = true;
+    try {
+      client = customerClientPool.borrowObject();
+      res = service.call(client, input);
+      call.setOk(true);
+    } catch(final CustomerException e) {
+      call.setErrMsg(e.getMessage());
+    } catch(final Exception e) {
+      call.setErrMsg(e.getMessage());
+      isOK = false;
+    } finally {
+      releaseClient(client, isOK);
+      call.setClientEnd(System.nanoTime());
+    }
+    return res;
+  }
   // Methods -
 
 
-  // Classes +
-  /**
-   * Customer service function
-   *
-   * @param <U> the request type
-   * @param <R> the response type
-   *
-   * @author Vincent Lachenal
-   */
-  public class CustomerFunction<U,R> implements BiFunction<CustomerCall<U,R>,U,R> {
-
-    /**
-     * {@inheritDoc}
-     *
-     * @see java.util.function.BiFunction#apply(java.lang.Object, java.lang.Object)
-     */
-    @Override
-    public R apply(final CustomerCall<U,R> t, final U u) {
-      R r = null;
-      CustomerService.Client client = null;
-      boolean isOK = false;
-      try {
-        client = customerClientPool.borrowObject();
-        r = t.call(client, u);
-        isOK = true;
-      } catch(final CustomerException e) {
-        LOG.error(e.getMessage(), e);
-        isOK = true;
-      } catch(final Exception e) {
-        LOG.error(e.getMessage(), e);
-      } finally {
-        releaseClient(client, isOK);
-      }
-      return r;
-    }
-
-  }
-
+  // Functions +
   /**
    * Customer call
    *
-   * @param <T> the request type
-   * @param <R> the response type
+   * @param <I> the request type
+   * @param <O> the response type
    *
    * @author Vincent Lachenal
    */
   @FunctionalInterface
-  public interface CustomerCall<T,R> {
-    R call(CustomerService.Client client, T t) throws CustomerException, TException;
+  public interface CustomerCall<I,O> {
+    O call(CustomerService.Client client, I input) throws CustomerException, TException;
   }
-  // Classes -
+  // Functions -
 
 }
