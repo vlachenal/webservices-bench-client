@@ -263,6 +263,7 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
    */
   @Override
   public void consolidateStats() {
+    client.mutate().build().delete();
     final TestSuite suite = new TestSuite();
     // Gather system informations +
     suite.setJvm(System.getProperty("java.version"));
@@ -318,16 +319,20 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
     mutexLock(mutex);
     // Insert test suite general informations -
 
-    mutexLock(mutex);
-    statsClient.post().uri("/{id}/calls", suite.getId()).contentType(MediaType.APPLICATION_STREAM_JSON)
-    .body(BodyInserters.fromObject(calls))
-    .exchange().doOnError(e -> {
-      LOG.error("Error while inserting call: " + e.getMessage(), e);
-    }).doFinally(t -> {
+    if(suite.getId() != null) {
+      mutexLock(mutex);
+      statsClient.post().uri("/{id}/calls", suite.getId()).contentType(MediaType.APPLICATION_STREAM_JSON)
+      .body(BodyInserters.fromObject(calls))
+      .exchange().doOnError(e -> {
+        LOG.error("Error while inserting call: " + e.getMessage(), e);
+      }).doFinally(t -> {
+        mutex.release();
+      }).subscribe();
+      mutexLock(mutex);
       mutex.release();
-    }).subscribe();
-    client.mutate().build().delete();
-    mutexLock(mutex);
+    } else {
+      LOG.error("Test suite Identifier is null");
+    }
   }
   // Methods -
 
