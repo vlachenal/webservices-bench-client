@@ -27,6 +27,7 @@ import com.github.vlachenal.webservice.bench.client.rest.api.RESTfulClient;
 import com.github.vlachenal.webservice.bench.client.soap.api.SOAPClientTestSuite;
 import com.github.vlachenal.webservice.bench.client.thrift.api.ThriftClientTestSuite;
 import com.github.vlachenal.webservice.bench.client.utils.ApplicationProfiles;
+import com.github.vlachenal.webservice.bench.client.webflux.api.RESTWebfluxClient;
 
 
 /**
@@ -79,7 +80,7 @@ public class Application {
    * Print help
    */
   private void printHelp() {
-    LOG.info("string: protocol to use ('rest','thrift','soap' or 'protobuf' for now)");
+    LOG.info("string: protocol to use ('rest','thrift','soap', 'protobuf' or 'webflux' for now)");
     LOG.info("int: number of simultanous request to proccess");
     LOG.info("string (optional): HTTP compression (use null or none for no compression)");
     LOG.info("string (optional): test suite comment");
@@ -89,10 +90,11 @@ public class Application {
   /**
    * Run client
    *
-   * @param restTemplate the REST template to use
+   * @param restClient the RESTful client to use
    * @param thriftClient the Thrift test suite to use
    * @param soapClient the SOAP test suite to use
    * @param protobufClient the Protocol Buffer test suite to use
+   * @param webfluxClient the REST webflux client to use
    *
    * @return the command line runner
    *
@@ -102,7 +104,8 @@ public class Application {
   public CommandLineRunner run(final RESTfulClient restClient,
                                final ThriftClientTestSuite thriftClient,
                                final SOAPClientTestSuite soapClient,
-                               final ProtobufRESTClient protobufClient) throws Exception {
+                               final ProtobufRESTClient protobufClient,
+                               final RESTWebfluxClient webfluxClient) throws Exception {
     return args -> {
       // Check arguments +
       if(args.length < 2) {
@@ -145,6 +148,8 @@ public class Application {
         soapClient.runTest(nbThread, mapper, compression, comment);
       } else if("protobuf".equals(args[0])) {
         protobufClient.runTest(nbThread, mapper, compression, comment);
+      } else if("webflux".equals(args[0])) {
+        webfluxClient.runTest(nbThread, mapper, compression, comment);
       } else {
         LOG.error("Invalid protocol: " + args[0]);
         printHelp();
