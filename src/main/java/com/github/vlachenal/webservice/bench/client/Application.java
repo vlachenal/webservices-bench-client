@@ -12,16 +12,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.web.client.RestTemplate;
 
-import com.github.vlachenal.webservice.bench.client.protobuf.CustomerMessageConverter;
-import com.github.vlachenal.webservice.bench.client.protobuf.ListAllResponseMessageConverter;
 import com.github.vlachenal.webservice.bench.client.protobuf.api.ProtobufRESTClient;
 import com.github.vlachenal.webservice.bench.client.rest.api.RESTfulClient;
 import com.github.vlachenal.webservice.bench.client.soap.api.SOAPClientTestSuite;
@@ -57,23 +53,6 @@ public class Application {
    */
   public static void main(final String args[]) {
     SpringApplication.run(Application.class, args);
-  }
-
-  /**
-   * Build REST template
-   *
-   * @param builder the template builder
-   * @param pbCustMsgConverter Protocol Buffer customer message converter
-   * @param listAllMsgConverter Protocol Buffer list all message converter
-   *
-   * @return the REST template
-   */
-  @Bean
-  public RestTemplate restTemplate(final RestTemplateBuilder builder,
-                                   final CustomerMessageConverter pbCustMsgConverter,
-                                   final ListAllResponseMessageConverter listAllMsgConverter) {
-    builder.additionalMessageConverters(pbCustMsgConverter, listAllMsgConverter);
-    return builder.build();
   }
 
   /**

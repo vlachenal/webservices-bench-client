@@ -124,10 +124,8 @@ public class ProtobufRESTClient extends AbstractClientTestSuite<Customer.Builder
     call.setClientStart(System.nanoTime());
     try {
       final RequestEntity<Customer> req = RequestEntity.post(serviceUri)
-          .accept(MediaType.TEXT_PLAIN)
-          .contentType(ProtobufType.PROTOBUF_UTF8)
-          .header("request_seq", Integer.toString(requestSeq))
-          .header("mapper", mapper.toUpperCase())
+          .accept(MediaType.TEXT_PLAIN).contentType(ProtobufType.PROTOBUF_UTF8)
+          .header("request_seq", Integer.toString(requestSeq)).header("mapper", mapper.toUpperCase())
           .body(customer.build());
       res = template.exchange(req, String.class);
     } catch(final RestClientException e) {
@@ -164,9 +162,8 @@ public class ProtobufRESTClient extends AbstractClientTestSuite<Customer.Builder
     call.setClientStart(System.nanoTime());
     try {
       final RequestEntity<Void> req = RequestEntity.get(serviceUri)
-          .accept(ProtobufType.PROTOBUF_UTF8)
-          .header("request_seq", Integer.toString(requestSeq))
-          .header("mapper", mapper.toUpperCase())
+          .accept(ProtobufType.PROTOBUF,ProtobufType.PROTOBUF_UTF8)
+          .header("request_seq", Integer.toString(requestSeq)).header("mapper", mapper.toUpperCase())
           .build();
       res = template.exchange(req, ListAllResponse.class);
     } catch(final RestClientException e) {
@@ -206,9 +203,8 @@ public class ProtobufRESTClient extends AbstractClientTestSuite<Customer.Builder
     call.setClientStart(System.nanoTime());
     try {
       final RequestEntity<Void> req = RequestEntity.get(detailsTemplate.expand(customer.getId()))
-          .accept(ProtobufType.PROTOBUF_UTF8)
-          .header("request_seq", Integer.toString(requestSeq))
-          .header("mapper", mapper.toUpperCase())
+          .accept(ProtobufType.PROTOBUF,ProtobufType.PROTOBUF_UTF8)
+          .header("request_seq", Integer.toString(requestSeq)).header("mapper", mapper.toUpperCase())
           .build();
       res = template.exchange(req, Customer.class);
     } catch(final RestClientException e) {
@@ -275,7 +271,7 @@ public class ProtobufRESTClient extends AbstractClientTestSuite<Customer.Builder
         builder.setMapper(Mapper.MANUAL);
       }
       // Gather test suite informations -
-      template.exchange(RequestEntity.put(uri).contentType(ProtobufType.PROTOBUF_UTF8).body(builder.build()),
+      template.exchange(RequestEntity.put(uri).contentType(ProtobufType.PROTOBUF).body(builder.build()),
                         Void.class);
       template.delete(uri);
     } catch(final URISyntaxException e) {

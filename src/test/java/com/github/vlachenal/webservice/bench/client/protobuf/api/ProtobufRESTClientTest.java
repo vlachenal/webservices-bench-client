@@ -14,7 +14,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -156,7 +155,7 @@ public class ProtobufRESTClientTest {
   public void testGetDetailsCustomer() {
     LOG.debug("Enter in testGetDetailsCustomer");
     final Customer.Builder cust = Customer.newBuilder();
-    cust.setId(UUID.randomUUID().toString());
+    cust.setId("6c8d7de3-d813-41e1-944a-808b57596fc9");
     final ClientCall call = client.getDetails(cust, -1);
     assertNotNull("Call result is null", call);
     assertTrue("Call is KO: " + call.getErrMsg(), call.getOk());
