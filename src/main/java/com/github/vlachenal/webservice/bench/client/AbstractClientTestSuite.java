@@ -224,6 +224,12 @@ public abstract class AbstractClientTestSuite<T,C> {
 
     consolidateStats();
     deleteAll();
+    try {
+      Thread.sleep(1000);
+    } catch(final InterruptedException e) {
+      // Nothing to do
+    }
+    System.exit(0);
   }
   // Methods -
 
