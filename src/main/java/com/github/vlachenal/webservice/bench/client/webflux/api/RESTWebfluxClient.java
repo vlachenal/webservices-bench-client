@@ -263,7 +263,11 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
    */
   @Override
   public void consolidateStats() {
-    client.mutate().build().delete();
+    client.mutate().build().delete().exchange().doOnNext(res -> {
+      LOG.info("DELETE customers HTTP status: {}", res.statusCode());
+    }).doOnError(e -> {
+      LOG.error("Error while deleting customers: " + e.getMessage(), e);
+    }).subscribe();
     final TestSuite suite = new TestSuite();
     // Gather system informations +
     suite.setJvm(System.getProperty("java.version"));
@@ -308,8 +312,6 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
         }
       }).doOnError(e -> {
         LOG.error("HTTP status code: {}, error: {}", res.statusCode(), e.getMessage(), e);
-      }).doFinally( t -> {
-        mutex.release();
       }).subscribe();
     }).doOnError(e -> {
       LOG.error(e.getMessage(), e);
@@ -320,6 +322,7 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
     // Insert test suite general informations -
 
     if(suite.getId() != null) {
+      // Insert calls +
       mutexLock(mutex);
       statsClient.post().uri("/{id}/calls", suite.getId()).contentType(MediaType.APPLICATION_STREAM_JSON)
       .body(BodyInserters.fromObject(calls))
@@ -330,6 +333,7 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
       }).subscribe();
       mutexLock(mutex);
       mutex.release();
+      // Insert calls -
     } else {
       LOG.error("Test suite Identifier is null");
     }

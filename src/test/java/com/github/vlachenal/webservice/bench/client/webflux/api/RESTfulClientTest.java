@@ -6,10 +6,12 @@
  */
 package com.github.vlachenal.webservice.bench.client.webflux.api;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,8 +25,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.github.vlachenal.webservice.bench.client.ApplicationTest;
 import com.github.vlachenal.webservice.bench.client.DataSet;
+import com.github.vlachenal.webservice.bench.client.rest.api.dto.Address;
 import com.github.vlachenal.webservice.bench.client.rest.api.dto.ClientCall;
 import com.github.vlachenal.webservice.bench.client.rest.api.dto.Customer;
+import com.github.vlachenal.webservice.bench.client.rest.api.dto.Phone;
+import com.github.vlachenal.webservice.bench.client.rest.api.dto.Phone.Type;
 import com.github.vlachenal.webservice.bench.client.utils.ApplicationProfiles;
 
 
@@ -94,7 +99,27 @@ public class RESTfulClientTest {
    */
   @Test
   public void testCreateCustomerCustomer() {
-    fail("Not yet implemented");
+    LOG.debug("Enter in testCreateCustomerCustomer");
+    final Customer cust = new Customer();
+    cust.setFirstName("Oui");
+    cust.setLastName("Oui");
+    cust.setEmail("oui.oui@yopmail.com");
+    final Phone phone = new Phone();
+    phone.setType(Type.MOBILE);
+    phone.setNumber("+33836656565");
+    cust.setPhones(Arrays.asList(phone));
+    final Address addr = new Address();
+    addr.setLines(Arrays.asList("1 voiture jaune et rouge", "fourriere", "c'est comme ça à Paris"));
+    addr.setZipCode("75001");
+    addr.setCity("Paris");
+    addr.setCountry("France");
+    cust.setAddress(addr);
+    final ClientCall call = client.createCustomer(cust, -1);
+    LOG.info("Call is {}. Error message: {}", call.isOk(), call.getErrMsg());
+    assertTrue(call.isOk());
+    assertNotNull(cust.getId());
+    LOG.info("New customer identifier is {}", cust.getId());
+    LOG.debug("Exit testCreateCustomerCustomer");
   }
 
   /**
