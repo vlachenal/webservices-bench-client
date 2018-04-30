@@ -333,6 +333,7 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
       }).doFinally(t -> {
         mutex.release();
       }).subscribe();
+      LOG.info("Wait for unlock");
       mutexLock(mutex);
       // Insert calls -
     } else {
