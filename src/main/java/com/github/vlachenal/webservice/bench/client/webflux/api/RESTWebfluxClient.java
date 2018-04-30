@@ -88,7 +88,11 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
    */
   @Override
   public void deleteAll() {
-    client.mutate().build().delete();
+    client.mutate().build().delete().exchange().doOnNext(res -> {
+      LOG.info("DELETE customers HTTP status: {}", res.statusCode());
+    }).doOnError(e -> {
+      LOG.error("Error while deleting customers: " + e.getMessage(), e);
+    }).subscribe();
   }
 
   /**
@@ -198,7 +202,6 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
     .body(BodyInserters.fromObject(customer)).exchange()
     .doOnNext(okFunc).doOnError(koFunc).subscribe();
     mutexLock(mutex);
-    mutex.release();
     return call;
   }
 
@@ -223,7 +226,6 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
     .header("request_seq", Integer.toString(requestSeq)).header("mapper", mapper.toUpperCase())
     .exchange().doOnNext(okFunc).doOnError(koFunc).subscribe();
     mutexLock(mutex);
-    mutex.release();
     if(customers.size() != this.customers.size()) {
       LOG.warn("Customers size should be " + this.customers.size() + " instead of " + customers.size());
     }
@@ -254,7 +256,6 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
     .header("request_seq", Integer.toString(requestSeq)).header("mapper", mapper.toUpperCase())
     .exchange().doOnNext(okFunc).doOnError(koFunc).subscribe();
     mutexLock(mutex);
-    mutex.release();
     return call;
   }
 
@@ -265,11 +266,6 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
    */
   @Override
   public void consolidateStats() {
-    client.mutate().build().delete().exchange().doOnNext(res -> {
-      LOG.info("DELETE customers HTTP status: {}", res.statusCode());
-    }).doOnError(e -> {
-      LOG.error("Error while deleting customers: " + e.getMessage(), e);
-    }).subscribe();
     final TestSuite suite = new TestSuite();
     // Gather system informations +
     suite.setJvm(System.getProperty("java.version"));
@@ -303,7 +299,8 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
     final Semaphore mutex = new Semaphore(1);
     mutexLock(mutex);
     // Insert test suite general informations +
-    statsClient.post().contentType(MediaType.APPLICATION_JSON_UTF8)
+    LOG.info("Register a new test suite");
+    statsClient.mutate().build().post().contentType(MediaType.APPLICATION_JSON_UTF8)
     .body(BodyInserters.fromObject(suite))
     .exchange().doOnNext(res -> {
       res.bodyToMono(String.class).doOnNext(str -> {
@@ -325,8 +322,9 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
 
     if(suite.getId() != null) {
       // Insert calls +
+      LOG.info("Add calls to testsuite {}", suite.getId());
       mutexLock(mutex);
-      statsClient.post().uri("/{id}/calls", suite.getId()).contentType(MediaType.APPLICATION_STREAM_JSON)
+      statsClient.mutate().build().post().uri("/{id}/calls", suite.getId()).contentType(MediaType.APPLICATION_STREAM_JSON)
       .body(BodyInserters.fromPublisher(Flux.fromIterable(calls), ClientCall.class))
       .exchange().doOnError(e -> {
         LOG.error("Error while inserting call: " + e.getMessage(), e);
@@ -334,11 +332,17 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
         mutex.release();
       }).subscribe();
       mutexLock(mutex);
-      mutex.release();
       // Insert calls -
     } else {
       LOG.error("Test suite Identifier is null");
     }
+    // Delete calls cache +
+    mutexLock(mutex);
+    statsClient.mutate().build().delete().exchange().doFinally(t -> {
+      mutex.release();
+    }).subscribe();
+    mutexLock(mutex);
+    // Delete calls cache -
   }
   // Methods -
 
