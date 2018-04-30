@@ -337,6 +337,7 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
       LOG.error("Test suite Identifier is null");
     }
     // Delete calls cache +
+    LOG.info("Purge statistics cache");
     mutexLock(mutex);
     statsClient.mutate().build().delete().exchange().doFinally(t -> {
       mutex.release();
