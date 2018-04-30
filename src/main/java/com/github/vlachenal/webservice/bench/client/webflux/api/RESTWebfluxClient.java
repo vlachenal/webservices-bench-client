@@ -312,11 +312,11 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
         }
       }).doOnError(e -> {
         LOG.error("HTTP status code: {}, error: {}", res.statusCode(), e.getMessage(), e);
+      }).doFinally(t -> {
+        mutex.release();
       }).subscribe();
     }).doOnError(e -> {
       LOG.error(e.getMessage(), e);
-    }).doFinally(t -> {
-      mutex.release();
     }).subscribe();
     mutexLock(mutex);
     // Insert test suite general informations -
