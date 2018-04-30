@@ -26,6 +26,8 @@ import com.github.vlachenal.webservice.bench.client.rest.api.dto.Customer;
 import com.github.vlachenal.webservice.bench.client.rest.api.dto.Mapper;
 import com.github.vlachenal.webservice.bench.client.rest.api.dto.TestSuite;
 
+import reactor.core.publisher.Flux;
+
 
 /**
  * RESTful reactive client test
@@ -325,7 +327,7 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
       // Insert calls +
       mutexLock(mutex);
       statsClient.post().uri("/{id}/calls", suite.getId()).contentType(MediaType.APPLICATION_STREAM_JSON)
-      .body(BodyInserters.fromObject(calls))
+      .body(BodyInserters.fromPublisher(Flux.fromIterable(calls), ClientCall.class))
       .exchange().doOnError(e -> {
         LOG.error("Error while inserting call: " + e.getMessage(), e);
       }).doFinally(t -> {
