@@ -21,7 +21,7 @@ public class ClientCall {
   private Integer requestSeq;
 
   /** Protocol (always 'rest') */
-  private final String protocol = "rest";
+  private String protocol = "rest";
 
   /** The method which has been called */
   @JsonProperty(value="method",required=true)
@@ -71,6 +71,15 @@ public class ClientCall {
    */
   public final String getProtocol() {
     return protocol;
+  }
+
+  /**
+   * Protocol setter
+   *
+   * @param protocol the protocol to set
+   */
+  public final void setProtocol(final String protocol) {
+    this.protocol = protocol;
   }
 
   /**

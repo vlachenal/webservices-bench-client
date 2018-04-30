@@ -88,9 +88,7 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
    */
   @Override
   public void deleteAll() {
-    client.mutate().build().delete().exchange().doOnNext(res -> {
-      LOG.info("DELETE customers HTTP status: {}", res.statusCode());
-    }).doOnError(e -> {
+    client.mutate().build().delete().exchange().doOnError(e -> {
       LOG.error("Error while deleting customers: " + e.getMessage(), e);
     }).subscribe();
   }
@@ -192,6 +190,7 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
     call.setMethod("create");
     call.setRequestSeq(requestSeq);
     call.setOk(true);
+    call.setProtocol("webflux");
     final Semaphore mutex = new Semaphore(1);
     mutexLock(mutex);
     final Consumer<ClientResponse> okFunc = res -> manageResponse(res, String.class, HttpStatus.CREATED, str -> customer.setId(str), false, call, mutex);
@@ -215,8 +214,9 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
     final ClientCall call = new ClientCall();
     call.setMethod("list");
     call.setRequestSeq(requestSeq);
-    final ArrayList<Customer> customers = new ArrayList<>();
     call.setOk(true);
+    call.setProtocol("webflux");
+    final ArrayList<Customer> customers = new ArrayList<>();
     final Semaphore mutex = new Semaphore(1);
     mutexLock(mutex);
     final Consumer<ClientResponse> okFunc = res -> this.manageResponse(res, Customer.class, cust -> customers.add(cust), true, call, mutex);
@@ -243,6 +243,7 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
     call.setMethod("get");
     call.setRequestSeq(requestSeq);
     call.setOk(true);
+    call.setProtocol("webflux");
     final Semaphore mutex = new Semaphore(1);
     mutexLock(mutex);
     final Consumer<ClientResponse> okFunc = res -> manageResponse(res, Customer.class, cust -> {
