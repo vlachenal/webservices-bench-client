@@ -327,9 +327,7 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
       mutexLock(mutex);
       statsClient.mutate().build().post().uri("/{id}/calls", suite.getId()).contentType(MediaType.APPLICATION_STREAM_JSON)
       .body(BodyInserters.fromPublisher(Flux.fromIterable(calls), ClientCall.class))
-      .exchange().doOnNext(res -> {
-        LOG.info("HTTP status: {}", res.statusCode());
-      }).doOnError(e -> {
+      .exchange().doOnError(e -> {
         LOG.error("Error while inserting call: " + e.getMessage(), e);
       }).doFinally(t -> {
         mutex.release();
@@ -341,6 +339,7 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
     }
     // Delete calls cache +
     LOG.info("Purge statistics cache");
+    mutex.release();
     mutexLock(mutex);
     statsClient.mutate().build().delete().exchange().doFinally(t -> {
       mutex.release();
