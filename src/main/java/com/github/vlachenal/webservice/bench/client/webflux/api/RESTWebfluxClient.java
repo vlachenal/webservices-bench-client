@@ -325,7 +325,6 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
       LOG.info("Add calls to testsuite {}", suite.getId());
       mutex.release();
       mutexLock(mutex);
-      LOG.info("Pass lock ...");
       statsClient.mutate().build().post().uri("/{id}/calls", suite.getId()).contentType(MediaType.APPLICATION_STREAM_JSON)
       .body(BodyInserters.fromPublisher(Flux.fromIterable(calls), ClientCall.class))
       .exchange().doOnNext(res -> {
@@ -335,7 +334,6 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
       }).doFinally(t -> {
         mutex.release();
       }).subscribe();
-      LOG.info("Wait for unlock");
       mutexLock(mutex);
       // Insert calls -
     } else {
