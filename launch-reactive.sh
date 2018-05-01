@@ -103,9 +103,14 @@ if [[ "${java_bin}" = "" ]]; then
 fi
 # Retrieve Java executable -
 
-for((i=1;i<$nb_thread;i++)); do
-    echo "Run test suite for webflux with $i simultaneous calls"
-    $java_bin --add-modules java.xml.bind,java.xml.ws -jar $jar_path "webflux" $i $compression "${comment}" "mapstruct"
-done
+mappers="manual|dozer|mapstruct"
+while IFS='|' read -ra MAPPERS; do
+    for mapper in "${MAPPERS[@]}"; do
+	for((i=1;i<$nb_thread;i++)); do
+	    echo "Run test suite for webflux with $i simultaneous calls"
+	    $java_bin --add-modules java.xml.bind,java.xml.ws -jar $jar_path "webflux" $i $compression "${comment}" "mapstruct"
+	done
+    done
+done <<< "$mappers"
 
 exit 0

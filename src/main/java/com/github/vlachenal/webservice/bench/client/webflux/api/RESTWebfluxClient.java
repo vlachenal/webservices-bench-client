@@ -197,7 +197,7 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
     final Consumer<Throwable> koFunc = e -> manageClientError(e, call, mutex);
     call.setClientStart(System.nanoTime());
     client.mutate().build().post().accept(MediaType.TEXT_PLAIN).contentType(MediaType.APPLICATION_JSON_UTF8)
-    .header("request_seq", Integer.toString(requestSeq)).header("mapper", mapper.toUpperCase())
+    .header("request_seq", Integer.toString(requestSeq)).header("mapper", mapper)
     .body(BodyInserters.fromObject(customer)).exchange()
     .doOnNext(okFunc).doOnError(koFunc).subscribe();
     mutexLock(mutex);
@@ -223,7 +223,7 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
     final Consumer<Throwable> koFunc = e -> manageClientError(e, call, mutex);
     call.setClientStart(System.nanoTime());
     client.mutate().build().get().accept(MediaType.APPLICATION_STREAM_JSON)
-    .header("request_seq", Integer.toString(requestSeq)).header("mapper", mapper.toUpperCase())
+    .header("request_seq", Integer.toString(requestSeq)).header("mapper", mapper)
     .exchange().doOnNext(okFunc).doOnError(koFunc).subscribe();
     mutexLock(mutex);
     if(customers.size() != this.customers.size()) {
@@ -254,7 +254,7 @@ public class RESTWebfluxClient extends AbstractClientTestSuite<Customer,ClientCa
     final Consumer<Throwable> koFunc = e -> manageClientError(e, call, mutex);
     call.setClientStart(System.nanoTime());
     client.mutate().build().get().uri("/{id}", customer.getId()).accept(MediaType.APPLICATION_JSON_UTF8)
-    .header("request_seq", Integer.toString(requestSeq)).header("mapper", mapper.toUpperCase())
+    .header("request_seq", Integer.toString(requestSeq)).header("mapper", mapper)
     .exchange().doOnNext(okFunc).doOnError(koFunc).subscribe();
     mutexLock(mutex);
     return call;
