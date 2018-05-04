@@ -21,11 +21,11 @@ repositories {
     mavenCentral()
 }
 
-sourceCompatibility = 9
-targetCompatibility = 9
+sourceCompatibility = 10
+targetCompatibility = 10
 
 allprojects {
-    sourceCompatibility = 9
+    sourceCompatibility = 10
     eclipse.project {
         natures 'org.eclipse.buildship.core.gradleprojectnature'
     }
