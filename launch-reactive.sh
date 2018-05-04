@@ -108,7 +108,7 @@ while IFS='|' read -ra MAPPERS; do
     for mapper in "${MAPPERS[@]}"; do
 	for((i=1;i<$nb_thread;i++)); do
 	    echo "Run test suite for webflux with $i simultaneous calls"
-	    $java_bin --add-modules java.xml.bind,java.xml.ws -jar $jar_path "webflux" $i $compression "${comment}" "mapstruct"
+	    $java_bin --add-modules java.xml.bind,java.xml.ws -jar $jar_path "webflux" $i $compression "${comment}" $mapper
 	done
     done
 done <<< "$mappers"
