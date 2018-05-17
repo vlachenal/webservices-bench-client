@@ -114,6 +114,29 @@ public abstract class AbstractClientTestSuite<T,C> {
   public abstract void consolidateStats();
 
   /**
+   * Execute tests' step
+   *
+   * @param test the test to execute for each data
+   */
+  private void executeStep(final RunnableTest<T> test) {
+    final AtomicInteger seq = new AtomicInteger(1);
+    final BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
+    final PausableThreadPoolExecutor threadPool = new PausableThreadPoolExecutor(nbThread, customers.size(), 10000, TimeUnit.SECONDS, tasks);
+    threadPool.prestartAllCoreThreads();
+    threadPool.pause();
+    customers.forEach(cust -> {
+      tasks.add(() -> test.run(cust, seq));
+    });
+    threadPool.resume();
+    threadPool.shutdown();
+    try {
+      threadPool.awaitTermination(10, TimeUnit.MINUTES);
+    } catch(final InterruptedException e) {
+      throw new RuntimeException(e.getMessage(), e);
+    }
+  }
+
+  /**
    * Run test suite
    *
    * @param nbThread number of simultaneous calls
@@ -136,81 +159,33 @@ public abstract class AbstractClientTestSuite<T,C> {
     // Initialization -
 
     // Customer creations +
-    {
-      LOG.info("Customers creation");
-      final AtomicInteger seq = new AtomicInteger(1);
-      final BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
-      final PausableThreadPoolExecutor threadPool = new PausableThreadPoolExecutor(nbThread, customers.size(), 10000, TimeUnit.SECONDS, tasks);
-      threadPool.prestartAllCoreThreads();
-      threadPool.pause();
-      customers.forEach(cust -> {
-        tasks.add(() -> {
-          final C call = createCustomer(cust, seq.getAndIncrement());
-          synchronized(calls) {
-            calls.add(call);
-          }
-        });
-      });
-      threadPool.resume();
-      threadPool.shutdown();
-      try {
-        threadPool.awaitTermination(10, TimeUnit.MINUTES);
-      } catch(final InterruptedException e) {
-        throw new RuntimeException(e.getMessage(), e);
+    LOG.info("Customers creation");
+    executeStep((cust, seq) -> {
+      final C call = createCustomer(cust, seq.getAndIncrement());
+      synchronized(calls) {
+        calls.add(call);
       }
-    }
+    });
     // Customer creations -
 
     // List all +
-    {
-      LOG.info("List all");
-      final AtomicInteger seq = new AtomicInteger(1);
-      final BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
-      final PausableThreadPoolExecutor threadPool = new PausableThreadPoolExecutor(nbThread, customers.size(), 10000, TimeUnit.SECONDS, tasks);
-      threadPool.prestartAllCoreThreads();
-      threadPool.pause();
-      customers.forEach(cust -> {
-        tasks.add(() -> {
-          final C call = listAll(seq.getAndIncrement());
-          synchronized(calls) {
-            calls.add(call);
-          }
-        });
-      });
-      threadPool.resume();
-      threadPool.shutdown();
-      try {
-        threadPool.awaitTermination(10, TimeUnit.MINUTES);
-      } catch(final InterruptedException e) {
-        throw new RuntimeException(e.getMessage(), e);
+    LOG.info("List all");
+    executeStep((cust, seq) -> {
+      final C call = listAll(seq.getAndIncrement());
+      synchronized(calls) {
+        calls.add(call);
       }
-    }
+    });
     // List all -
 
     // Get details +
-    {
-      LOG.info("Get details");
-      final AtomicInteger seq = new AtomicInteger(1);
-      final BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
-      final PausableThreadPoolExecutor threadPool = new PausableThreadPoolExecutor(nbThread, customers.size(), 10000, TimeUnit.SECONDS, tasks);
-      threadPool.prestartAllCoreThreads();
-      threadPool.pause();
-      customers.forEach(cust -> {
-        tasks.add(() -> {
-          final C call = getDetails(cust, seq.getAndIncrement());
-          synchronized(calls) {
-            calls.add(call);
-          }
-        });
-      });
-      threadPool.resume();
-      threadPool.shutdown();
-      try {
-        threadPool.awaitTermination(10, TimeUnit.MINUTES);
-      } catch(final InterruptedException e) {
-        throw new RuntimeException(e.getMessage(), e);
+    LOG.info("Get details");
+    executeStep((cust, seq) -> {
+      final C call = getDetails(cust, seq.getAndIncrement());
+      synchronized(calls) {
+        calls.add(call);
       }
-    }
+    });
     // Get details -
 
     consolidateStats();
@@ -468,6 +443,24 @@ public abstract class AbstractClientTestSuite<T,C> {
         pauseLock.unlock();
       }
     }
+  }
+
+  /**
+   * Runnable test function
+   *
+   * @param <T> the customer type
+   *
+   * @author Vincent Lachenal
+   */
+  @FunctionalInterface
+  private interface RunnableTest<T> {
+    /**
+     * Run one test
+     *
+     * @param customer the customer
+     * @param seq the call sequence
+     */
+    void run(T customer, AtomicInteger seq);
   }
   // Classes -
 
