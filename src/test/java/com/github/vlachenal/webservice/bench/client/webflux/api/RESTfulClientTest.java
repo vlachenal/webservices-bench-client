@@ -25,11 +25,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.github.vlachenal.webservice.bench.client.ApplicationTest;
 import com.github.vlachenal.webservice.bench.client.DataSet;
-import com.github.vlachenal.webservice.bench.client.rest.api.dto.Address;
-import com.github.vlachenal.webservice.bench.client.rest.api.dto.ClientCall;
-import com.github.vlachenal.webservice.bench.client.rest.api.dto.Customer;
-import com.github.vlachenal.webservice.bench.client.rest.api.dto.Phone;
-import com.github.vlachenal.webservice.bench.client.rest.api.dto.Phone.Type;
+import com.github.vlachenal.webservice.bench.client.rest.api.model.Address;
+import com.github.vlachenal.webservice.bench.client.rest.api.model.ClientCall;
+import com.github.vlachenal.webservice.bench.client.rest.api.model.Customer;
+import com.github.vlachenal.webservice.bench.client.rest.api.model.Phone;
+import com.github.vlachenal.webservice.bench.client.rest.api.model.Phone.Type;
 import com.github.vlachenal.webservice.bench.client.utils.ApplicationProfiles;
 
 
