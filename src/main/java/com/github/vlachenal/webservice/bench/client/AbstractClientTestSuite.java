@@ -143,17 +143,14 @@ public abstract class AbstractClientTestSuite<T,C> {
       final PausableThreadPoolExecutor threadPool = new PausableThreadPoolExecutor(nbThread, customers.size(), 10000, TimeUnit.SECONDS, tasks);
       threadPool.prestartAllCoreThreads();
       threadPool.pause();
-      for(final T customer : customers) {
-        tasks.add(new Runnable() {
-          @Override
-          public void run() {
-            final C call = createCustomer(customer, seq.getAndIncrement());
-            synchronized(calls) {
-              calls.add(call);
-            }
+      customers.forEach(cust -> {
+        tasks.add(() -> {
+          final C call = createCustomer(cust, seq.getAndIncrement());
+          synchronized(calls) {
+            calls.add(call);
           }
         });
-      }
+      });
       threadPool.resume();
       threadPool.shutdown();
       try {
@@ -172,17 +169,14 @@ public abstract class AbstractClientTestSuite<T,C> {
       final PausableThreadPoolExecutor threadPool = new PausableThreadPoolExecutor(nbThread, customers.size(), 10000, TimeUnit.SECONDS, tasks);
       threadPool.prestartAllCoreThreads();
       threadPool.pause();
-      for(int i = 0 ; i < customers.size() ; ++i) {
-        tasks.add(new Runnable() {
-          @Override
-          public void run() {
-            final C call = listAll(seq.getAndIncrement());
-            synchronized(calls) {
-              calls.add(call);
-            }
+      customers.forEach(cust -> {
+        tasks.add(() -> {
+          final C call = listAll(seq.getAndIncrement());
+          synchronized(calls) {
+            calls.add(call);
           }
         });
-      }
+      });
       threadPool.resume();
       threadPool.shutdown();
       try {
@@ -201,17 +195,14 @@ public abstract class AbstractClientTestSuite<T,C> {
       final PausableThreadPoolExecutor threadPool = new PausableThreadPoolExecutor(nbThread, customers.size(), 10000, TimeUnit.SECONDS, tasks);
       threadPool.prestartAllCoreThreads();
       threadPool.pause();
-      for(final T customer : customers) {
-        tasks.add(new Runnable() {
-          @Override
-          public void run() {
-            final C call = getDetails(customer, seq.getAndIncrement());
-            synchronized(calls) {
-              calls.add(call);
-            }
+      customers.forEach(cust -> {
+        tasks.add(() -> {
+          final C call = getDetails(cust, seq.getAndIncrement());
+          synchronized(calls) {
+            calls.add(call);
           }
         });
-      }
+      });
       threadPool.resume();
       threadPool.shutdown();
       try {
