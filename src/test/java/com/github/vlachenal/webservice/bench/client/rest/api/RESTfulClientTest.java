@@ -6,6 +6,8 @@
  */
 package com.github.vlachenal.webservice.bench.client.rest.api;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.github.vlachenal.webservice.bench.client.ApplicationTest;
 import com.github.vlachenal.webservice.bench.client.DataSet;
+import com.github.vlachenal.webservice.bench.client.rest.api.model.ClientCall;
 import com.github.vlachenal.webservice.bench.client.utils.ApplicationProfiles;
 
 
@@ -100,7 +103,9 @@ public class RESTfulClientTest {
   @Test
   public void testListAll() {
     LOG.debug("Enter in testListAll");
-    client.listAll(-1);
+    final ClientCall call = client.listAll(-1);
+    assertNotNull("Call is null", call);
+    assertTrue("Call is not OK: " + call.getErrMsg(), call.isOk());
     LOG.debug("Exit testListAll");
   }
 

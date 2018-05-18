@@ -6,20 +6,13 @@
  */
 package com.github.vlachenal.webservice.bench.client;
 
-import java.io.IOException;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.web.client.ResponseErrorHandler;
-import org.springframework.web.client.RestTemplate;
 
 import com.github.vlachenal.webservice.bench.client.utils.ApplicationProfiles;
 
@@ -45,32 +38,6 @@ public class ApplicationTest {
    */
   public static void main(final String args[]) {
     SpringApplication.run(ApplicationTest.class, args);
-  }
-
-  /**
-   * Build REST template
-   *
-   * @param builder the template builder
-   *
-   * @return the REST template
-   */
-  @Bean
-  public RestTemplate restTemplate(final RestTemplateBuilder builder) {
-    builder.errorHandler(new ResponseErrorHandler() {
-
-      @Override
-      public boolean hasError(final ClientHttpResponse response) throws IOException {
-        // TODO Auto-generated method stub
-        return false;
-      }
-
-      @Override
-      public void handleError(final ClientHttpResponse response) throws IOException {
-        // TODO Auto-generated method stub
-      }
-
-    });
-    return builder.build();
   }
   // Methods -
 
