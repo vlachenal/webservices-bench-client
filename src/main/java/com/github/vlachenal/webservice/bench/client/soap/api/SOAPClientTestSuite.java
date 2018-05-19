@@ -142,7 +142,7 @@ public class SOAPClientTestSuite extends AbstractClientTestSuite<Customer, Clien
     } finally {
       call.setClientEnd(System.nanoTime());
     }
-    if(!cust.getId().equals(customer.getId())) {
+    if(cust != null && !cust.getId().equals(customer.getId())) {
       LOG.warn("Customer should have " + customer.getId() + " instead of " + cust.getId());
     }
     return call;
