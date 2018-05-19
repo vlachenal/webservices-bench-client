@@ -41,11 +41,11 @@ import com.github.vlachenal.webservice.bench.client.utils.ApplicationProfiles;
 @SpringBootTest(classes=ApplicationTest.class)
 @RunWith(SpringRunner.class)
 @ActiveProfiles(ApplicationProfiles.TEST)
-public class RESTfulClientTest {
+public class RESTWebfluxClientTest {
 
   // Attributes +
-  /** {@link RESTfulClientTest} logger instance */
-  private static final Logger LOG = LoggerFactory.getLogger(RESTfulClientTest.class);
+  /** {@link RESTWebfluxClientTest} logger instance */
+  private static final Logger LOG = LoggerFactory.getLogger(RESTWebfluxClientTest.class);
 
   /** RESTfull client */
   @Autowired
