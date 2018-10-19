@@ -1,14 +1,14 @@
 buildscript {
-    ext {
-        springBootVersion = '2.0.4.RELEASE'
-    }
-    repositories {
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
+  ext {
+    springBootVersion = '2.0.6.RELEASE'
+  }
+  repositories {
+    jcenter()
+    mavenCentral()
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+  }
 }
 
 apply plugin: 'java'
@@ -18,17 +18,17 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 sourceCompatibility = 10
 targetCompatibility = 10
 
 allprojects {
-    sourceCompatibility = 10
-    eclipse.project {
-        natures 'org.eclipse.buildship.core.gradleprojectnature'
-    }
+  sourceCompatibility = 10
+  eclipse.project {
+    natures 'org.eclipse.buildship.core.gradleprojectnature'
+  }
 }
 
 compileJava {
@@ -40,37 +40,37 @@ compileJava {
 }
 
 sourceSets {
-    main {
-        java {
-            srcDir "src/thrift.generated/java"
-            srcDir "src/soap.generated/java"
-            srcDir "src/protobuf.generated/java"
-        }
+  main {
+    java {
+      srcDir "src/thrift.generated/java"
+      srcDir "src/soap.generated/java"
+      srcDir "src/protobuf.generated/java"
     }
+  }
 }
 
 jar {
-    baseName = 'webservices-bench-client'
-    version =  '0.1.0'
+  baseName = 'webservices-bench-client'
+  version =  '0.1.0'
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter")
-    //compile("org.springframework.boot:spring-boot-starter-webflux")
-    compile("org.springframework:spring-web")
-    compile("org.springframework:spring-webflux")
-    compile("com.fasterxml.jackson.core:jackson-databind")
-    compile("org.apache.thrift:libthrift:0.11.0")
-    compile("org.apache.commons:commons-pool2:2.5.0")
-    compile("org.springframework.ws:spring-ws-core")
-    // Protocol buffer
-    compile 'com.google.protobuf:protobuf-java:3.5.1'
-    compile 'com.google.protobuf:protobuf-java-util:3.5.1'
-    // Reactive
-    compile 'io.projectreactor.ipc:reactor-netty'
-    // JAXB
-    compile "javax.xml.bind:jaxb-api:2.3.0"
-    testCompile("junit:junit")
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile 'io.projectreactor:reactor-test'
+  compile("org.springframework.boot:spring-boot-starter")
+  //compile("org.springframework.boot:spring-boot-starter-webflux")
+  compile("org.springframework:spring-web")
+  compile("org.springframework:spring-webflux")
+  compile("com.fasterxml.jackson.core:jackson-databind")
+  compile("org.apache.thrift:libthrift:0.11.0")
+  compile("org.apache.commons:commons-pool2:2.6.0")
+  compile("org.springframework.ws:spring-ws-core")
+  // Protocol buffer
+  compile 'com.google.protobuf:protobuf-java:3.6.1'
+  compile 'com.google.protobuf:protobuf-java-util:3.6.1'
+  // Reactive
+  compile 'io.projectreactor.ipc:reactor-netty'
+  // JAXB
+  compile "javax.xml.bind:jaxb-api:2.3.0"
+  testCompile("junit:junit")
+  testCompile('org.springframework.boot:spring-boot-starter-test')
+  testCompile 'io.projectreactor:reactor-test'
 }

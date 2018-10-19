@@ -53,13 +53,6 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          default: {
-            if (!parseUnknownFieldProto3(
-                input, unknownFields, extensionRegistry, tag)) {
-              done = true;
-            }
-            break;
-          }
           case 10: {
             java.lang.String s = input.readStringRequireUtf8();
 
@@ -111,6 +104,13 @@ private static final long serialVersionUID = 0L;
                 input.readMessage(com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.parser(), extensionRegistry));
             break;
           }
+          default: {
+            if (!parseUnknownFieldProto3(
+                input, unknownFields, extensionRegistry, tag)) {
+              done = true;
+            }
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -131,6 +131,7 @@ private static final long serialVersionUID = 0L;
     return com.github.vlachenal.webservice.bench.protobuf.api.CustomerOuterClass.internal_static_webservicebench_Customer_descriptor;
   }
 
+  @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return com.github.vlachenal.webservice.bench.protobuf.api.CustomerOuterClass.internal_static_webservicebench_Customer_fieldAccessorTable
@@ -279,13 +280,6 @@ private static final long serialVersionUID = 0L;
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -313,6 +307,13 @@ private static final long serialVersionUID = 0L;
               country_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -333,6 +334,7 @@ private static final long serialVersionUID = 0L;
       return com.github.vlachenal.webservice.bench.protobuf.api.CustomerOuterClass.internal_static_webservicebench_Customer_Address_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.github.vlachenal.webservice.bench.protobuf.api.CustomerOuterClass.internal_static_webservicebench_Customer_Address_fieldAccessorTable
@@ -513,6 +515,7 @@ private static final long serialVersionUID = 0L;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -522,6 +525,7 @@ private static final long serialVersionUID = 0L;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < lines_.size(); i++) {
@@ -539,6 +543,7 @@ private static final long serialVersionUID = 0L;
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -681,6 +686,7 @@ private static final long serialVersionUID = 0L;
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -688,6 +694,7 @@ private static final long serialVersionUID = 0L;
     public static Builder newBuilder(com.github.vlachenal.webservice.bench.protobuf.api.Customer.Address prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -716,6 +723,7 @@ private static final long serialVersionUID = 0L;
         return com.github.vlachenal.webservice.bench.protobuf.api.CustomerOuterClass.internal_static_webservicebench_Customer_Address_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.github.vlachenal.webservice.bench.protobuf.api.CustomerOuterClass.internal_static_webservicebench_Customer_Address_fieldAccessorTable
@@ -738,6 +746,7 @@ private static final long serialVersionUID = 0L;
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         lines_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -751,15 +760,18 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.github.vlachenal.webservice.bench.protobuf.api.CustomerOuterClass.internal_static_webservicebench_Customer_Address_descriptor;
       }
 
+      @java.lang.Override
       public com.github.vlachenal.webservice.bench.protobuf.api.Customer.Address getDefaultInstanceForType() {
         return com.github.vlachenal.webservice.bench.protobuf.api.Customer.Address.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.github.vlachenal.webservice.bench.protobuf.api.Customer.Address build() {
         com.github.vlachenal.webservice.bench.protobuf.api.Customer.Address result = buildPartial();
         if (!result.isInitialized()) {
@@ -768,6 +780,7 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public com.github.vlachenal.webservice.bench.protobuf.api.Customer.Address buildPartial() {
         com.github.vlachenal.webservice.bench.protobuf.api.Customer.Address result = new com.github.vlachenal.webservice.bench.protobuf.api.Customer.Address(this);
         int from_bitField0_ = bitField0_;
@@ -785,32 +798,39 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return (Builder) super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.github.vlachenal.webservice.bench.protobuf.api.Customer.Address) {
           return mergeFrom((com.github.vlachenal.webservice.bench.protobuf.api.Customer.Address)other);
@@ -849,10 +869,12 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1268,11 +1290,13 @@ private static final long serialVersionUID = 0L;
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1294,6 +1318,7 @@ private static final long serialVersionUID = 0L;
 
     private static final com.google.protobuf.Parser<Address>
         PARSER = new com.google.protobuf.AbstractParser<Address>() {
+      @java.lang.Override
       public Address parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1311,6 +1336,7 @@ private static final long serialVersionUID = 0L;
       return PARSER;
     }
 
+    @java.lang.Override
     public com.github.vlachenal.webservice.bench.protobuf.api.Customer.Address getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1402,13 +1428,6 @@ private static final long serialVersionUID = 0L;
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -1419,6 +1438,13 @@ private static final long serialVersionUID = 0L;
               int rawValue = input.readEnum();
 
               type_ = rawValue;
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -1438,6 +1464,7 @@ private static final long serialVersionUID = 0L;
       return com.github.vlachenal.webservice.bench.protobuf.api.CustomerOuterClass.internal_static_webservicebench_Customer_Phone_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.github.vlachenal.webservice.bench.protobuf.api.CustomerOuterClass.internal_static_webservicebench_Customer_Phone_fieldAccessorTable
@@ -1643,11 +1670,13 @@ private static final long serialVersionUID = 0L;
      * <code>.webservicebench.Customer.Phone.PhoneType type = 2;</code>
      */
     public com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType getType() {
+      @SuppressWarnings("deprecation")
       com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType result = com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.valueOf(type_);
       return result == null ? com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1657,6 +1686,7 @@ private static final long serialVersionUID = 0L;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getNumberBytes().isEmpty()) {
@@ -1668,6 +1698,7 @@ private static final long serialVersionUID = 0L;
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1789,6 +1820,7 @@ private static final long serialVersionUID = 0L;
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1796,6 +1828,7 @@ private static final long serialVersionUID = 0L;
     public static Builder newBuilder(com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1824,6 +1857,7 @@ private static final long serialVersionUID = 0L;
         return com.github.vlachenal.webservice.bench.protobuf.api.CustomerOuterClass.internal_static_webservicebench_Customer_Phone_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.github.vlachenal.webservice.bench.protobuf.api.CustomerOuterClass.internal_static_webservicebench_Customer_Phone_fieldAccessorTable
@@ -1846,6 +1880,7 @@ private static final long serialVersionUID = 0L;
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         number_ = "";
@@ -1855,15 +1890,18 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.github.vlachenal.webservice.bench.protobuf.api.CustomerOuterClass.internal_static_webservicebench_Customer_Phone_descriptor;
       }
 
+      @java.lang.Override
       public com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone getDefaultInstanceForType() {
         return com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone build() {
         com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone result = buildPartial();
         if (!result.isInitialized()) {
@@ -1872,6 +1910,7 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone buildPartial() {
         com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone result = new com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone(this);
         result.number_ = number_;
@@ -1880,32 +1919,39 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return (Builder) super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone) {
           return mergeFrom((com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone)other);
@@ -1929,10 +1975,12 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2071,6 +2119,7 @@ private static final long serialVersionUID = 0L;
        * <code>.webservicebench.Customer.Phone.PhoneType type = 2;</code>
        */
       public com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType getType() {
+        @SuppressWarnings("deprecation")
         com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType result = com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.valueOf(type_);
         return result == null ? com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone.PhoneType.UNRECOGNIZED : result;
       }
@@ -2103,11 +2152,13 @@ private static final long serialVersionUID = 0L;
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2129,6 +2180,7 @@ private static final long serialVersionUID = 0L;
 
     private static final com.google.protobuf.Parser<Phone>
         PARSER = new com.google.protobuf.AbstractParser<Phone>() {
+      @java.lang.Override
       public Phone parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2146,6 +2198,7 @@ private static final long serialVersionUID = 0L;
       return PARSER;
     }
 
+    @java.lang.Override
     public com.github.vlachenal.webservice.bench.protobuf.api.Customer.Phone getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2423,6 +2476,7 @@ private static final long serialVersionUID = 0L;
   }
 
   private byte memoizedIsInitialized = -1;
+  @java.lang.Override
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
     if (isInitialized == 1) return true;
@@ -2432,6 +2486,7 @@ private static final long serialVersionUID = 0L;
     return true;
   }
 
+  @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     if (!getIdBytes().isEmpty()) {
@@ -2458,6 +2513,7 @@ private static final long serialVersionUID = 0L;
     unknownFields.writeTo(output);
   }
 
+  @java.lang.Override
   public int getSerializedSize() {
     int size = memoizedSize;
     if (size != -1) return size;
@@ -2625,6 +2681,7 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
+  @java.lang.Override
   public Builder newBuilderForType() { return newBuilder(); }
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
@@ -2632,6 +2689,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder(com.github.vlachenal.webservice.bench.protobuf.api.Customer prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
+  @java.lang.Override
   public Builder toBuilder() {
     return this == DEFAULT_INSTANCE
         ? new Builder() : new Builder().mergeFrom(this);
@@ -2660,6 +2718,7 @@ private static final long serialVersionUID = 0L;
       return com.github.vlachenal.webservice.bench.protobuf.api.CustomerOuterClass.internal_static_webservicebench_Customer_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.github.vlachenal.webservice.bench.protobuf.api.CustomerOuterClass.internal_static_webservicebench_Customer_fieldAccessorTable
@@ -2683,6 +2742,7 @@ private static final long serialVersionUID = 0L;
         getPhonesFieldBuilder();
       }
     }
+    @java.lang.Override
     public Builder clear() {
       super.clear();
       id_ = "";
@@ -2710,15 +2770,18 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
+    @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
       return com.github.vlachenal.webservice.bench.protobuf.api.CustomerOuterClass.internal_static_webservicebench_Customer_descriptor;
     }
 
+    @java.lang.Override
     public com.github.vlachenal.webservice.bench.protobuf.api.Customer getDefaultInstanceForType() {
       return com.github.vlachenal.webservice.bench.protobuf.api.Customer.getDefaultInstance();
     }
 
+    @java.lang.Override
     public com.github.vlachenal.webservice.bench.protobuf.api.Customer build() {
       com.github.vlachenal.webservice.bench.protobuf.api.Customer result = buildPartial();
       if (!result.isInitialized()) {
@@ -2727,6 +2790,7 @@ private static final long serialVersionUID = 0L;
       return result;
     }
 
+    @java.lang.Override
     public com.github.vlachenal.webservice.bench.protobuf.api.Customer buildPartial() {
       com.github.vlachenal.webservice.bench.protobuf.api.Customer result = new com.github.vlachenal.webservice.bench.protobuf.api.Customer(this);
       int from_bitField0_ = bitField0_;
@@ -2755,32 +2819,39 @@ private static final long serialVersionUID = 0L;
       return result;
     }
 
+    @java.lang.Override
     public Builder clone() {
       return (Builder) super.clone();
     }
+    @java.lang.Override
     public Builder setField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         java.lang.Object value) {
       return (Builder) super.setField(field, value);
     }
+    @java.lang.Override
     public Builder clearField(
         com.google.protobuf.Descriptors.FieldDescriptor field) {
       return (Builder) super.clearField(field);
     }
+    @java.lang.Override
     public Builder clearOneof(
         com.google.protobuf.Descriptors.OneofDescriptor oneof) {
       return (Builder) super.clearOneof(oneof);
     }
+    @java.lang.Override
     public Builder setRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         int index, java.lang.Object value) {
       return (Builder) super.setRepeatedField(field, index, value);
     }
+    @java.lang.Override
     public Builder addRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         java.lang.Object value) {
       return (Builder) super.addRepeatedField(field, value);
     }
+    @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof com.github.vlachenal.webservice.bench.protobuf.api.Customer) {
         return mergeFrom((com.github.vlachenal.webservice.bench.protobuf.api.Customer)other);
@@ -2845,10 +2916,12 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
+    @java.lang.Override
     public final boolean isInitialized() {
       return true;
     }
 
+    @java.lang.Override
     public Builder mergeFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3726,11 +3799,13 @@ private static final long serialVersionUID = 0L;
       }
       return phonesBuilder_;
     }
+    @java.lang.Override
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
       return super.setUnknownFieldsProto3(unknownFields);
     }
 
+    @java.lang.Override
     public final Builder mergeUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
       return super.mergeUnknownFields(unknownFields);
@@ -3752,6 +3827,7 @@ private static final long serialVersionUID = 0L;
 
   private static final com.google.protobuf.Parser<Customer>
       PARSER = new com.google.protobuf.AbstractParser<Customer>() {
+    @java.lang.Override
     public Customer parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3769,6 +3845,7 @@ private static final long serialVersionUID = 0L;
     return PARSER;
   }
 
+  @java.lang.Override
   public com.github.vlachenal.webservice.bench.protobuf.api.Customer getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }

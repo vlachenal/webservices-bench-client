@@ -15,18 +15,54 @@ public class ListAllRequest implements org.apache.thrift.TBase<ListAllRequest, L
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("ListAllRequest");
 
   private static final org.apache.thrift.protocol.TField HEADER_FIELD_DESC = new org.apache.thrift.protocol.TField("header", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+  private static final org.apache.thrift.protocol.TField FIRST_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("firstName", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField LAST_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("lastName", org.apache.thrift.protocol.TType.STRING, (short)3);
+  private static final org.apache.thrift.protocol.TField EMAIL_FIELD_DESC = new org.apache.thrift.protocol.TField("email", org.apache.thrift.protocol.TType.STRING, (short)4);
+  private static final org.apache.thrift.protocol.TField BIRTH_DATE_FIELD_DESC = new org.apache.thrift.protocol.TField("birthDate", org.apache.thrift.protocol.TType.I64, (short)5);
+  private static final org.apache.thrift.protocol.TField BORN_BEFORE_FIELD_DESC = new org.apache.thrift.protocol.TField("bornBefore", org.apache.thrift.protocol.TType.I64, (short)6);
+  private static final org.apache.thrift.protocol.TField BORN_AFTER_FIELD_DESC = new org.apache.thrift.protocol.TField("bornAfter", org.apache.thrift.protocol.TType.I64, (short)7);
 
   private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new ListAllRequestStandardSchemeFactory();
   private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new ListAllRequestTupleSchemeFactory();
 
   private Header header; // required
+  private java.lang.String firstName; // required
+  private java.lang.String lastName; // required
+  private java.lang.String email; // required
+  private long birthDate; // required
+  private long bornBefore; // required
+  private long bornAfter; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     /**
      * Request header
      */
-    HEADER((short)1, "header");
+    HEADER((short)1, "header"),
+    /**
+     * First name
+     */
+    FIRST_NAME((short)2, "firstName"),
+    /**
+     * Last name
+     */
+    LAST_NAME((short)3, "lastName"),
+    /**
+     * Email
+     */
+    EMAIL((short)4, "email"),
+    /**
+     * Birth date
+     */
+    BIRTH_DATE((short)5, "birthDate"),
+    /**
+     * Maximum birth date
+     */
+    BORN_BEFORE((short)6, "bornBefore"),
+    /**
+     * Minimum birth date
+     */
+    BORN_AFTER((short)7, "bornAfter");
 
     private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -43,6 +79,18 @@ public class ListAllRequest implements org.apache.thrift.TBase<ListAllRequest, L
       switch(fieldId) {
         case 1: // HEADER
           return HEADER;
+        case 2: // FIRST_NAME
+          return FIRST_NAME;
+        case 3: // LAST_NAME
+          return LAST_NAME;
+        case 4: // EMAIL
+          return EMAIL;
+        case 5: // BIRTH_DATE
+          return BIRTH_DATE;
+        case 6: // BORN_BEFORE
+          return BORN_BEFORE;
+        case 7: // BORN_AFTER
+          return BORN_AFTER;
         default:
           return null;
       }
@@ -83,11 +131,27 @@ public class ListAllRequest implements org.apache.thrift.TBase<ListAllRequest, L
   }
 
   // isset id assignments
+  private static final int __BIRTHDATE_ISSET_ID = 0;
+  private static final int __BORNBEFORE_ISSET_ID = 1;
+  private static final int __BORNAFTER_ISSET_ID = 2;
+  private byte __isset_bitfield = 0;
   public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
     tmpMap.put(_Fields.HEADER, new org.apache.thrift.meta_data.FieldMetaData("header", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Header.class)));
+    tmpMap.put(_Fields.FIRST_NAME, new org.apache.thrift.meta_data.FieldMetaData("firstName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.LAST_NAME, new org.apache.thrift.meta_data.FieldMetaData("lastName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.EMAIL, new org.apache.thrift.meta_data.FieldMetaData("email", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.BIRTH_DATE, new org.apache.thrift.meta_data.FieldMetaData("birthDate", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.BORN_BEFORE, new org.apache.thrift.meta_data.FieldMetaData("bornBefore", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.BORN_AFTER, new org.apache.thrift.meta_data.FieldMetaData("bornAfter", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
     metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ListAllRequest.class, metaDataMap);
   }
@@ -96,19 +160,47 @@ public class ListAllRequest implements org.apache.thrift.TBase<ListAllRequest, L
   }
 
   public ListAllRequest(
-    Header header)
+    Header header,
+    java.lang.String firstName,
+    java.lang.String lastName,
+    java.lang.String email,
+    long birthDate,
+    long bornBefore,
+    long bornAfter)
   {
     this();
     this.header = header;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.birthDate = birthDate;
+    setBirthDateIsSet(true);
+    this.bornBefore = bornBefore;
+    setBornBeforeIsSet(true);
+    this.bornAfter = bornAfter;
+    setBornAfterIsSet(true);
   }
 
   /**
    * Performs a deep copy on <i>other</i>.
    */
   public ListAllRequest(ListAllRequest other) {
+    __isset_bitfield = other.__isset_bitfield;
     if (other.isSetHeader()) {
       this.header = new Header(other.header);
     }
+    if (other.isSetFirstName()) {
+      this.firstName = other.firstName;
+    }
+    if (other.isSetLastName()) {
+      this.lastName = other.lastName;
+    }
+    if (other.isSetEmail()) {
+      this.email = other.email;
+    }
+    this.birthDate = other.birthDate;
+    this.bornBefore = other.bornBefore;
+    this.bornAfter = other.bornAfter;
   }
 
   public ListAllRequest deepCopy() {
@@ -118,6 +210,15 @@ public class ListAllRequest implements org.apache.thrift.TBase<ListAllRequest, L
   @Override
   public void clear() {
     this.header = null;
+    this.firstName = null;
+    this.lastName = null;
+    this.email = null;
+    setBirthDateIsSet(false);
+    this.birthDate = 0;
+    setBornBeforeIsSet(false);
+    this.bornBefore = 0;
+    setBornAfterIsSet(false);
+    this.bornAfter = 0;
   }
 
   /**
@@ -149,6 +250,177 @@ public class ListAllRequest implements org.apache.thrift.TBase<ListAllRequest, L
     }
   }
 
+  /**
+   * First name
+   */
+  public java.lang.String getFirstName() {
+    return this.firstName;
+  }
+
+  /**
+   * First name
+   */
+  public void setFirstName(java.lang.String firstName) {
+    this.firstName = firstName;
+  }
+
+  public void unsetFirstName() {
+    this.firstName = null;
+  }
+
+  /** Returns true if field firstName is set (has been assigned a value) and false otherwise */
+  public boolean isSetFirstName() {
+    return this.firstName != null;
+  }
+
+  public void setFirstNameIsSet(boolean value) {
+    if (!value) {
+      this.firstName = null;
+    }
+  }
+
+  /**
+   * Last name
+   */
+  public java.lang.String getLastName() {
+    return this.lastName;
+  }
+
+  /**
+   * Last name
+   */
+  public void setLastName(java.lang.String lastName) {
+    this.lastName = lastName;
+  }
+
+  public void unsetLastName() {
+    this.lastName = null;
+  }
+
+  /** Returns true if field lastName is set (has been assigned a value) and false otherwise */
+  public boolean isSetLastName() {
+    return this.lastName != null;
+  }
+
+  public void setLastNameIsSet(boolean value) {
+    if (!value) {
+      this.lastName = null;
+    }
+  }
+
+  /**
+   * Email
+   */
+  public java.lang.String getEmail() {
+    return this.email;
+  }
+
+  /**
+   * Email
+   */
+  public void setEmail(java.lang.String email) {
+    this.email = email;
+  }
+
+  public void unsetEmail() {
+    this.email = null;
+  }
+
+  /** Returns true if field email is set (has been assigned a value) and false otherwise */
+  public boolean isSetEmail() {
+    return this.email != null;
+  }
+
+  public void setEmailIsSet(boolean value) {
+    if (!value) {
+      this.email = null;
+    }
+  }
+
+  /**
+   * Birth date
+   */
+  public long getBirthDate() {
+    return this.birthDate;
+  }
+
+  /**
+   * Birth date
+   */
+  public void setBirthDate(long birthDate) {
+    this.birthDate = birthDate;
+    setBirthDateIsSet(true);
+  }
+
+  public void unsetBirthDate() {
+    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __BIRTHDATE_ISSET_ID);
+  }
+
+  /** Returns true if field birthDate is set (has been assigned a value) and false otherwise */
+  public boolean isSetBirthDate() {
+    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __BIRTHDATE_ISSET_ID);
+  }
+
+  public void setBirthDateIsSet(boolean value) {
+    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BIRTHDATE_ISSET_ID, value);
+  }
+
+  /**
+   * Maximum birth date
+   */
+  public long getBornBefore() {
+    return this.bornBefore;
+  }
+
+  /**
+   * Maximum birth date
+   */
+  public void setBornBefore(long bornBefore) {
+    this.bornBefore = bornBefore;
+    setBornBeforeIsSet(true);
+  }
+
+  public void unsetBornBefore() {
+    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __BORNBEFORE_ISSET_ID);
+  }
+
+  /** Returns true if field bornBefore is set (has been assigned a value) and false otherwise */
+  public boolean isSetBornBefore() {
+    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __BORNBEFORE_ISSET_ID);
+  }
+
+  public void setBornBeforeIsSet(boolean value) {
+    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BORNBEFORE_ISSET_ID, value);
+  }
+
+  /**
+   * Minimum birth date
+   */
+  public long getBornAfter() {
+    return this.bornAfter;
+  }
+
+  /**
+   * Minimum birth date
+   */
+  public void setBornAfter(long bornAfter) {
+    this.bornAfter = bornAfter;
+    setBornAfterIsSet(true);
+  }
+
+  public void unsetBornAfter() {
+    __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __BORNAFTER_ISSET_ID);
+  }
+
+  /** Returns true if field bornAfter is set (has been assigned a value) and false otherwise */
+  public boolean isSetBornAfter() {
+    return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __BORNAFTER_ISSET_ID);
+  }
+
+  public void setBornAfterIsSet(boolean value) {
+    __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __BORNAFTER_ISSET_ID, value);
+  }
+
   public void setFieldValue(_Fields field, java.lang.Object value) {
     switch (field) {
     case HEADER:
@@ -159,6 +431,54 @@ public class ListAllRequest implements org.apache.thrift.TBase<ListAllRequest, L
       }
       break;
 
+    case FIRST_NAME:
+      if (value == null) {
+        unsetFirstName();
+      } else {
+        setFirstName((java.lang.String)value);
+      }
+      break;
+
+    case LAST_NAME:
+      if (value == null) {
+        unsetLastName();
+      } else {
+        setLastName((java.lang.String)value);
+      }
+      break;
+
+    case EMAIL:
+      if (value == null) {
+        unsetEmail();
+      } else {
+        setEmail((java.lang.String)value);
+      }
+      break;
+
+    case BIRTH_DATE:
+      if (value == null) {
+        unsetBirthDate();
+      } else {
+        setBirthDate((java.lang.Long)value);
+      }
+      break;
+
+    case BORN_BEFORE:
+      if (value == null) {
+        unsetBornBefore();
+      } else {
+        setBornBefore((java.lang.Long)value);
+      }
+      break;
+
+    case BORN_AFTER:
+      if (value == null) {
+        unsetBornAfter();
+      } else {
+        setBornAfter((java.lang.Long)value);
+      }
+      break;
+
     }
   }
 
@@ -166,6 +486,24 @@ public class ListAllRequest implements org.apache.thrift.TBase<ListAllRequest, L
     switch (field) {
     case HEADER:
       return getHeader();
+
+    case FIRST_NAME:
+      return getFirstName();
+
+    case LAST_NAME:
+      return getLastName();
+
+    case EMAIL:
+      return getEmail();
+
+    case BIRTH_DATE:
+      return getBirthDate();
+
+    case BORN_BEFORE:
+      return getBornBefore();
+
+    case BORN_AFTER:
+      return getBornAfter();
 
     }
     throw new java.lang.IllegalStateException();
@@ -180,6 +518,18 @@ public class ListAllRequest implements org.apache.thrift.TBase<ListAllRequest, L
     switch (field) {
     case HEADER:
       return isSetHeader();
+    case FIRST_NAME:
+      return isSetFirstName();
+    case LAST_NAME:
+      return isSetLastName();
+    case EMAIL:
+      return isSetEmail();
+    case BIRTH_DATE:
+      return isSetBirthDate();
+    case BORN_BEFORE:
+      return isSetBornBefore();
+    case BORN_AFTER:
+      return isSetBornAfter();
     }
     throw new java.lang.IllegalStateException();
   }
@@ -208,6 +558,60 @@ public class ListAllRequest implements org.apache.thrift.TBase<ListAllRequest, L
         return false;
     }
 
+    boolean this_present_firstName = true && this.isSetFirstName();
+    boolean that_present_firstName = true && that.isSetFirstName();
+    if (this_present_firstName || that_present_firstName) {
+      if (!(this_present_firstName && that_present_firstName))
+        return false;
+      if (!this.firstName.equals(that.firstName))
+        return false;
+    }
+
+    boolean this_present_lastName = true && this.isSetLastName();
+    boolean that_present_lastName = true && that.isSetLastName();
+    if (this_present_lastName || that_present_lastName) {
+      if (!(this_present_lastName && that_present_lastName))
+        return false;
+      if (!this.lastName.equals(that.lastName))
+        return false;
+    }
+
+    boolean this_present_email = true && this.isSetEmail();
+    boolean that_present_email = true && that.isSetEmail();
+    if (this_present_email || that_present_email) {
+      if (!(this_present_email && that_present_email))
+        return false;
+      if (!this.email.equals(that.email))
+        return false;
+    }
+
+    boolean this_present_birthDate = true;
+    boolean that_present_birthDate = true;
+    if (this_present_birthDate || that_present_birthDate) {
+      if (!(this_present_birthDate && that_present_birthDate))
+        return false;
+      if (this.birthDate != that.birthDate)
+        return false;
+    }
+
+    boolean this_present_bornBefore = true;
+    boolean that_present_bornBefore = true;
+    if (this_present_bornBefore || that_present_bornBefore) {
+      if (!(this_present_bornBefore && that_present_bornBefore))
+        return false;
+      if (this.bornBefore != that.bornBefore)
+        return false;
+    }
+
+    boolean this_present_bornAfter = true;
+    boolean that_present_bornAfter = true;
+    if (this_present_bornAfter || that_present_bornAfter) {
+      if (!(this_present_bornAfter && that_present_bornAfter))
+        return false;
+      if (this.bornAfter != that.bornAfter)
+        return false;
+    }
+
     return true;
   }
 
@@ -218,6 +622,24 @@ public class ListAllRequest implements org.apache.thrift.TBase<ListAllRequest, L
     hashCode = hashCode * 8191 + ((isSetHeader()) ? 131071 : 524287);
     if (isSetHeader())
       hashCode = hashCode * 8191 + header.hashCode();
+
+    hashCode = hashCode * 8191 + ((isSetFirstName()) ? 131071 : 524287);
+    if (isSetFirstName())
+      hashCode = hashCode * 8191 + firstName.hashCode();
+
+    hashCode = hashCode * 8191 + ((isSetLastName()) ? 131071 : 524287);
+    if (isSetLastName())
+      hashCode = hashCode * 8191 + lastName.hashCode();
+
+    hashCode = hashCode * 8191 + ((isSetEmail()) ? 131071 : 524287);
+    if (isSetEmail())
+      hashCode = hashCode * 8191 + email.hashCode();
+
+    hashCode = hashCode * 8191 + org.apache.thrift.TBaseHelper.hashCode(birthDate);
+
+    hashCode = hashCode * 8191 + org.apache.thrift.TBaseHelper.hashCode(bornBefore);
+
+    hashCode = hashCode * 8191 + org.apache.thrift.TBaseHelper.hashCode(bornAfter);
 
     return hashCode;
   }
@@ -236,6 +658,66 @@ public class ListAllRequest implements org.apache.thrift.TBase<ListAllRequest, L
     }
     if (isSetHeader()) {
       lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.header, other.header);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = java.lang.Boolean.valueOf(isSetFirstName()).compareTo(other.isSetFirstName());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetFirstName()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.firstName, other.firstName);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = java.lang.Boolean.valueOf(isSetLastName()).compareTo(other.isSetLastName());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetLastName()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.lastName, other.lastName);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = java.lang.Boolean.valueOf(isSetEmail()).compareTo(other.isSetEmail());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetEmail()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.email, other.email);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = java.lang.Boolean.valueOf(isSetBirthDate()).compareTo(other.isSetBirthDate());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetBirthDate()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.birthDate, other.birthDate);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = java.lang.Boolean.valueOf(isSetBornBefore()).compareTo(other.isSetBornBefore());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetBornBefore()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bornBefore, other.bornBefore);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = java.lang.Boolean.valueOf(isSetBornAfter()).compareTo(other.isSetBornAfter());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetBornAfter()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bornAfter, other.bornAfter);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -267,6 +749,42 @@ public class ListAllRequest implements org.apache.thrift.TBase<ListAllRequest, L
       sb.append(this.header);
     }
     first = false;
+    if (!first) sb.append(", ");
+    sb.append("firstName:");
+    if (this.firstName == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.firstName);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("lastName:");
+    if (this.lastName == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.lastName);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("email:");
+    if (this.email == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.email);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("birthDate:");
+    sb.append(this.birthDate);
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("bornBefore:");
+    sb.append(this.bornBefore);
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("bornAfter:");
+    sb.append(this.bornAfter);
+    first = false;
     sb.append(")");
     return sb.toString();
   }
@@ -289,6 +807,8 @@ public class ListAllRequest implements org.apache.thrift.TBase<ListAllRequest, L
 
   private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
     try {
+      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+      __isset_bitfield = 0;
       read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
     } catch (org.apache.thrift.TException te) {
       throw new java.io.IOException(te);
@@ -322,6 +842,54 @@ public class ListAllRequest implements org.apache.thrift.TBase<ListAllRequest, L
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
+          case 2: // FIRST_NAME
+            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+              struct.firstName = iprot.readString();
+              struct.setFirstNameIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 3: // LAST_NAME
+            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+              struct.lastName = iprot.readString();
+              struct.setLastNameIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 4: // EMAIL
+            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+              struct.email = iprot.readString();
+              struct.setEmailIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 5: // BIRTH_DATE
+            if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+              struct.birthDate = iprot.readI64();
+              struct.setBirthDateIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 6: // BORN_BEFORE
+            if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+              struct.bornBefore = iprot.readI64();
+              struct.setBornBeforeIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
+          case 7: // BORN_AFTER
+            if (schemeField.type == org.apache.thrift.protocol.TType.I64) {
+              struct.bornAfter = iprot.readI64();
+              struct.setBornAfterIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
           default:
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
@@ -340,6 +908,30 @@ public class ListAllRequest implements org.apache.thrift.TBase<ListAllRequest, L
         struct.header.write(oprot);
         oprot.writeFieldEnd();
       }
+      if (struct.firstName != null) {
+        oprot.writeFieldBegin(FIRST_NAME_FIELD_DESC);
+        oprot.writeString(struct.firstName);
+        oprot.writeFieldEnd();
+      }
+      if (struct.lastName != null) {
+        oprot.writeFieldBegin(LAST_NAME_FIELD_DESC);
+        oprot.writeString(struct.lastName);
+        oprot.writeFieldEnd();
+      }
+      if (struct.email != null) {
+        oprot.writeFieldBegin(EMAIL_FIELD_DESC);
+        oprot.writeString(struct.email);
+        oprot.writeFieldEnd();
+      }
+      oprot.writeFieldBegin(BIRTH_DATE_FIELD_DESC);
+      oprot.writeI64(struct.birthDate);
+      oprot.writeFieldEnd();
+      oprot.writeFieldBegin(BORN_BEFORE_FIELD_DESC);
+      oprot.writeI64(struct.bornBefore);
+      oprot.writeFieldEnd();
+      oprot.writeFieldBegin(BORN_AFTER_FIELD_DESC);
+      oprot.writeI64(struct.bornAfter);
+      oprot.writeFieldEnd();
       oprot.writeFieldStop();
       oprot.writeStructEnd();
     }
@@ -361,20 +953,80 @@ public class ListAllRequest implements org.apache.thrift.TBase<ListAllRequest, L
       if (struct.isSetHeader()) {
         optionals.set(0);
       }
-      oprot.writeBitSet(optionals, 1);
+      if (struct.isSetFirstName()) {
+        optionals.set(1);
+      }
+      if (struct.isSetLastName()) {
+        optionals.set(2);
+      }
+      if (struct.isSetEmail()) {
+        optionals.set(3);
+      }
+      if (struct.isSetBirthDate()) {
+        optionals.set(4);
+      }
+      if (struct.isSetBornBefore()) {
+        optionals.set(5);
+      }
+      if (struct.isSetBornAfter()) {
+        optionals.set(6);
+      }
+      oprot.writeBitSet(optionals, 7);
       if (struct.isSetHeader()) {
         struct.header.write(oprot);
+      }
+      if (struct.isSetFirstName()) {
+        oprot.writeString(struct.firstName);
+      }
+      if (struct.isSetLastName()) {
+        oprot.writeString(struct.lastName);
+      }
+      if (struct.isSetEmail()) {
+        oprot.writeString(struct.email);
+      }
+      if (struct.isSetBirthDate()) {
+        oprot.writeI64(struct.birthDate);
+      }
+      if (struct.isSetBornBefore()) {
+        oprot.writeI64(struct.bornBefore);
+      }
+      if (struct.isSetBornAfter()) {
+        oprot.writeI64(struct.bornAfter);
       }
     }
 
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, ListAllRequest struct) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-      java.util.BitSet incoming = iprot.readBitSet(1);
+      java.util.BitSet incoming = iprot.readBitSet(7);
       if (incoming.get(0)) {
         struct.header = new Header();
         struct.header.read(iprot);
         struct.setHeaderIsSet(true);
+      }
+      if (incoming.get(1)) {
+        struct.firstName = iprot.readString();
+        struct.setFirstNameIsSet(true);
+      }
+      if (incoming.get(2)) {
+        struct.lastName = iprot.readString();
+        struct.setLastNameIsSet(true);
+      }
+      if (incoming.get(3)) {
+        struct.email = iprot.readString();
+        struct.setEmailIsSet(true);
+      }
+      if (incoming.get(4)) {
+        struct.birthDate = iprot.readI64();
+        struct.setBirthDateIsSet(true);
+      }
+      if (incoming.get(5)) {
+        struct.bornBefore = iprot.readI64();
+        struct.setBornBeforeIsSet(true);
+      }
+      if (incoming.get(6)) {
+        struct.bornAfter = iprot.readI64();
+        struct.setBornAfterIsSet(true);
       }
     }
   }
