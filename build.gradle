@@ -1,6 +1,6 @@
 buildscript {
   ext {
-    springBootVersion = '2.0.6.RELEASE'
+    springBootVersion = '2.1.1.RELEASE'
   }
   repositories {
     jcenter()
@@ -21,11 +21,11 @@ repositories {
   mavenCentral()
 }
 
-sourceCompatibility = 10
-targetCompatibility = 10
+sourceCompatibility = 11
+targetCompatibility = 11
 
 allprojects {
-  sourceCompatibility = 10
+  sourceCompatibility = 11
   eclipse.project {
     natures 'org.eclipse.buildship.core.gradleprojectnature'
   }
@@ -67,7 +67,7 @@ dependencies {
   compile 'com.google.protobuf:protobuf-java:3.6.1'
   compile 'com.google.protobuf:protobuf-java-util:3.6.1'
   // Reactive
-  compile 'io.projectreactor.ipc:reactor-netty'
+  //compile 'io.projectreactor.ipc:reactor-netty'
   // JAXB
   compile "javax.xml.bind:jaxb-api:2.3.0"
   testCompile("junit:junit")

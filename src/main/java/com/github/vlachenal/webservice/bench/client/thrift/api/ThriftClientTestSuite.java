@@ -94,7 +94,7 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     customers = data.getThriftData();
     final String url = "http://" + host + ':' + port + baseUrl + CUST_ENDPOINT;
     final TServiceClientPooledFactory<CustomerService.Client> clientFactory = new TServiceClientPooledFactory<>(new CustomerService.Client.Factory(), new TCompactProtocol.Factory(), new THttpClient.Factory(url));
-    final GenericObjectPoolConfig config = new GenericObjectPoolConfig();
+    final GenericObjectPoolConfig<CustomerService.Client> config = new GenericObjectPoolConfig<>();
     config.setMaxTotal(nbThread);
     config.setMaxIdle(nbThread);
     customerClientPool = new TServiceClientPool<>(clientFactory, config);
@@ -232,7 +232,7 @@ public class ThriftClientTestSuite extends AbstractClientTestSuite<Customer, Cli
     // Gather test suite informations -
     final String url = "http://" + host + ':' + port + baseUrl + "/thrift/statistics";
     final TServiceClientPooledFactory<StatsService.Client> clientFactory = new TServiceClientPooledFactory<>(new StatsService.Client.Factory(), new TCompactProtocol.Factory(), new THttpClient.Factory(url));
-    final GenericObjectPoolConfig config = new GenericObjectPoolConfig();
+    final GenericObjectPoolConfig<StatsService.Client> config = new GenericObjectPoolConfig<>();
     config.setMaxTotal(1);
     config.setMaxIdle(1);
     try(TServiceClientPool<StatsService.Client> pool = new TServiceClientPool<>(clientFactory, config)) {

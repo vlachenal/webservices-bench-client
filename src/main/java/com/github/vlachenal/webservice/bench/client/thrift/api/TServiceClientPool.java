@@ -28,7 +28,7 @@ public class TServiceClientPool<S extends TServiceClient> extends GenericObjectP
    * @param factory the factory to use
    * @param poolConfig the pool configuration
    */
-  public TServiceClientPool(final PooledObjectFactory<S> factory, final GenericObjectPoolConfig poolConfig) {
+  public TServiceClientPool(final PooledObjectFactory<S> factory, final GenericObjectPoolConfig<S> poolConfig) {
     super(factory, poolConfig);
     setTestOnBorrow(true);
     setTestOnReturn(true);
