@@ -17,7 +17,6 @@ private static final long serialVersionUID = 0L;
   }
   private TestSuite() {
     id_ = "";
-    nbThread_ = 0;
     compression_ = "";
     cpu_ = "";
     memory_ = "";
@@ -121,7 +120,7 @@ private static final long serialVersionUID = 0L;
             break;
           }
           case 98: {
-            if (!((mutable_bitField0_ & 0x00000800) == 0x00000800)) {
+            if (!((mutable_bitField0_ & 0x00000800) != 0)) {
               calls_ = new java.util.ArrayList<com.github.vlachenal.webservice.bench.protobuf.api.TestSuite.ClientCall>();
               mutable_bitField0_ |= 0x00000800;
             }
@@ -136,7 +135,7 @@ private static final long serialVersionUID = 0L;
             break;
           }
           default: {
-            if (!parseUnknownFieldProto3(
+            if (!parseUnknownField(
                 input, unknownFields, extensionRegistry, tag)) {
               done = true;
             }
@@ -150,7 +149,7 @@ private static final long serialVersionUID = 0L;
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
-      if (((mutable_bitField0_ & 0x00000800) == 0x00000800)) {
+      if (((mutable_bitField0_ & 0x00000800) != 0)) {
         calls_ = java.util.Collections.unmodifiableList(calls_);
       }
       this.unknownFields = unknownFields.build();
@@ -277,12 +276,8 @@ private static final long serialVersionUID = 0L;
       super(builder);
     }
     private ClientCall() {
-      requestSeq_ = 0;
       protocol_ = "";
       method_ = "";
-      clientStart_ = 0L;
-      clientEnd_ = 0L;
-      ok_ = false;
       errMsg_ = "";
     }
 
@@ -349,7 +344,7 @@ private static final long serialVersionUID = 0L;
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -642,23 +637,22 @@ private static final long serialVersionUID = 0L;
       }
       com.github.vlachenal.webservice.bench.protobuf.api.TestSuite.ClientCall other = (com.github.vlachenal.webservice.bench.protobuf.api.TestSuite.ClientCall) obj;
 
-      boolean result = true;
-      result = result && (getRequestSeq()
-          == other.getRequestSeq());
-      result = result && getProtocol()
-          .equals(other.getProtocol());
-      result = result && getMethod()
-          .equals(other.getMethod());
-      result = result && (getClientStart()
-          == other.getClientStart());
-      result = result && (getClientEnd()
-          == other.getClientEnd());
-      result = result && (getOk()
-          == other.getOk());
-      result = result && getErrMsg()
-          .equals(other.getErrMsg());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getRequestSeq()
+          != other.getRequestSeq()) return false;
+      if (!getProtocol()
+          .equals(other.getProtocol())) return false;
+      if (!getMethod()
+          .equals(other.getMethod())) return false;
+      if (getClientStart()
+          != other.getClientStart()) return false;
+      if (getClientEnd()
+          != other.getClientEnd()) return false;
+      if (getOk()
+          != other.getOk()) return false;
+      if (!getErrMsg()
+          .equals(other.getErrMsg())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -871,35 +865,35 @@ private static final long serialVersionUID = 0L;
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -1387,7 +1381,7 @@ private static final long serialVersionUID = 0L;
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -2070,34 +2064,33 @@ private static final long serialVersionUID = 0L;
     }
     com.github.vlachenal.webservice.bench.protobuf.api.TestSuite other = (com.github.vlachenal.webservice.bench.protobuf.api.TestSuite) obj;
 
-    boolean result = true;
-    result = result && getId()
-        .equals(other.getId());
-    result = result && (getNbThread()
-        == other.getNbThread());
-    result = result && getCompression()
-        .equals(other.getCompression());
-    result = result && getCpu()
-        .equals(other.getCpu());
-    result = result && getMemory()
-        .equals(other.getMemory());
-    result = result && getJvm()
-        .equals(other.getJvm());
-    result = result && getVendor()
-        .equals(other.getVendor());
-    result = result && getOsFamily()
-        .equals(other.getOsFamily());
-    result = result && getOsVersion()
-        .equals(other.getOsVersion());
-    result = result && getProtocol()
-        .equals(other.getProtocol());
-    result = result && getComment()
-        .equals(other.getComment());
-    result = result && getCallsList()
-        .equals(other.getCallsList());
-    result = result && mapper_ == other.mapper_;
-    result = result && unknownFields.equals(other.unknownFields);
-    return result;
+    if (!getId()
+        .equals(other.getId())) return false;
+    if (getNbThread()
+        != other.getNbThread()) return false;
+    if (!getCompression()
+        .equals(other.getCompression())) return false;
+    if (!getCpu()
+        .equals(other.getCpu())) return false;
+    if (!getMemory()
+        .equals(other.getMemory())) return false;
+    if (!getJvm()
+        .equals(other.getJvm())) return false;
+    if (!getVendor()
+        .equals(other.getVendor())) return false;
+    if (!getOsFamily()
+        .equals(other.getOsFamily())) return false;
+    if (!getOsVersion()
+        .equals(other.getOsVersion())) return false;
+    if (!getProtocol()
+        .equals(other.getProtocol())) return false;
+    if (!getComment()
+        .equals(other.getComment())) return false;
+    if (!getCallsList()
+        .equals(other.getCallsList())) return false;
+    if (mapper_ != other.mapper_) return false;
+    if (!unknownFields.equals(other.unknownFields)) return false;
+    return true;
   }
 
   @java.lang.Override
@@ -2339,7 +2332,7 @@ private static final long serialVersionUID = 0L;
       result.protocol_ = protocol_;
       result.comment_ = comment_;
       if (callsBuilder_ == null) {
-        if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        if (((bitField0_ & 0x00000800) != 0)) {
           calls_ = java.util.Collections.unmodifiableList(calls_);
           bitField0_ = (bitField0_ & ~0x00000800);
         }
@@ -2355,35 +2348,35 @@ private static final long serialVersionUID = 0L;
 
     @java.lang.Override
     public Builder clone() {
-      return (Builder) super.clone();
+      return super.clone();
     }
     @java.lang.Override
     public Builder setField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         java.lang.Object value) {
-      return (Builder) super.setField(field, value);
+      return super.setField(field, value);
     }
     @java.lang.Override
     public Builder clearField(
         com.google.protobuf.Descriptors.FieldDescriptor field) {
-      return (Builder) super.clearField(field);
+      return super.clearField(field);
     }
     @java.lang.Override
     public Builder clearOneof(
         com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-      return (Builder) super.clearOneof(oneof);
+      return super.clearOneof(oneof);
     }
     @java.lang.Override
     public Builder setRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         int index, java.lang.Object value) {
-      return (Builder) super.setRepeatedField(field, index, value);
+      return super.setRepeatedField(field, index, value);
     }
     @java.lang.Override
     public Builder addRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         java.lang.Object value) {
-      return (Builder) super.addRepeatedField(field, value);
+      return super.addRepeatedField(field, value);
     }
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -3430,7 +3423,7 @@ private static final long serialVersionUID = 0L;
     private java.util.List<com.github.vlachenal.webservice.bench.protobuf.api.TestSuite.ClientCall> calls_ =
       java.util.Collections.emptyList();
     private void ensureCallsIsMutable() {
-      if (!((bitField0_ & 0x00000800) == 0x00000800)) {
+      if (!((bitField0_ & 0x00000800) != 0)) {
         calls_ = new java.util.ArrayList<com.github.vlachenal.webservice.bench.protobuf.api.TestSuite.ClientCall>(calls_);
         bitField0_ |= 0x00000800;
        }
@@ -3731,7 +3724,7 @@ private static final long serialVersionUID = 0L;
         callsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
             com.github.vlachenal.webservice.bench.protobuf.api.TestSuite.ClientCall, com.github.vlachenal.webservice.bench.protobuf.api.TestSuite.ClientCall.Builder, com.github.vlachenal.webservice.bench.protobuf.api.TestSuite.ClientCallOrBuilder>(
                 calls_,
-                ((bitField0_ & 0x00000800) == 0x00000800),
+                ((bitField0_ & 0x00000800) != 0),
                 getParentForChildren(),
                 isClean());
         calls_ = null;
@@ -3806,7 +3799,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return super.setUnknownFieldsProto3(unknownFields);
+      return super.setUnknownFields(unknownFields);
     }
 
     @java.lang.Override
