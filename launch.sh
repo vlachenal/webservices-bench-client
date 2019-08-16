@@ -107,21 +107,14 @@ protocols="rest|thrift|soap|protobuf"
 mappers="manual|dozer|mapstruct"
 while IFS='|' read -ra PROTOS; do
     for proto in "${PROTOS[@]}"; do
-	if [[ $proto = 'protobuf' ]]; then
-	    for((i=1;i<$nb_thread;i++)); do
-		echo "Run test suite for ${proto} with $i simultaneous calls"
-		$java_bin --add-modules java.xml.bind,java.xml.ws -jar $jar_path $proto $i $compression "${comment}" "manual"
-	    done
-	else
-	    while IFS='|' read -ra MAPPERS; do
-		for mapper in "${MAPPERS[@]}"; do
-		    for((i=1;i<$nb_thread;i++)); do
-			echo "Run test suite for ${proto} with $i simultaneous calls"
-			$java_bin --add-modules java.xml.bind,java.xml.ws -jar $jar_path $proto $i $compression "${comment}" $mapper
-		    done
+	while IFS='|' read -ra MAPPERS; do
+	    for mapper in "${MAPPERS[@]}"; do
+		for((i=1;i<$nb_thread;i++)); do
+		    echo "Run test suite for ${proto} with $i simultaneous calls"
+		    $java_bin --add-modules java.xml.bind,java.xml.ws -jar $jar_path $proto $i $compression "${comment}" $mapper
 		done
-	    done <<< "$mappers"
-	fi
+	    done
+	done <<< "$mappers"
     done
 done <<< "$protocols"
 
